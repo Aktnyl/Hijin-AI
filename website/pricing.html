@@ -81,7 +81,7 @@
     <section class="container" style="padding-top: 0;">
       <div class="grid-3">
         <!-- 14-Day Free Trial -->
-        <div class="card pricing-card reveal reveal-delay-1">
+        <div class="card pricing-card">
           <div class="badge" style="width: fit-content;">No Credit Card</div>
           <h3 style="margin-top:0.75rem;">14-Day Free Trial</h3>
           <p>Full evaluation access on your local workstation with your own accounting documents.</p>
@@ -119,7 +119,7 @@
         </div>
 
         <!-- Financial Specialist (Featured) -->
-        <div class="card pricing-card featured reveal reveal-delay-2">
+        <div class="card pricing-card featured">
           <div class="pricing-ribbon">Most Popular</div>
           <div class="badge badge-cyan" style="width: fit-content;">Commercial License</div>
           <h3 style="margin-top:0.75rem;">Financial Specialist</h3>
@@ -158,7 +158,7 @@
         </div>
 
         <!-- Institutional / Firm -->
-        <div class="card pricing-card reveal reveal-delay-3">
+        <div class="card pricing-card">
           <div class="badge badge-amber" style="width: fit-content;">Multi-Seat &amp; Enterprise</div>
           <h3 style="margin-top:0.75rem;">Institutional &amp; Firm</h3>
           <p>For CPA partnerships, institutional audit practices, and air-gapped enterprises.</p>
@@ -194,13 +194,13 @@
     </section>
 
     <!-- Instant 14-Day Free Trial Key Generator Section -->
-    <section class="container reveal" id="trial-generator">
+    <section class="container" id="trial-generator">
       <div class="trial-generator-card">
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
           <div class="badge badge-success"><span class="badge-dot"></span>Instant Provisioning</div>
           <span style="font-size:0.85rem;color:var(--emerald-light);font-weight:600;">No Credit Card Required</span>
         </div>
-        <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;">Generate Your 14-Day Free Evaluation Key</h2>
+        <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;color:#fff;">Generate Your 14-Day Free Evaluation Key</h2>
         <p style="color:var(--text-muted);font-size:0.95rem;max-width:680px;margin-bottom:1.5rem;">
           Enter your work email address below to immediately mint a signed evaluation license. Paste this key into the First-Launch Activation Wizard inside the desktop app.
         </p>
@@ -215,15 +215,15 @@
         </form>
 
         <div id="trial-result" class="trial-result" style="display:none;">
-          <span class="trial-key-label">Your Cryptographic 14-Day Evaluation Key:</span>
-          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+          <span class="badge badge-success" style="margin-bottom:0.5rem;">Your Cryptographic Evaluation Key:</span>
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin:0.5rem 0;">
             <code class="trial-key-code" id="trial-key">HJN-TRL-XXXX-XXXX-XXXX</code>
             <button class="btn btn-secondary btn-sm" id="trial-copy-btn">Copy Key</button>
           </div>
           <div class="callout" style="margin-top:1.25rem;background:rgba(0,0,0,0.3);">
             <h4 style="color:var(--emerald-light);font-size:0.88rem;margin-bottom:0.4rem;">4-Step Quick Activation Instructions:</h4>
             <ol style="margin-left:1.25rem;color:var(--text-sub);font-size:0.82rem;line-height:1.7;">
-              <li>Download the lightweight installer: <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" style="color:var(--cyan);font-weight:600;">Hijin_Setup_1.0.0.exe (6.58 MB)</a>.</li>
+              <li>Download the lightweight installer: <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" style="color:var(--cyan-light);font-weight:600;">Hijin_Setup_1.0.0.exe (6.58 MB)</a>.</li>
               <li>Install and open Hijin Workstation on your Windows 10/11 PC.</li>
               <li>When the First-Launch Wizard appears, paste your copied key into the Activation field.</li>
               <li>The in-app Model Hub will stream the local model weights with full offline entitlement active for 14 days!</li>
@@ -234,19 +234,19 @@
     </section>
 
     <!-- Firm Calculator Section -->
-    <section class="container reveal" id="firm-calculator">
+    <section class="container" id="firm-calculator">
       <div class="firm-inquiry-card">
         <div class="section-label">Volume Estimator</div>
-        <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;">CPA Firm &amp; Multi-Seat Calculator</h2>
+        <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;color:#fff;">CPA Firm &amp; Multi-Seat Calculator</h2>
         <p style="color:var(--text-muted);font-size:0.95rem;max-width:680px;">
           Adjust the slider to preview seat licensing volume discounts. Volume tiers apply automatically.
         </p>
 
         <div class="firm-calculator-grid">
           <div>
-            <span class="calc-label">Total Workstation Seats: <strong id="seat-count-display">10</strong></span>
+            <span style="font-size:0.9rem;color:var(--text-sub);font-weight:600;">Total Workstation Seats: <strong id="seat-count-display" style="color:#fff;font-size:1.2rem;">10</strong></span>
             <input type="range" min="1" max="100" value="10" class="seat-range-slider" id="seat-slider">
-            <div class="seat-slider-ticks">
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-dim);font-family:var(--font-mono);">
               <span>1 seat</span>
               <span>25 seats</span>
               <span>50 seats</span>
@@ -264,7 +264,7 @@
             </div>
             <div class="calc-row total">
               <span>Estimated Monthly:</span>
-              <span class="calc-row-value" id="calc-total-month">$840/mo</span>
+              <span class="calc-row-value" id="calc-total-month" style="color:#fff;font-size:1.1rem;">$840/mo</span>
             </div>
             <div class="calc-row">
               <span>Estimated Annual (2 Mo Free):</span>
@@ -276,7 +276,7 @@
     </section>
 
     <!-- Comprehensive Tier Comparison Table -->
-    <section class="container reveal">
+    <section class="container">
       <div class="section-header">
         <div class="section-label">Detailed Comparison</div>
         <h2>Compare Subscription Features</h2>
@@ -354,7 +354,7 @@
     </section>
 
     <!-- Commercial & Licensing FAQ -->
-    <section class="container reveal">
+    <section class="container">
       <div class="section-header">
         <div class="section-label">Answers to Common Questions</div>
         <h2>Licensing &amp; Commercial FAQ</h2>

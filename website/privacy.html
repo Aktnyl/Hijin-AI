@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy — Hijin Desktop AI</title>
-  <meta name="description" content="Hijin Zero-Data Privacy Guarantee. 100% on-device processing. No document uploads, no surveillance analytics, no cloud AI transmission.">
+  <title>Zero-Data Privacy Guarantee — Hijin Desktop AI</title>
+  <meta name="description" content="Official Zero-Data Privacy Guarantee for Hijin Desktop AI. 100% local document inference, zero cloud telemetry, and zero tracking cookies.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,43 +55,59 @@
     <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm" style="margin-top:0.5rem;align-self:flex-start;">Download v1.0.0 (.exe)</a>
   </nav>
 
-  <main class="container-narrow" style="padding-top: 3rem;">
-    <div class="card" style="padding: 2.5rem;">
-      <div class="badge badge-success"><span class="badge-dot"></span>Zero-Data Architecture</div>
-      <h1 style="font-size: 2rem; margin: 1rem 0 0.5rem; letter-spacing: -0.02em;">Privacy Guarantee &amp; Data Policy</h1>
-      <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 2rem;">Last Updated: October 1, 2026 · Effective Immediately</p>
+  <main>
+    <section class="hero" style="padding-bottom:2rem;">
+      <div class="hero-badge-row">
+        <span class="badge badge-success"><span class="badge-dot"></span>Zero-Data Architecture</span>
+        <span class="badge badge-cyan">Client-Side Only</span>
+        <span class="badge badge-amber">No Surveillance Pixels</span>
+      </div>
+      <h1>Zero-Data Privacy Guarantee &amp; <br><span class="gradient-text">Data Protection Policy</span></h1>
+      <p class="hero-subtitle">
+        Your financial documents, journal entries, supplier invoices, and audit memos never leave your workstation. Hijin is engineered from the ground up for strict confidentiality.
+      </p>
+    </section>
 
-      <div class="callout callout-emerald" style="margin-bottom: 2rem;">
-        <h4>Our Core Architectural Commitment:</h4>
+    <section class="container" style="max-width:880px;padding-top:0;">
+      <div class="card" style="margin-bottom:1.5rem;">
+        <h3 style="color:#fff;">1. Local-Only Document Processing Guarantee</h3>
         <p>
-          Hijin is built from the ground up as a <strong>local-first desktop workbench</strong>. 
-          Your financial invoices, bank statements, general ledgers, prompts, and exported reports are processed exclusively on your physical workstation hardware. 
-          They are <strong>never transmitted</strong> to our servers, third-party LLM providers, or any cloud entity.
+          Hijin runs an embedded Rust daemon and local SQLite database entirely inside your operating system environment. When you upload or drag-and-drop PDFs, Excel sheets, or CSV files into Hijin, they are parsed, embedded, and reconciled <strong>100% locally on your device</strong>. No document text, numbers, or metadata are ever transmitted to Hijin Tech servers or any third-party cloud AI provider.
         </p>
       </div>
 
-      <h3 style="margin-top: 1.5rem; color: #fff;">1. Complete Absence of Document Uploads</h3>
-      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
-        When you drag-and-drop accounting documents into Hijin, they are parsed by the local Rust daemon (<code>hijin_daemon.exe</code>) and indexed in an embedded local SQLite database located in <code>%LOCALAPPDATA%\Hijin\data\</code>. At no point in the ingestion, OCR, parsing, reconciliation, or export lifecycle are document bytes or extracted text sent over any network socket.
-      </p>
+      <div class="card" style="margin-bottom:1.5rem;">
+        <h3 style="color:#fff;">2. Zero Tracking Cookies &amp; Zero Website Surveillance</h3>
+        <p>
+          This website (<code>https://aktnyl.github.io/Hijin-AI/</code>) does not use Google Analytics, Facebook Pixel, tracking beacons, fingerprinting scripts, or advertising cookies. We believe financial software companies should respect privacy in all aspects of their public presence.
+        </p>
+      </div>
 
-      <h3 style="margin-top: 1.5rem; color: #fff;">2. Zero Third-Party Analytics or Tracking</h3>
-      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
-        Both our public distribution website and our desktop application contain zero third-party tracking scripts, zero surveillance pixels, zero Google Analytics, zero Hotjar, and zero telemetry daemons. We do not track keystrokes, session durations, or document filenames.
-      </p>
+      <div class="card" style="margin-bottom:1.5rem;">
+        <h3 style="color:#fff;">3. Transparent Disclosure: What Network Requests Occur?</h3>
+        <p>
+          For complete transparency, here are the only two instances where the Hijin desktop application accesses the network:
+        </p>
+        <ul style="margin-left:1.25rem;color:var(--text-sub);line-height:1.7;">
+          <li><strong>Cryptographic License Check (Once per 7 days):</strong> The app transmits your public license key to verify active subscription status and receives back a cryptographically signed Ed25519 token. No workstation data or document names are included.</li>
+          <li><strong>Model Weight Streaming:</strong> The in-app Model Hub connects directly to the Hugging Face CDN (over HTTPS) to download open-weight GGUF neural packages upon user request.</li>
+        </ul>
+      </div>
 
-      <h3 style="margin-top: 1.5rem; color: #fff;">3. Cryptographic License Verification</h3>
-      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
-        To prevent unauthorized duplication of commercial licenses, the desktop app checks in once every 7 days with our licensing endpoint. This request transmits strictly:
-      </p>
-      <ul style="margin-left: 1.5rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem;">
-        <li>Your license key token (e.g. <code>HJN-TRL-...</code>).</li>
-        <li>An anonymized, salted SHA-256 one-way cryptographic hash of your system motherboard identifier.</li>
-      </ul>
-      <p style="color: var(--text-muted); line-height: 1.7;">
-        No username, IP geolocation, file list, or business data is ever attached to licensing requests. If your workstation is offline, the app operates uninterrupted for 7 full days via cached Ed25519 tokens.
-      </p>
-    </div>
+      <div class="card" style="margin-bottom:1.5rem;">
+        <h3 style="color:#fff;">4. Air-Gapped &amp; Offline Operation</h3>
+        <p>
+          Subscribers can disconnect their workstation from the internet or run in secure audit field facilities. The software operates with full capability for up to 7 consecutive days offline. Enterprise and Institutional tiers support perpetual air-gapped USB deployment.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="color:#fff;">5. Data Retention &amp; Uninstallation</h3>
+        <p>
+          All application state, local databases, and temporary caches are stored in your local Windows user directory (<code>%LOCALAPPDATA%\Hijin</code>). Uninstalling the application or deleting this folder permanently deletes all records from your system.
+        </p>
+      </div>
+    </section>
   </main>
 
   <!-- Site Footer -->

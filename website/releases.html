@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Release Center &amp; Version Archive — Hijin Desktop AI</title>
-  <meta name="description" content="Official releases, checksums, and version history for Hijin Desktop AI Workbench. Direct installer downloads and SHA-256 integrity hashes.">
+  <title>Releases &amp; Checksums — Hijin Desktop AI Workbench</title>
+  <meta name="description" content="Official releases, verified cryptographic SHA-256 hashes, release notes, and changelog for Hijin Desktop AI Financial Specialist Workbench.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,94 +55,178 @@
     <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm" style="margin-top:0.5rem;align-self:flex-start;">Download v1.0.0 (.exe)</a>
   </nav>
 
-  <main class="container">
-    <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
-      <div class="badge"><span class="badge-dot"></span>Official Release Hub</div>
-      <h1>Releases &amp; Version Archive</h1>
-      <p style="margin: 0;">Verified distribution packages, cryptographic checksums, and architecture release notes.</p>
-    </div>
+  <main>
+    <section class="hero" style="padding-bottom:2rem;">
+      <div class="hero-badge-row">
+        <span class="badge badge-success"><span class="badge-dot"></span>Official Release Hub</span>
+        <span class="badge badge-cyan">Ed25519 Signed</span>
+        <span class="badge badge-amber">Windows x64 Binaries</span>
+      </div>
+      <h1>Production Releases &amp; <br><span class="gradient-text">Verified Checksums</span></h1>
+      <p class="hero-subtitle">
+        Every official build is independently hash-verified and cryptographically attested. Download production-ready desktop binaries and verify cryptographic integrity before executing.
+      </p>
+    </section>
 
-    <!-- Active Stable Release v1.0.0 -->
-    <div class="card" style="margin-bottom: 2rem; border-color: rgba(99, 102, 241, 0.4); box-shadow: var(--shadow-lg);">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1.25rem; margin-bottom: 1.5rem;">
-        <div>
-          <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <h2 style="font-size: 1.5rem; margin: 0;">Hijin v1.0.0</h2>
-            <span class="status-pill status-verified">Latest Stable</span>
-            <span class="badge badge-cyan">Windows x64</span>
+    <!-- Latest Official Stable Release Card -->
+    <section class="container" style="padding-top:0;">
+      <div class="card" style="border-color: rgba(99, 102, 241, 0.4); box-shadow: 0 16px 48px -12px rgba(99, 102, 241, 0.2);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;">
+          <div>
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
+              <span class="badge badge-success"><span class="badge-dot"></span>Production Stable</span>
+              <span class="badge">Version 1.0.0 (GA)</span>
+              <span style="font-size:0.8rem;color:var(--text-dim);font-family:var(--font-mono);">Released October 1, 2026</span>
+            </div>
+            <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#fff;margin:0;">Hijin Workstation v1.0.0 — General Availability</h2>
           </div>
-          <p style="color: var(--text-dim); font-size: 0.82rem; margin: 0.25rem 0 0;">Released October 1, 2026 · Built on Tauri 2 &amp; Rust Daemon Architecture</p>
-        </div>
-        <div style="display: flex; gap: 0.75rem;">
-          <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Download Setup (6.58 MB)
+          <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-lg" data-download-installer>
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Download Hijin_Setup_1.0.0.exe (6.58 MB)
           </a>
         </div>
-      </div>
 
-      <h3>Release Highlights</h3>
-      <ul style="margin: 0 0 1.5rem 1.5rem; color: var(--text-muted); line-height: 1.8; font-size: 0.9rem;">
-        <li><strong>Native Desktop Runtime:</strong> 35.1 MB unpacked Tauri 2 desktop shell with background Rust daemon sidecar.</li>
-        <li><strong>Dual-Core Neural Architecture:</strong> Integrated Google Gemma 3 4B IT (6.1 GB) with fine-tuned Hijin Financial Specialist (6.2 GB).</li>
-        <li><strong>Deterministic Decimal Arithmetic:</strong> 28-digit fixed-point math engine with 0.00000% rounding drift across 5,000 ledger rows.</li>
-        <li><strong>Forensic Document Grounding:</strong> Pixel-exact visual bounding boxes on source invoices with one-click discrepancy export.</li>
-        <li><strong>Ed25519 Cryptographic Licensing:</strong> 7-day offline grace period with tamper-proof machine fingerprinting.</li>
-        <li><strong>In-App Model Hub:</strong> Resumable streaming downloads with SHA-256 chunk verification.</li>
-      </ul>
+        <p style="color:var(--text-sub);font-size:0.92rem;line-height:1.6;margin-bottom:1.25rem;">
+          The initial production release of the Hijin Desktop AI Financial Specialist Workbench. Delivers the native Tauri 2 desktop shell, packaged Rust daemon sidecar (<code>hijin_daemon.exe</code>), local SQLite database, Dual-Core Model Hub integration, and deterministic 28-digit precision decimal financial reconciliation.
+        </p>
 
-      <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--r-md); padding: 1rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; font-size: 0.75rem; color: var(--text-dim);">
-          <span>SHA-256 Cryptographic Checksum:</span>
-          <button class="btn btn-ghost btn-sm" data-copy-hash style="padding: 2px 8px; font-size: 0.72rem;">Copy Checksum</button>
+        <!-- Cryptographic Attestation Block -->
+        <div class="callout callout-emerald" style="margin-bottom:1.5rem;">
+          <h4 style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
+            Verified Cryptographic Fingerprint
+          </h4>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;font-size:0.75rem;color:var(--text-dim);margin-bottom:0.25rem;">
+            <span>SHA-256 Checksum:</span>
+            <button class="btn btn-ghost btn-sm" data-copy-hash style="padding:2px 8px;font-size:0.72rem;">Copy Hash</button>
+          </div>
+          <div class="hash-display">4b68e9102c98d63d0473919ad7783fe1f7a07ceef77800742f9b8c0352ef2e55</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);margin-top:0.4rem;font-family:var(--font-mono);">
+            File Size: 6,579,864 bytes (6.58 MB) · Target: Windows 10 / 11 64-bit (x86_64)
+          </div>
         </div>
-        <div class="hash-display" style="margin: 0;">4b68e9102c98d63d0473919ad7783fe1f7a07ceef77800742f9b8c0352ef2e55</div>
-      </div>
-    </div>
 
-    <!-- Release Roadmap -->
-    <div class="card" style="margin-bottom: 2rem;">
-      <h3>Upcoming Release Roadmap</h3>
-      <div class="table-wrapper" style="margin-top: 1rem;">
+        <!-- Highlights & Changelog -->
+        <h3 style="font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:0.75rem;">Key Capabilities &amp; Features in v1.0.0</h3>
+        <ul class="pricing-features" style="margin-bottom:1.5rem;">
+          <li class="pricing-feature">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            <span><strong>Native Rust Daemon Architecture:</strong> Packaged as <code>hijin_daemon.exe</code> sidecar, exposing an authenticated IPC loopback interface on <code>127.0.0.1:49210</code>.</span>
+          </li>
+          <li class="pricing-feature">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            <span><strong>Deterministic Decimal Reconciliation:</strong> Eliminates floating-point rounding drift with fixed 28-digit precision. Zero rounding discrepancies across ledger pairs.</span>
+          </li>
+          <li class="pricing-feature">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            <span><strong>Dual-Core Neural Pack Support:</strong> Seamless integration with <strong>Hijin Specialist (6.2 GB)</strong> and <strong>Gemma 3 Core (6.1 GB)</strong> with resumable in-app downloading.</span>
+          </li>
+          <li class="pricing-feature">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            <span><strong>Forensic Bounding-Box Grounding:</strong> Extracted fields preserve pixel coordinates on invoices, enabling 1-click visual inspection of supporting documentation.</span>
+          </li>
+          <li class="pricing-feature">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            <span><strong>Ed25519 License Validation with 7-Day Offline Grace:</strong> Verifies cryptographic authenticity locally with zero surveillance or persistent network connections.</span>
+          </li>
+        </ul>
+
+        <!-- Verification Instructions Code Block -->
+        <h4 style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0.5rem;">How to Verify Installer Integrity in PowerShell:</h4>
+        <div class="code-box">
+          <div class="code-box-header">
+            <span>PowerShell SHA-256 Check</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code>Get-FileHash "$env:USERPROFILE\Downloads\Hijin_Setup_1.0.0.exe" -Algorithm SHA256</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Release History Table -->
+    <section class="container">
+      <div class="section-header">
+        <div class="section-label">Version History</div>
+        <h2>Release Archive &amp; Timeline</h2>
+        <p>Record of validated public builds, candidate releases, and architectural milestones.</p>
+      </div>
+
+      <div class="table-wrapper">
         <table class="data-table">
           <thead>
             <tr>
-              <th>Target Release</th>
+              <th>Version</th>
+              <th>Release Date</th>
+              <th>Channel</th>
+              <th>Package Size</th>
               <th>Status</th>
-              <th>Planned Capabilities</th>
-              <th>Entitlement Scope</th>
+              <th>Artifact Link</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Hijin v1.1.0</strong></td>
-              <td><span class="status-pill badge-cyan">In Development</span></td>
-              <td>Custom ERP Chart of Accounts schema mapper, multi-currency arbitrage reconciliation, and batch OCR enhancements.</td>
-              <td>Free automatic update for all active licensees</td>
+              <td><strong>v1.0.0</strong></td>
+              <td>2026-10-01</td>
+              <td><span class="badge badge-success">Production GA</span></td>
+              <td>6.58 MB</td>
+              <td class="cell-pass">Current Stable</td>
+              <td><a href="https://github.com/Aktnyl/Hijin-AI/releases/tag/v1.0.0" target="_blank" rel="noopener noreferrer" style="color:var(--cyan-light);font-weight:600;">GitHub Release</a></td>
             </tr>
             <tr>
-              <td><strong>Hijin v1.2.0</strong></td>
-              <td><span class="status-pill badge-amber">Planned Q1 2027</span></td>
-              <td>Upgraded 8B Parameter Specialist Model Pack with higher multi-ledger reasoning capacity.</td>
-              <td><strong>Free Lifetime Upgrade</strong> for active subscribers</td>
+              <td><strong>v0.9.4</strong></td>
+              <td>2026-09-24</td>
+              <td><span class="badge badge-cyan">Release Candidate</span></td>
+              <td>6.42 MB</td>
+              <td class="cell-neutral">Superseded</td>
+              <td><a href="https://github.com/Aktnyl/Hijin-AI/releases" target="_blank" rel="noopener noreferrer" style="color:var(--text-dim);">Archive</a></td>
+            </tr>
+            <tr>
+              <td><strong>v0.9.0</strong></td>
+              <td>2026-09-10</td>
+              <td><span class="badge badge-amber">Public Beta</span></td>
+              <td>6.11 MB</td>
+              <td class="cell-neutral">Superseded</td>
+              <td><a href="https://github.com/Aktnyl/Hijin-AI/releases" target="_blank" rel="noopener noreferrer" style="color:var(--text-dim);">Archive</a></td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
 
-    <!-- PowerShell verification box -->
-    <div class="callout" style="margin-top: 2rem;">
-      <h4>
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        How to Verify Download Integrity
-      </h4>
-      <p style="margin-bottom: 0.75rem;">Run this command in Windows PowerShell to verify your installer's cryptographic hash before execution:</p>
-      <div class="code-box">
-        <pre><code>$hash = (Get-FileHash "$env:USERPROFILE\Downloads\Hijin_Setup_1.0.0.exe" -Algorithm SHA256).Hash
-if ($hash -eq "4B68E9102C98D63D0473919AD7783FE1F7A07CEEF77800742F9B8C0352EF2E55") { Write-Host "VERIFIED: Authentic Hijin Binary" -ForegroundColor Green }</code></pre>
+    <!-- Model Weights Distribution Section -->
+    <section class="container">
+      <div class="card">
+        <div class="section-label">Neural Artifacts</div>
+        <h2 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:0.5rem;">Dual-Core Neural Pack Distribution</h2>
+        <p style="color:var(--text-muted);font-size:0.92rem;max-width:680px;margin-bottom:1.25rem;">
+          Models are distributed as quantized GGUF weights hosted on the Hugging Face Model Hub under the official organization repository. The desktop app streams these automatically with resumability.
+        </p>
+
+        <div class="grid-2">
+          <div class="metric-card" style="text-align:left;">
+            <div class="badge badge-cyan" style="margin-bottom:0.5rem;">Core Specialist</div>
+            <h4 style="font-size:1.1rem;color:#fff;margin-bottom:0.25rem;">Hijin Financial Specialist (Q4_K_M)</h4>
+            <p style="font-size:0.82rem;color:var(--text-sub);line-height:1.5;margin-bottom:0.75rem;">
+              6.2 GB GGUF weight package fine-tuned for two-way and three-way invoice/PO/receipt reconciliation, variance detection, and chart of accounts mapping.
+            </p>
+            <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);">
+              Repo: <code>Aktnyl/hijin-financial-specialist-gguf</code>
+            </div>
+          </div>
+
+          <div class="metric-card" style="text-align:left;">
+            <div class="badge badge-amber" style="margin-bottom:0.5rem;">Executive Synthesizer</div>
+            <h4 style="font-size:1.1rem;color:#fff;margin-bottom:0.25rem;">Gemma 3 Conversation Core (Q4_K_M)</h4>
+            <p style="font-size:0.82rem;color:var(--text-sub);line-height:1.5;margin-bottom:0.75rem;">
+              6.1 GB general-domain conversational engine for generating CFO-level variance memorandums, board presentation decks, and executive briefings.
+            </p>
+            <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);">
+              Repo: <code>Aktnyl/gemma-3-financial-briefing-gguf</code>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <!-- Site Footer -->

@@ -1,6 +1,7 @@
-﻿/* ==========================================================================
-   HIJIN TECH — app.js v3.0
-   Navigation, animations, pricing toggle, trial generator, firm calculator
+/* ==========================================================================
+   HIJIN TECH — app.js v4.0
+   Navigation, animations, pricing toggle, trial generator, firm calculator,
+   tab switching, hardware diagnostic, and clipboard helpers.
    ========================================================================== */
 
 'use strict';
@@ -55,7 +56,7 @@
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 })();
 
-// ── 4. Animated number counters (hero metrics) ─────────────────────────────
+// ── 4. Animated number counters ────────────────────────────────────────────
 (function () {
   const metrics = document.querySelectorAll('[data-count]');
   if (!metrics.length) return;
@@ -68,7 +69,7 @@
 
     const tick = (now) => {
       const p = Math.min((now - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      const ease = 1 - Math.pow(1 - p, 3);
       const current = Math.round(target * ease);
       el.textContent = current + suffix;
       if (p < 1) requestAnimationFrame(tick);
@@ -83,21 +84,10 @@
   metrics.forEach(el => obs.observe(el));
 })();
 
-// ── 5. Scroll-to-top FAB ──────────────────────────────────────────────────
-(function () {
-  const fab = document.getElementById('fab-top');
-  if (!fab) return;
-  window.addEventListener('scroll', () => fab.classList.toggle('visible', window.scrollY > 500), { passive: true });
-  fab.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-})();
-
-// ── 6. Pricing toggle (Monthly ↔ Annual) ──────────────────────────────────
+// ── 5. Pricing toggle (Monthly ↔ Annual) ──────────────────────────────────
 (function () {
   const monthlyBtn = document.getElementById('toggle-monthly');
   const annualBtn  = document.getElementById('toggle-annual');
-  const singleToggle = document.getElementById('pricing-toggle');
-  const labelMonthly = document.getElementById('label-monthly');
-  const labelAnnual = document.getElementById('label-annual');
 
   let mode = 'monthly';
 
@@ -113,33 +103,16 @@
       monthlyBtn.classList.toggle('active', mode === 'monthly');
       annualBtn.classList.toggle('active', mode === 'annual');
     }
-    if (labelMonthly && labelAnnual) {
-      labelMonthly.classList.toggle('active', mode === 'monthly');
-      labelAnnual.classList.toggle('active', mode === 'annual');
-    }
-    if (singleToggle) {
-      singleToggle.setAttribute('aria-pressed', String(mode === 'annual'));
-      const textSpan = singleToggle.querySelector('span');
-      if (textSpan) {
-        textSpan.textContent = mode === 'monthly' ? 'Switch to Annual (Save 18%)' : 'Switch to Monthly';
-      }
-    }
   };
 
   if (monthlyBtn && annualBtn) {
     monthlyBtn.addEventListener('click', () => { mode = 'monthly'; updatePrices(); });
     annualBtn.addEventListener('click',  () => { mode = 'annual';  updatePrices(); });
   }
-  if (singleToggle) {
-    singleToggle.addEventListener('click', () => {
-      mode = mode === 'monthly' ? 'annual' : 'monthly';
-      updatePrices();
-    });
-  }
   updatePrices();
 })();
 
-// ── 7. Trial key generator ─────────────────────────────────────────────────
+// ── 6. Trial key generator ─────────────────────────────────────────────────
 (function () {
   const form   = document.getElementById('trial-form');
   const input  = document.getElementById('trial-email');
@@ -183,7 +156,7 @@
   }
 })();
 
-// ── 8. Firm seat calculator ────────────────────────────────────────────────
+// ── 7. Firm seat calculator ────────────────────────────────────────────────
 (function () {
   const slider       = document.getElementById('seat-slider');
   const seatCountEl  = document.getElementById('seat-count-display');
@@ -224,7 +197,7 @@
   update();
 })();
 
-// ── 9. Download page: plan-based UI ───────────────────────────────────────
+// ── 8. Download page: plan-based UI ───────────────────────────────────────
 (function () {
   const params = new URLSearchParams(window.location.search);
   const plan   = params.get('plan') || 'trial';
@@ -238,18 +211,21 @@
   const dlBtn = document.getElementById('main-download-btn');
   if (dlBtn) {
     if (plan === 'trial') {
-      dlBtn.textContent = 'Download & Start Trial';
+      dlBtn.textContent = 'Download & Start 14-Day Trial';
     } else if (plan === 'monthly') {
       dlBtn.textContent = 'Download Licensed Installer';
     }
   }
 })();
 
-// ── 10. Hash copy button ───────────────────────────────────────────────────
+// ── 9. Hash copy button ───────────────────────────────────────────────────
 (function () {
   document.querySelectorAll('[data-copy-hash]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const hash = btn.closest('.hash-display')?.textContent?.trim() || '';
+      const parent = btn.closest('.download-card') || btn.closest('.card') || btn.parentElement;
+      const hashEl = parent.querySelector('.hash-display') || parent.querySelector('code');
+      const hash = hashEl ? hashEl.textContent.trim() : '';
+      if (!hash) return;
       navigator.clipboard.writeText(hash).then(() => {
         const orig = btn.textContent;
         btn.textContent = 'Copied!';
@@ -259,19 +235,7 @@
   });
 })();
 
-// ── 11. Smooth anchor scrolling for #links ─────────────────────────────────
-(function () {
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const id = a.getAttribute('href').slice(1);
-      const el = document.getElementById(id);
-      if (!el) return;
-      e.preventDefault();
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-})();
-// ── 12. Interactive App Showcase Tabs ─────────────────────────────────────
+// ── 10. Interactive App Showcase Tabs ─────────────────────────────────────
 (function () {
   const tabBtns = document.querySelectorAll('.preview-tab-btn');
   const tabPanes = document.querySelectorAll('.preview-tab-pane');
@@ -286,7 +250,7 @@
   });
 })();
 
-// ── 13. Hardware & Storage Readiness Checker ──────────────────────────────
+// ── 11. Hardware & Storage Readiness Checker ──────────────────────────────
 (function () {
   const ramSelect = document.getElementById('hw-ram');
   const storageSelect = document.getElementById('hw-storage');
@@ -309,22 +273,24 @@
       if (isOptimal) {
         badgeEl.className = 'status-pill status-verified';
         badgeEl.textContent = '✓ Hardware Verified: Optimal Performance';
-        textEl.innerHTML = Your workstation has sufficient memory and high-speed NVMe storage to run both the <strong>Hijin Financial Specialist (6 GB)</strong> and <strong>Gemma 3 Conversation Core (6 GB)</strong> entirely locally. ;
+        textEl.innerHTML = 'Your workstation has sufficient memory and high-speed NVMe storage to run both the <strong>Hijin Financial Specialist (6.2 GB)</strong> and <strong>Gemma 3 Conversation Core (6.1 GB)</strong> entirely locally.';
       } else if (isCompatible) {
         badgeEl.className = 'status-pill badge-cyan';
         badgeEl.textContent = '✓ Hardware Compatible: Balanced Mode';
-        textEl.innerHTML = Your workstation meets minimum operating criteria. We recommend installing the <strong>Smart Installer (6.58 MB)</strong> and downloading the <strong>Hijin Financial Specialist (6 GB)</strong> first.;
+        textEl.innerHTML = 'Your workstation meets minimum operating criteria. We recommend installing the <strong>Smart Installer (6.58 MB)</strong> and downloading the <strong>Hijin Financial Specialist (6.2 GB)</strong> first.';
       } else {
         badgeEl.className = 'status-pill badge-amber';
         badgeEl.textContent = '⚠ Hardware Warning: Storage or RAM Limited';
-        textEl.innerHTML = Running full local models requires at least 8 GB RAM and 15 GB free disk space. Consider freeing up drive space or connecting to an existing external Ollama server.;
+        textEl.innerHTML = 'Running full local models requires at least 8 GB RAM and 15 GB free disk space. Consider freeing up drive space or connecting to an existing external Ollama server.';
       }
     }
 
     if (etaEl) {
       etaEl.textContent = gpu === 'cuda' 
-        ? 'Expected Inference Speed: ~45–60 tokens/sec (High-speed RTX)' 
-        : 'Expected Inference Speed: ~12–22 tokens/sec (CPU Multi-threaded)';
+        ? 'Expected Inference Speed: ~32–40 tokens/sec (RTX CUDA)' 
+        : gpu === 'cuda-high'
+        ? 'Expected Inference Speed: ~55–75 tokens/sec (High-VRAM CUDA)'
+        : 'Expected Inference Speed: ~12–20 tokens/sec (CPU Multi-threaded)';
     }
   };
 
@@ -334,15 +300,17 @@
   evaluateHardware();
 })();
 
-// ── 14. Real Release Download Handlers ──────────────────────────────────────
+// ── 12. Copy Code Block Helper ─────────────────────────────────────────────
 (function () {
-  const downloadLinks = document.querySelectorAll('[data-download-installer]');
-  downloadLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      // Allow default href navigation to https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe
-      const originalText = link.innerHTML;
-      link.innerHTML = '<span>Starting Download (6.58 MB)...</span>';
-      setTimeout(() => { link.innerHTML = originalText; }, 3500);
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const codeBlock = btn.closest('.code-box')?.querySelector('pre code');
+      if (!codeBlock) return;
+      navigator.clipboard.writeText(codeBlock.textContent.trim()).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+      });
     });
   });
 })();
