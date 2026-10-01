@@ -1,0 +1,38 @@
+name: Bug Report
+description: Report an issue or unexpected behavior in Hijin Workstation
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for reporting an issue! Please do NOT include confidential client data."
+  - type: input
+    id: version
+    attributes:
+      label: Hijin Version
+      placeholder: "e.g., 1.0.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - "Windows 11 (64-bit)"
+        - "Windows 10 (64-bit)"
+        - "Other"
+    validations:
+      required: true
+  - type: textarea
+    id: hardware
+    attributes:
+      label: Hardware Configuration
+      placeholder: "System RAM (e.g., 16GB), CPU, GPU"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of the Problem
+      description: What happened and what did you expect to happen?
+    validations:
+      required: true

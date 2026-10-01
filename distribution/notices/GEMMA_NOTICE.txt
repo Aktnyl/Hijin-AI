@@ -1,0 +1,27 @@
+GEMMA TERMS OF USE & REQUIRED ATTRIBUTION NOTICE
+================================================================================
+This distribution of Hijin includes binary model components derived from or 
+utilizing Gemma 3, an open-weights model developed and provided by Google LLC.
+
+Gemma is provided under the Gemma Terms of Use. By downloading, accessing, or 
+using the Gemma model component within Hijin, you agree to be bound by the 
+Gemma Terms of Use, which can be reviewed in full at:
+https://ai.google.dev/gemma/terms
+
+1. ATTRIBUTION & NON-ENDORSEMENT
+Gemma is a trademark of Google LLC. 
+Hijin Tech and Hanging Clock are independent software entities and are NOT 
+affiliated with, sponsored by, or endorsed by Google LLC. 
+
+2. RESPONSIBLE USE POLICY
+Recipients of the Gemma model component must comply with Google's Responsible 
+AI Use Policy, including prohibitions against using the model for unlawful, 
+abusive, defamatory, or harmful purposes. Full policy details are available at:
+https://ai.google.dev/gemma/use_policy
+
+3. DISCLAIMER OF WARRANTIES
+THE GEMMA MODEL IS PROVIDED "AS IS", WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, ANY WARRANTIES 
+OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A 
+PARTICULAR PURPOSE.
+================================================================================

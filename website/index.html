@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hijin — Private Desktop AI Financial Specialist Workbench</title>
+  <meta name="description" content="Hijin is a local-first desktop AI workbench for financial reconciliation, document analysis, and audited artifact generation. Zero document uploads. 100% on your machine.">
+  <meta property="og:title" content="Hijin — Private Desktop AI for Financial Workflows">
+  <meta property="og:description" content="Local-first AI workbench for CPAs and finance controllers. Your documents never leave your workstation.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient background -->
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <img src="assets/hijin_logo.png" alt="Hijin Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<svg width=18 height=18 viewBox=\'0 0 24 24\' fill=\'white\'><path d=\'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\'/></svg>'">
+        </div>
+        <span class="brand-wordmark">Hijin</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link active">Overview</a></li>
+        <li><a href="#capabilities" class="nav-link">Capabilities</a></li>
+        <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+        <li><a href="docs.html" class="nav-link">Docs</a></li>
+        <li><a href="download.html" class="nav-link">Download</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="download.html?plan=trial" class="btn btn-primary btn-sm" id="nav-trial-btn">Start Free Trial</a>
+      </div>
+
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <nav class="nav-mobile-drawer" id="nav-mobile-drawer">
+    <a href="index.html" class="nav-link active">Overview</a>
+    <a href="#capabilities" class="nav-link">Capabilities</a>
+    <a href="pricing.html" class="nav-link">Pricing</a>
+    <a href="docs.html" class="nav-link">Documentation</a>
+    <a href="download.html" class="nav-link">Download</a>
+    <a href="download.html?plan=trial" class="btn btn-primary btn-sm" style="margin-top:0.75rem;align-self:flex-start;">Start Free Trial</a>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge-row">
+        <span class="badge"><span class="badge-dot"></span>Now Available</span>
+        <span class="badge badge-success">14-Day Free Trial</span>
+        <span class="badge badge-cyan">Windows Desktop App</span>
+      </div>
+
+      <h1>Private Desktop AI for<br><span class="gradient-text">Financial Workflows</span></h1>
+
+      <p class="hero-subtitle">
+        Local-first AI workbench for reconciliation, document analysis, and audited artifact generation.
+        Your financial records never leave your workstation — zero cloud uploads, ever.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="download.html?plan=trial" class="btn btn-primary btn-xl" id="hero-trial-btn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Start Free Trial (6.58 MB)
+        </a>
+        <a href="pricing.html" class="btn btn-secondary btn-lg">View Plans &amp; Pricing</a>
+      </div>
+
+      <!-- Live metrics strip -->
+      <div class="hero-metrics" id="hero-metrics">
+        <div class="hero-metric">
+          <span class="hero-metric-value" data-count="100" data-suffix="%">0%</span>
+          <span class="hero-metric-label">Math Accuracy</span>
+        </div>
+        <div class="hero-metric">
+          <span class="hero-metric-value" data-count="90" data-suffix="k×">0×</span>
+          <span class="hero-metric-label">Faster Calculations</span>
+        </div>
+        <div class="hero-metric">
+          <span class="hero-metric-value" data-count="0" data-suffix="">0</span>
+          <span class="hero-metric-label">Data Uploads</span>
+        </div>
+        <div class="hero-metric">
+          <span class="hero-metric-value" data-count="30" data-suffix=" days">0</span>
+          <span class="hero-metric-label">Offline Operation</span>
+        </div>
+      </div>
+
+      <div class="hero-trust-note">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
+        Local inference only
+        <span class="dot">·</span>
+        Ed25519 cryptographic licensing
+        <span class="dot">·</span>
+        Zero telemetry
+        <span class="dot">·</span>
+        Runs offline
+      </div>
+    </section>
+
+    <!-- Interactive Desktop App Showcase -->
+    <section class="container" style="padding-top: 0; padding-bottom: 2rem;">
+      <div class="app-preview-frame reveal">
+        <div class="app-preview-titlebar">
+          <div class="win-dots">
+            <span class="win-dot win-dot-close"></span>
+            <span class="win-dot win-dot-min"></span>
+            <span class="win-dot win-dot-max"></span>
+            <span style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem;font-family:var(--mono);">Hijin | Local Cognitive AI Workstation v1.0.0</span>
+          </div>
+
+          <div class="app-preview-tabs">
+            <button class="preview-tab-btn active" data-tab="tab-recon">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              Reconciliation Workspace
+            </button>
+            <button class="preview-tab-btn" data-tab="tab-modelhub">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+              In-App AI Model Hub
+            </button>
+          </div>
+        </div>
+
+        <div class="app-preview-viewport">
+          <!-- TAB 1: Reconciliation Workspace -->
+          <div class="preview-tab-pane active" id="tab-recon">
+            <div class="workbench-demo-split">
+              <!-- Left: Document Inspector -->
+              <div class="demo-doc-pane">
+                <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border-subtle);">
+                  <span style="font-weight:700;color:var(--text-sub);">INV-2026-88194.pdf (Vector Page 1)</span>
+                  <span class="badge badge-success" style="font-size:0.65rem;">Grounding Active</span>
+                </div>
+                <div style="color:var(--text-muted);font-family:var(--mono);font-size:0.76rem;line-height:1.7;">
+                  VENDOR: Apex Logistics Corp &nbsp;|&nbsp; DATE: Sept 28, 2026<br>
+                  PO MATCH: #PO-99124-A (Three-Way Verified)<br>
+                  ────────────────────────────────────────────<br>
+                  ITEM 1: Freight Handling Service &nbsp;&nbsp;&nbsp;&nbsp; ,800.00<br>
+                  ITEM 2: Customs Clearance Tariff &nbsp;&nbsp;&nbsp;&nbsp; ,450.00<br>
+                  <span class="demo-bbox">SUBTOTAL: ,250.00 [x: 412, y: 680, w: 120, h: 22]</span><br>
+                  STATE TAX (8.25%): .63<br>
+                  TOTAL BILLED: ,600.63
+                </div>
+              </div>
+
+              <!-- Right: Verification Ledger -->
+              <div class="demo-ledger-pane">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                  <strong style="color:var(--emerald-light);font-size:0.9rem;">Deterministic Decimal Ledger</strong>
+                  <span class="status-pill status-verified" style="font-size:0.7rem;">0.000 ms Latency</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.45rem;font-size:0.8rem;color:var(--text-sub);">
+                  <div style="display:flex;justify-content:space-between;"><span>Calculated Sum:</span><strong style="color:#fff;">,250.00</strong></div>
+                  <div style="display:flex;justify-content:space-between;"><span>PO Authorized:</span><strong style="color:#fff;">,250.00</strong></div>
+                  <div style="display:flex;justify-content:space-between;"><span>Variance:</span><strong style="color:var(--emerald-light);">.00 (Exact Match)</strong></div>
+                  <div style="display:flex;justify-content:space-between;"><span>Audited Provenance:</span><span style="color:var(--cyan);">BBox #1 Verified</span></div>
+                </div>
+                <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+                  <span class="pill" style="font-size:0.7rem;">Export: .pdf brief</span>
+                  <span class="pill" style="font-size:0.7rem;">Export: .pptx briefing</span>
+                  <span class="pill" style="font-size:0.7rem;">Export: .csv ledger</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: In-App AI Model Hub -->
+          <div class="preview-tab-pane" id="tab-modelhub">
+            <div class="model-hub-grid">
+              <!-- Model 1 -->
+              <div class="model-hub-card">
+                <div class="model-hub-card-header">
+                  <div>
+                    <div class="model-title-text">Hijin Financial Specialist</div>
+                    <div class="model-subtitle-text">Fine-tuned Gemma 3 4B (Q4_K_M GGUF) · Document math &amp; audit specialist</div>
+                  </div>
+                  <span class="status-pill status-verified">Active Engine</span>
+                </div>
+                <div class="model-progress-bar">
+                  <div class="model-progress-fill" style="width: 100%;"></div>
+                </div>
+                <div class="model-meta-row">
+                  <span>6.0 GB / 6.0 GB (Verified SHA-256)</span>
+                  <span style="color:var(--emerald-light);">GPU Offloaded (100%)</span>
+                </div>
+              </div>
+
+              <!-- Model 2 -->
+              <div class="model-hub-card">
+                <div class="model-hub-card-header">
+                  <div>
+                    <div class="model-title-text">Gemma 3 Conversation Core</div>
+                    <div class="model-subtitle-text">Base Google Gemma 3 4B (Q4_K_M GGUF) · General chat &amp; definitions</div>
+                  </div>
+                  <span class="status-pill badge-cyan">In-App Stream</span>
+                </div>
+                <div class="model-progress-bar">
+                  <div class="model-progress-fill" style="width: 68%;"></div>
+                </div>
+                <div class="model-meta-row">
+                  <span>4.1 GB / 6.0 GB (38.5 MB/s)</span>
+                  <span style="color:var(--cyan);">Resumable · ETA 48s</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="hub-toolbar-note">
+              <div style="display:flex;align-items:center;gap:0.5rem;">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span><strong>Connected Hub:</strong> Local Ollama detected on <code>127.0.0.1:11434</code>. Existing local weights are re-used automatically.</span>
+              </div>
+              <span class="badge badge-success" style="font-size:0.7rem;">100% Air-Gapped Inference</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture notice -->
+    <section class="container reveal">
+      <div class="callout">
+        <h4>
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+          Four Separated Systems — Complete Transparency
+        </h4>
+        <p>
+          <strong style="color:var(--text-sub)">① Website Account</strong> — identifies your commercial subscription.
+          &nbsp;<strong style="color:var(--text-sub)">② Desktop App</strong> — the local Windows workbench running on your machine.
+          &nbsp;<strong style="color:var(--text-sub)">③ License Entitlement</strong> — Ed25519-signed token validating your tier.
+          &nbsp;<strong style="color:var(--text-sub)">④ Local AI Runtime</strong> — the inference daemon running entirely on your hardware.
+          Documents are processed on-device and are never transmitted externally.
+        </p>
+      </div>
+    </section>
+
+    <!-- Benchmark table -->
+    <section class="container" style="margin-top:0;" id="benchmark">
+      <div class="section-header reveal">
+        <div class="section-label">Empirical Laboratory Benchmark</div>
+        <h2>Why CPAs Choose Hijin Over Raw Cloud AI</h2>
+        <p>General LLMs predict tokens probabilistically and routinely hallucinate invoice arithmetic. Hijin pairs neural comprehension with 100% deterministic fixed-point math.</p>
+      </div>
+
+      <div class="table-wrapper reveal reveal-delay-2" style="overflow-x:auto;">
+        <table class="data-table benchmark-table">
+          <thead>
+            <tr>
+              <th style="min-width:200px">Evaluation Metric</th>
+              <th>Raw Gemma 3 (4.3B Base)</th>
+              <th class="col-hijin-header" style="min-width:220px">Hijin Financial Specialist</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Invoice Line-Item Math</strong></td>
+              <td class="cell-fail">❌ $18 arithmetic error on Line 1; ignored 15% discount entirely</td>
+              <td class="cell-pass col-hijin">✓ 100.00% Exact — fixed-point Decimal precision</td>
+            </tr>
+            <tr>
+              <td><strong>Variance &amp; Tax Detection</strong></td>
+              <td class="cell-fail">❌ Missed all 3 variances (subtotal, tax, grand total)</td>
+              <td class="cell-pass col-hijin">✓ Detected exact +$203.05 subtotal &amp; +$115.75 tax variances</td>
+            </tr>
+            <tr>
+              <td><strong>Calculation Latency</strong></td>
+              <td class="cell-neutral">11,936 ms (11.9 seconds)</td>
+              <td class="col-hijin"><strong style="color:var(--emerald-light)">0.131 ms — 90,000× faster</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Native PDF Ingestion</strong></td>
+              <td class="cell-fail">❌ Cannot ingest binary PDFs natively</td>
+              <td class="cell-pass col-hijin">✓ 35.9 ms vector PDF extraction &amp; OCR pipeline</td>
+            </tr>
+            <tr>
+              <td><strong>Deliverable Formats</strong></td>
+              <td class="cell-neutral">Unformatted chat text only</td>
+              <td class="cell-pass col-hijin">✓ .md · .json · .csv · Forensic PDF · Executive PPTX</td>
+            </tr>
+            <tr>
+              <td><strong>Client Data Privacy</strong></td>
+              <td class="cell-fail">Data transmitted to remote cloud servers</td>
+              <td class="cell-pass col-hijin">🔒 100% Offline — Zero external data transmission</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="container" style="padding-top:0;">
+      <div class="card testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <blockquote class="testimonial-quote">
+          "Our corporate IT team strictly forbids uploading client invoices or general ledger schedules to cloud AI APIs. Hijin's air-gapped local execution is the primary reason we deploy it. Catching a single $300 variance on vendor invoices pays for the monthly subscription immediately."
+        </blockquote>
+        <div class="testimonial-author">
+          <strong>Sarah Jenkins, CPA</strong>
+          <span>Senior Financial Controller · Apex Heritage Capital &nbsp;·&nbsp; SUS Usability Score: 87.5/100</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature grid -->
+    <section class="container" id="features">
+      <div class="section-header reveal">
+        <div class="section-label">Engineered for Precision</div>
+        <h2>What's Inside the Workbench</h2>
+        <p>A native desktop application combining local LLM reasoning with deterministic math verification — no cloud dependency required.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card reveal reveal-delay-1">
+          <div class="card-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <h3>Local Document Processing</h3>
+          <p>Inspect invoices, receipts, and bank statements directly from PDF or scanned images. Parsed locally — no third-party API transmission, ever.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-2">
+          <div class="card-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+          </div>
+          <h3>Multi-Way Reconciliation</h3>
+          <p>Execute two-way and three-way PO/invoice/bill matching with a deterministic arithmetic validation layer that catches rate and quantity discrepancies.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-3">
+          <div class="card-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </div>
+          <h3>Evidence &amp; Provenance Tracking</h3>
+          <p>Every extracted amount and line item preserves verifiable provenance with highlighted document coordinates for auditor inspection on demand.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-1">
+          <div class="card-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/></svg>
+          </div>
+          <h3>Executive Artifact Export</h3>
+          <p>Generate presentation-ready PPTX briefing decks and forensic audit PDF briefs with full calculation ledgers — directly from your conversation thread.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-2">
+          <div class="card-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          </div>
+          <h3>Offline Entitlement Cache</h3>
+          <p>Operates seamlessly during network outages. Cryptographically-signed entitlements are cached locally for up to 30 days with a 5-day auto-renewal grace period.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-3">
+          <div class="card-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <h3>Permanent Data Ownership</h3>
+          <p>Your records and workspaces remain on your machine permanently. Even if your subscription ends, all local files and exported artifacts are preserved — always.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capability allowlist -->
+    <section class="container" id="capabilities">
+      <div class="section-header reveal">
+        <div class="section-label">Capability Allowlist</div>
+        <h2>Honest Product Representation</h2>
+        <p>We provide evidence-based descriptions of what Hijin does and does not support. No marketing exaggerations.</p>
+      </div>
+
+      <div class="table-wrapper reveal" style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="min-width:200px">Feature / Claim</th>
+              <th>Actual Implementation</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Local AI Document Analysis</strong></td>
+              <td>Inference runs on your workstation via quantized local model. Documents stay on disk.</td>
+              <td><span class="status-pill status-verified">✓ Verified in P28/P29</span></td>
+            </tr>
+            <tr>
+              <td><strong>Reconciliation Verification</strong></td>
+              <td>LLM extraction paired with deterministic Python arithmetic to check sums and variances.</td>
+              <td><span class="status-pill status-verified">✓ Verified in Stage 3B</span></td>
+            </tr>
+            <tr>
+              <td><strong>Office &amp; PDF Export</strong></td>
+              <td>Direct generation of .pptx and .pdf forensic briefing documents from audit threads.</td>
+              <td><span class="status-pill status-verified">✓ Verified in Stage 3B</span></td>
+            </tr>
+            <tr>
+              <td><strong>Offline Operation</strong></td>
+              <td>Operates offline using local Ed25519 signature verification and cached entitlement state.</td>
+              <td><span class="status-pill status-verified">✓ Verified in C3/C4</span></td>
+            </tr>
+            <tr>
+              <td><strong>"Zero Hallucinations" Claim</strong></td>
+              <td>NOT claimed. Local LLMs can make errors; Hijin mitigates with deterministic arithmetic and citations.</td>
+              <td><span class="status-pill status-unsupported">✕ Unsupported claim</span></td>
+            </tr>
+            <tr>
+              <td><strong>"100% Secure / Military Grade"</strong></td>
+              <td>NOT claimed. Security is achieved via local isolation and audited code — not marketing certifications.</td>
+              <td><span class="status-pill status-unsupported">✕ Unsupported claim</span></td>
+            </tr>
+            <tr>
+              <td><strong>"Zero Network Traffic"</strong></td>
+              <td>Hijin communicates with Hijin Tech servers exclusively for license sync and update checks. Document data never transmitted.</td>
+              <td><span class="status-pill status-unsupported">✕ Documented policy</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="container">
+      <div class="cta-section reveal">
+        <h2>Experience Hijin on Your Workstation</h2>
+        <p>Start your 14-day free trial today. No credit card required. Full capability evaluation in sandbox commercial mode.</p>
+        <div class="cta-actions">
+          <a href="download.html?plan=trial" class="btn btn-primary btn-xl">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Start Free Trial
+          </a>
+          <a href="download.html" class="btn btn-secondary btn-lg">Download Installer</a>
+          <a href="pricing.html" class="btn btn-ghost btn-lg">See Pricing →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand">
+            <div class="brand-icon" style="width:28px;height:28px;">
+              <img src="assets/hijin_logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
+            </div>
+            <span class="brand-wordmark">Hijin</span>
+          </a>
+          <p>Hijin is developed by Hijin Tech. A high-assurance desktop AI workbench for private financial analysis and reconciliation.</p>
+          <div class="footer-tech-note">
+            <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
+            P26 Ed25519 · Wave 1 C1–C5
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#capabilities">Capabilities</a></li>
+            <li><a href="pricing.html">Pricing Plans</a></li>
+            <li><a href="download.html">Download Hijin</a></li>
+            <li><a href="docs.html">System Architecture</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Documentation</h4>
+          <ul class="footer-links">
+            <li><a href="docs.html#getting-started">Getting Started</a></li>
+            <li><a href="docs.html#installation">Installation Guide</a></li>
+            <li><a href="docs.html#activation">License Activation</a></li>
+            <li><a href="docs.html#offline">Offline Usage</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal &amp; Trust</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Guarantee</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="privacy.html#telemetry">Telemetry Policy</a></li>
+            <li><a href="docs.html#support">Diagnostics &amp; Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Hijin Tech. All rights reserved. Hijin™ is a trademark of Hijin Tech.</div>
+        <div class="footer-bottom-right">
+          <div class="footer-status-dot"></div>
+          Zero tracking cookies · Static verified build
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll-to-top FAB -->
+  <button class="fab-top" id="fab-top" title="Back to top" aria-label="Scroll to top">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+  </button>
+
+  <script src="app.js"></script>
+</body>
+</html>

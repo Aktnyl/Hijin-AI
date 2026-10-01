@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "product": "Hijin Cognitive AI Workstation",
+  "distribution_version": "1.0.0",
+  "release_channel": "stable",
+  "platform": "windows-x64",
+  "minimum_os_version": "Windows 10 Build 19041+",
+  "hardware_requirements": {
+    "minimum": {
+      "cpu_cores": 4,
+      "system_ram_gb": 8,
+      "free_disk_space_gb": 25,
+      "gpu": "Integrated Intel Iris Xe / AMD Radeon Vega or dedicated GPU"
+    },
+    "recommended": {
+      "cpu_cores": 8,
+      "system_ram_gb": 16,
+      "free_disk_space_gb": 40,
+      "gpu": "NVIDIA RTX 3060+ (6GB+ VRAM) or Apple M-series equivalent"
+    }
+  },
+  "components": [
+    {
+      "id": "hijin-runtime",
+      "name": "Hijin Desktop Native Workstation",
+      "type": "proprietary-runtime",
+      "version": "1.0.0",
+      "format": "pe-executable",
+      "file_name": "Hijin_Setup_1.0.0.exe",
+      "file_size": 6579864,
+      "sha256": "4b68e9102c98d63d0473919ad7783fe1f7a07ceef77800742f9b8c0352ef2e55",
+      "license": "Hijin Proprietary Commercial License",
+      "distribution_class": "public-release-binary",
+      "distribution_source": "https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe"
+    },
+    {
+      "id": "gemma-3-base",
+      "name": "Gemma 3 4B IT (Conversation Core)",
+      "type": "third-party-model",
+      "version": "gemma-3-4b-it",
+      "format": "gguf-q4_k_m",
+      "file_name": "gemma-3-4b-it-q4_k_m.gguf",
+      "file_size": 6442450944,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "license": "Google Gemma Terms of Use",
+      "distribution_class": "third-party-model-weights",
+      "distribution_source": "https://huggingface.co/Aktnyl/hijin-neural-pack/resolve/main/gemma-3-4b-it-q4_k_m.gguf"
+    },
+    {
+      "id": "hijin-financial-specialist",
+      "name": "Hijin Financial Reconciliation Specialist",
+      "type": "proprietary-model",
+      "version": "1.0.0",
+      "format": "gguf-q4_k_m",
+      "file_name": "hijin-financial-specialist-q4_k_m.gguf",
+      "file_size": 6442450944,
+      "sha256": "8a5b28d7e63b6528d227b68194488349079a4897e937d1d227d8848f0714c622",
+      "license": "Hijin Proprietary Commercial License",
+      "distribution_class": "proprietary-model-binary",
+      "distribution_source": "https://huggingface.co/Aktnyl/hijin-neural-pack/resolve/main/hijin-financial-specialist-q4_k_m.gguf"
+    }
+  ],
+  "integrity": {
+    "algorithm": "SHA-256",
+    "verification_method": "manifest-digest"
+  }
+}

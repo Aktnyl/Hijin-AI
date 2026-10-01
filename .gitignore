@@ -1,0 +1,29 @@
+# OS Generated Files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Node & Package Managers
+node_modules/
+npm-debug.log*
+
+# Build & Dist Outputs
+dist/
+dist_installer/
+*.exe
+*.msi
+*.zip
+*.tar.gz
+
+# Models & Large Binaries
+*.gguf
+*.bin
+*.pt
+*.safetensors
+
+# Secrets & Local Configurations
+.env
+.env.*
+*.key
+*.pem
+*.secret

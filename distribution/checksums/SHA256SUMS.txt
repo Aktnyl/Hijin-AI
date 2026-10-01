@@ -1,0 +1,7 @@
+# Canonical SHA-256 Checksums for Hijin Distribution v1.0.0
+# Verify via Windows PowerShell: Get-FileHash -Algorithm SHA256 <file>
+# Verify via Linux/macOS: sha256sum -c SHA256SUMS.txt
+
+4b68e9102c98d63d0473919ad7783fe1f7a07ceef77800742f9b8c0352ef2e55 *Hijin_Setup_1.0.0.exe
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 *gemma-3-4b-it-q4_k_m.gguf
+8a5b28d7e63b6528d227b68194488349079a4897e937d1d227d8848f0714c622 *hijin-financial-specialist-q4_k_m.gguf

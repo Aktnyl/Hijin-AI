@@ -1,0 +1,77 @@
+{
+  "currency": "USD",
+  "currencySymbol": "$",
+  "billingProvider": "Lemon Squeezy (Merchant of Record)",
+  "companyName": "Hijin Tech Inc.",
+  "tiers": [
+    {
+      "id": "free_trial",
+      "name": "14-Day Free Evaluation",
+      "badge": "No Credit Card Required",
+      "priceMonthly": 0,
+      "priceAnnual": 0,
+      "period": "14 days",
+      "description": "Full access to evaluate Hijin on your local workstation with your own messy invoices and ledgers.",
+      "features": [
+        "Full local document analysis (PDF invoices, scans, images)",
+        "Deterministic fixed-point decimal arithmetic (zero math hallucination)",
+        "Two-way and three-way reconciliation with variance detection",
+        "Audited evidence citations with bounding boxes",
+        "Executive PDF Brief and Presentation PPTX slide generation",
+        "Single workstation activation",
+        "Offline entitlement caching (up to 30 days air-gapped)"
+      ],
+      "ctaText": "Start Free Evaluation",
+      "ctaUrl": "download.html?plan=trial",
+      "featured": false
+    },
+    {
+      "id": "specialist_monthly",
+      "name": "Financial Specialist",
+      "badge": "Most Popular",
+      "priceMonthly": 99,
+      "priceAnnual": 79,
+      "period": "per month",
+      "annualBillingText": "billed annually ($948/yr) \u2014 Save $240/yr",
+      "description": "For independent auditors, fractional CFOs, controllers, and finance teams needing private desktop AI.",
+      "features": [
+        "All Free Evaluation capabilities",
+        "Dual-workstation device activation (e.g. office desktop + travel laptop)",
+        "Continuous software updates on Stable channel",
+        "Extended batch ledger & multi-invoice processing",
+        "Customer-data preservation guarantee upon subscription change",
+        "Priority diagnostic support from core engineering team",
+        "Full commercial deployment license"
+      ],
+      "ctaText": "Subscribe to Specialist",
+      "ctaUrl": "https://hijintech.lemonsqueezy.com/checkout/buy/specialist",
+      "featured": true
+    },
+    {
+      "id": "institutional_annual",
+      "name": "Institutional Practice",
+      "badge": "For Accounting Firms",
+      "priceMonthly": 249,
+      "priceAnnual": 199,
+      "period": "per seat / month",
+      "annualBillingText": "billed annually ($2,388/seat/yr)",
+      "description": "For CPA practices, audit firms, and corporate finance departments requiring centralized multi-seat management.",
+      "features": [
+        "All Financial Specialist capabilities",
+        "Multi-seat volume entitlement & license key management",
+        "Custom air-gapped offline token provisioning",
+        "Priority SLA support & cryptographic audit verification",
+        "Centralized billing administration & invoice wire options",
+        "Dedicated onboarding & custom model alignment guidance"
+      ],
+      "ctaText": "Contact Firm Sales",
+      "ctaUrl": "#firm-inquiry",
+      "featured": false
+    }
+  ],
+  "disclaimers": [
+    "Prices shown in USD. Global sales tax and VAT are handled automatically by Lemon Squeezy as Merchant of Record.",
+    "Customer data remains 100% local on your workstation during all AI analysis and calculations.",
+    "Network communication is limited strictly to periodic cryptographic license validation and optional update checks."
+  ]
+}
