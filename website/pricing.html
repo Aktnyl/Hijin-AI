@@ -3,39 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing Plans — Hijin Desktop AI Workbench</title>
-  <meta name="description" content="Transparent, predictable pricing for Hijin Desktop AI. 14-day free trial, monthly, and annual subscription tiers. Free model upgrades included.">
+  <title>Pricing — Hijin Desktop AI</title>
+  <meta name="description" content="Commercial pricing for the Hijin desktop AI workspace. $99/month with a 14-day free trial. No credit card required.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="bg-canvas" aria-hidden="true">
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-  </div>
+  <div class="bg-canvas" aria-hidden="true"></div>
 
   <!-- Site Navigation -->
   <header class="site-header" id="site-header">
     <div class="nav-container">
       <a href="index.html" class="brand">
         <div class="brand-icon">
-          <img src="assets/hijin_logo.png" alt="Hijin Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<svg width=18 height=18 viewBox=\'0 0 24 24\' fill=\'white\'><path d=\'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\'/></svg>'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4v16M20 4v16M4 12h16"/>
+          </svg>
         </div>
-        <span class="brand-wordmark">Hijin</span>
+        <span class="brand-wordmark">HIJIN</span>
       </a>
       <ul class="nav-links" id="nav-links">
-        <li><a href="index.html" class="nav-link ">Overview</a></li>
-        <li><a href="index.html#capabilities" class="nav-link">Capabilities</a></li>
-        <li><a href="releases.html" class="nav-link ">Releases</a></li>
+        <li><a href="index.html" class="nav-link ">Product</a></li>
+        <li><a href="capabilities.html" class="nav-link ">Capabilities</a></li>
+        <li><a href="models.html" class="nav-link ">Models</a></li>
         <li><a href="pricing.html" class="nav-link active">Pricing</a></li>
         <li><a href="docs.html" class="nav-link ">Docs</a></li>
-        <li><a href="download.html" class="nav-link ">Download</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="pricing.html#trial-generator" class="btn btn-secondary btn-sm">Get Free Trial</a>
-        <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm">Download v1.0.0</a>
+        <a href="pricing.html" class="btn btn-secondary btn-sm">Start Trial</a>
+        <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin</a>
       </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
         <span></span><span></span><span></span>
@@ -45,366 +43,130 @@
 
   <!-- Mobile Drawer -->
   <nav class="nav-mobile-drawer" id="nav-mobile-drawer">
-    <a href="index.html" class="nav-link ">Overview</a>
-    <a href="index.html#capabilities" class="nav-link">Capabilities</a>
-    <a href="releases.html" class="nav-link ">Releases &amp; Checksums</a>
-    <a href="pricing.html" class="nav-link active">Pricing Plans</a>
+    <a href="index.html" class="nav-link ">Product</a>
+    <a href="capabilities.html" class="nav-link ">Capabilities</a>
+    <a href="models.html" class="nav-link ">Models Catalog</a>
+    <a href="pricing.html" class="nav-link active">Pricing</a>
     <a href="docs.html" class="nav-link ">Documentation</a>
-    <a href="download.html" class="nav-link ">Download</a>
-    <a href="pricing.html#trial-generator" class="btn btn-secondary btn-sm" style="margin-top:0.75rem;align-self:flex-start;">Get Free Trial Key</a>
-    <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm" style="margin-top:0.5rem;align-self:flex-start;">Download v1.0.0 (.exe)</a>
+    <a href="downloads.html" class="nav-link ">Downloads</a>
+    <a href="releases.html" class="nav-link">Releases &amp; Checksums</a>
+    <a href="security.html" class="nav-link ">Security Architecture</a>
+    <a href="support.html" class="nav-link ">Support &amp; Community</a>
+    <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <a href="pricing.html" class="btn btn-secondary btn-sm">Start 14-Day Free Trial</a>
+      <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin v1.0.0</a>
+    </div>
   </nav>
 
-  <main>
-    <section class="hero" style="padding-bottom: 2rem;">
-      <div class="hero-badge-row">
-        <span class="badge"><span class="badge-dot"></span>Hardware-Grounded Pricing</span>
-        <span class="badge badge-success">14-Day Free Evaluation</span>
-        <span class="badge badge-cyan">Zero Cloud Uploads</span>
+  <main class="container">
+    <div class="section-header">
+      <div class="section-label">Commercial License</div>
+      <h1>Predictable, Transparent Pricing</h1>
+      <p>A single, comprehensive commercial subscription providing full local execution, financial intelligence, and ongoing model updates.</p>
+    </div>
+
+    <!-- Section 16: Primary Pricing Card (Strict $99 / month) -->
+    <div style="max-width:540px;margin:0 auto 3rem;">
+      <div class="card" style="border-color:var(--border-active);padding:2.5rem;box-shadow:0 16px 48px rgba(0,0,0,0.4);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <span class="brand-wordmark" style="font-size:1.3rem;">HIJIN</span>
+          <span class="badge badge-success">14-Day Free Trial</span>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <span style="font-size:3.5rem;font-weight:800;font-family:var(--font-display);color:#fff;">$99</span>
+          <span style="font-size:1rem;color:var(--text-muted);font-weight:500;">/ month</span>
+        </div>
+
+        <p style="color:var(--text-body);font-size:0.92rem;margin-bottom:1.5rem;line-height:1.6;">
+          Full local-first desktop license for CPAs, financial controllers, and accounting teams. No per-token metering, no cloud document fees.
+        </p>
+
+        <div style="margin-bottom:2rem;">
+          <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--primary);text-transform:uppercase;margin-bottom:0.75rem;">Included Entitlements:</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.6rem;font-size:0.875rem;">
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Local AI execution on your machine
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Financial Intelligence &amp; Multi-Document Matching
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Document Understanding (PDFs &amp; tables)
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Deterministic 28-digit Decimal Arithmetic
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Evidence-backed Answers with Bounding Boxes
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Audit PDF &amp; Structured Report Export
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Official Hijin Model Hub Access
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Eligible supported model updates included with active subscription
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> Single-user license on up to 2 workstations
+            </li>
+            <li style="display:flex;align-items:center;gap:0.5rem;color:var(--text-body);">
+              <span style="color:var(--status-verified);font-weight:700;">✓</span> 7-day offline grace period between license checks
+            </li>
+          </ul>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <a href="downloads.html" class="btn btn-primary btn-lg" style="width:100%;">Start 14-Day Free Trial</a>
+          <div style="text-align:center;font-size:0.75rem;color:var(--text-dim);">
+            No credit card required for trial · Instant local evaluation
+          </div>
+        </div>
       </div>
-      <h1>Predictable, Hardware-Grounded <br><span class="gradient-text">Subscription Plans</span></h1>
-      <p class="hero-subtitle">
-        Deploy Hijin on your local Windows workstation. Choose between monthly flexibility or annual savings. Includes the Dual-Core Neural Pack and free upgrades to future model releases.
+    </div>
+
+    <!-- Section 2: Factual Free Trial Onboarding Guide -->
+    <div class="card" style="max-width:760px;margin:0 auto 3rem;">
+      <h3>How the 14-Day Free Evaluation Works</h3>
+      <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;">
+        We believe you should evaluate Hijin on your own accounting documents before purchasing. We do not require credit card entry or complex sales calls.
       </p>
+      <ol style="margin-left:1.25rem;color:var(--text-body);font-size:0.875rem;line-height:1.75;">
+        <li><strong>Download the Installer:</strong> Get <code>Hijin_Setup_1.0.0.exe</code> (6.58 MB) from the downloads page.</li>
+        <li><strong>Run Setup:</strong> Complete the standard Windows setup wizard (installs to your local user directory).</li>
+        <li><strong>Activate Evaluation:</strong> When the First-Launch Wizard appears, click <em>"Start 14-Day Free Trial"</em>. A cryptographic trial token is signed locally for your workstation.</li>
+        <li><strong>Configure Models:</strong> Connect your local runtime or stream the official models in the Model Hub to start reconciling.</li>
+      </ol>
+    </div>
 
-      <!-- Billing Toggle -->
-      <div class="billing-toggle">
-        <div class="toggle-pill">
-          <button id="toggle-monthly" class="toggle-option active">Monthly Billing</button>
-          <button id="toggle-annual" class="toggle-option">Annual Billing</button>
-        </div>
-        <span class="toggle-savings">Save 18% · 2 Months Free</span>
-      </div>
-    </section>
-
-    <!-- Pricing Cards Grid -->
-    <section class="container" style="padding-top: 0;">
-      <div class="grid-3">
-        <!-- 14-Day Free Trial -->
-        <div class="card pricing-card">
-          <div class="badge" style="width: fit-content;">No Credit Card</div>
-          <h3 style="margin-top:0.75rem;">14-Day Free Trial</h3>
-          <p>Full evaluation access on your local workstation with your own accounting documents.</p>
-          <div class="pricing-price">
-            <span data-monthly-price="0" data-annual-price="0">$0</span>
-            <span class="pricing-period">for 14 days</span>
-          </div>
-          <ul class="pricing-features">
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Full local document analysis (PDF &amp; scans)</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Deterministic Decimal two-way &amp; three-way matching</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Evidence citations with coordinates &amp; bounding boxes</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Forensic Audit PDF &amp; Executive PPTX export</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>In-app model downloader with resumable streaming</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>7-day offline entitlement caching</span>
-            </li>
-          </ul>
-          <a href="#trial-generator" class="btn btn-secondary" style="margin-top: auto;">Get Instant Trial Key</a>
-        </div>
-
-        <!-- Financial Specialist (Featured) -->
-        <div class="card pricing-card featured">
-          <div class="pricing-ribbon">Most Popular</div>
-          <div class="badge badge-cyan" style="width: fit-content;">Commercial License</div>
-          <h3 style="margin-top:0.75rem;">Financial Specialist</h3>
-          <p>Full professional desktop license for practicing CPAs, controllers, and finance teams.</p>
-          <div class="pricing-price">
-            <span data-monthly-price="79" data-annual-price="65">$79</span>
-            <span class="pricing-period">/ user / month</span>
-          </div>
-          <ul class="pricing-features">
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span><strong>Everything in Free Trial</strong> with no time expiration</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span><strong>Free Lifetime Model Upgrades</strong> (future 8B+ models included)</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Unlimited local reconciliations (zero per-token meters)</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Full Dual-Core Neural Pack (Gemma 3 + Hijin Specialist)</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Ed25519 cryptographic token with 7-day offline grace</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Priority GitHub Discussions &amp; email support</span>
-            </li>
-          </ul>
-          <a href="download.html?plan=monthly" class="btn btn-primary" style="margin-top: auto;">Purchase License</a>
-        </div>
-
-        <!-- Institutional / Firm -->
-        <div class="card pricing-card">
-          <div class="badge badge-amber" style="width: fit-content;">Multi-Seat &amp; Enterprise</div>
-          <h3 style="margin-top:0.75rem;">Institutional &amp; Firm</h3>
-          <p>For CPA partnerships, institutional audit practices, and air-gapped enterprises.</p>
-          <div class="pricing-price">
-            <span>Custom</span>
-            <span class="pricing-period">volume discounts</span>
-          </div>
-          <ul class="pricing-features">
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Multi-seat floating license server deployment</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Air-gapped USB/LAN model weight distribution packages</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Custom ERP chart of accounts &amp; ledger schema mapping</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Dedicated onboarding engineer &amp; custom fine-tuning</span>
-            </li>
-            <li class="pricing-feature">
-              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              <span>Invoicing by ACH wire with formal MSA agreement</span>
-            </li>
-          </ul>
-          <a href="#firm-calculator" class="btn btn-secondary" style="margin-top: auto;">Calculate Volume Pricing</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Instant 14-Day Free Trial Key Generator Section -->
-    <section class="container" id="trial-generator">
-      <div class="trial-generator-card">
-        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
-          <div class="badge badge-success"><span class="badge-dot"></span>Instant Provisioning</div>
-          <span style="font-size:0.85rem;color:var(--emerald-light);font-weight:600;">No Credit Card Required</span>
-        </div>
-        <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;color:#fff;">Generate Your 14-Day Free Evaluation Key</h2>
-        <p style="color:var(--text-muted);font-size:0.95rem;max-width:680px;margin-bottom:1.5rem;">
-          Enter your work email address below to immediately mint a signed evaluation license. Paste this key into the First-Launch Activation Wizard inside the desktop app.
-        </p>
-
-        <form id="trial-form">
-          <div class="trial-input-row">
-            <input type="email" id="trial-email" class="input-field" placeholder="Enter your work email (e.g. cpa@meridian-audit.com)" required>
-            <button type="submit" class="btn btn-primary" style="flex-shrink:0;">
-              Generate Evaluation Key
-            </button>
-          </div>
-        </form>
-
-        <div id="trial-result" class="trial-result" style="display:none;">
-          <span class="badge badge-success" style="margin-bottom:0.5rem;">Your Cryptographic Evaluation Key:</span>
-          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin:0.5rem 0;">
-            <code class="trial-key-code" id="trial-key">HJN-TRL-XXXX-XXXX-XXXX</code>
-            <button class="btn btn-secondary btn-sm" id="trial-copy-btn">Copy Key</button>
-          </div>
-          <div class="callout" style="margin-top:1.25rem;background:rgba(0,0,0,0.3);">
-            <h4 style="color:var(--emerald-light);font-size:0.88rem;margin-bottom:0.4rem;">4-Step Quick Activation Instructions:</h4>
-            <ol style="margin-left:1.25rem;color:var(--text-sub);font-size:0.82rem;line-height:1.7;">
-              <li>Download the lightweight installer: <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" style="color:var(--cyan-light);font-weight:600;">Hijin_Setup_1.0.0.exe (6.58 MB)</a>.</li>
-              <li>Install and open Hijin Workstation on your Windows 10/11 PC.</li>
-              <li>When the First-Launch Wizard appears, paste your copied key into the Activation field.</li>
-              <li>The in-app Model Hub will stream the local model weights with full offline entitlement active for 14 days!</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Firm Calculator Section -->
-    <section class="container" id="firm-calculator">
-      <div class="firm-inquiry-card">
-        <div class="section-label">Volume Estimator</div>
-        <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;color:#fff;">CPA Firm &amp; Multi-Seat Calculator</h2>
-        <p style="color:var(--text-muted);font-size:0.95rem;max-width:680px;">
-          Adjust the slider to preview seat licensing volume discounts. Volume tiers apply automatically.
-        </p>
-
-        <div class="firm-calculator-grid">
-          <div>
-            <span style="font-size:0.9rem;color:var(--text-sub);font-weight:600;">Total Workstation Seats: <strong id="seat-count-display" style="color:#fff;font-size:1.2rem;">10</strong></span>
-            <input type="range" min="1" max="100" value="10" class="seat-range-slider" id="seat-slider">
-            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-dim);font-family:var(--font-mono);">
-              <span>1 seat</span>
-              <span>25 seats</span>
-              <span>50 seats</span>
-              <span>100 seats</span>
-            </div>
-          </div>
-          <div class="calc-breakdown">
-            <div class="calc-row">
-              <span>Effective Base Rate:</span>
-              <span class="calc-row-value" id="calc-base-rate">$84/seat</span>
-            </div>
-            <div class="calc-row">
-              <span>Volume Discount Tier:</span>
-              <span class="calc-row-value" id="calc-discount" style="color:var(--emerald-light);">15% volume discount</span>
-            </div>
-            <div class="calc-row total">
-              <span>Estimated Monthly:</span>
-              <span class="calc-row-value" id="calc-total-month" style="color:#fff;font-size:1.1rem;">$840/mo</span>
-            </div>
-            <div class="calc-row">
-              <span>Estimated Annual (2 Mo Free):</span>
-              <span class="calc-row-value" id="calc-total-year">$8,400/yr</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Comprehensive Tier Comparison Table -->
-    <section class="container">
-      <div class="section-header">
-        <div class="section-label">Detailed Comparison</div>
-        <h2>Compare Subscription Features</h2>
-        <p>Complete breakdown of capabilities across evaluation and commercial tiers.</p>
-      </div>
-
-      <div class="table-wrapper">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Feature / Entitlement</th>
-              <th>14-Day Free Trial</th>
-              <th class="col-hijin-header">Financial Specialist</th>
-              <th>Institutional &amp; Firm</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Local Document Processing</strong></td>
-              <td class="cell-pass">Unlimited during trial</td>
-              <td class="col-hijin cell-pass">Unlimited perpetual</td>
-              <td class="cell-pass">Unlimited perpetual</td>
-            </tr>
-            <tr>
-              <td><strong>Deterministic Decimal Math</strong></td>
-              <td class="cell-pass">Yes (28-digit precision)</td>
-              <td class="col-hijin cell-pass">Yes (28-digit precision)</td>
-              <td class="cell-pass">Yes (28-digit precision)</td>
-            </tr>
-            <tr>
-              <td><strong>Dual-Core Neural Pack</strong></td>
-              <td class="cell-pass">Included (~12.3 GB)</td>
-              <td class="col-hijin cell-pass">Included (~12.3 GB)</td>
-              <td class="cell-pass">Included + Custom Fine-Tuning</td>
-            </tr>
-            <tr>
-              <td><strong>Free Lifetime Model Upgrades</strong></td>
-              <td class="cell-neutral">Trial duration only</td>
-              <td class="col-hijin cell-pass">Included (All future models free)</td>
-              <td class="cell-pass">Included (All future models free)</td>
-            </tr>
-            <tr>
-              <td><strong>Offline Grace Period</strong></td>
-              <td class="cell-pass">Up to 7 days offline</td>
-              <td class="col-hijin cell-pass">Up to 7 days offline</td>
-              <td class="cell-pass">Perpetual air-gapped tokens</td>
-            </tr>
-            <tr>
-              <td><strong>Forensic Bounding-Box Grounding</strong></td>
-              <td class="cell-pass">Included</td>
-              <td class="col-hijin cell-pass">Included</td>
-              <td class="cell-pass">Included</td>
-            </tr>
-            <tr>
-              <td><strong>Audit PDF &amp; PPTX Export</strong></td>
-              <td class="cell-pass">Included</td>
-              <td class="col-hijin cell-pass">Included</td>
-              <td class="cell-pass">Included + Custom Firm Branding</td>
-            </tr>
-            <tr>
-              <td><strong>Centralized Floating License Server</strong></td>
-              <td class="cell-fail">No</td>
-              <td class="col-hijin cell-fail">No (Single Seat)</td>
-              <td class="cell-pass">Yes (Multi-Seat Server)</td>
-            </tr>
-            <tr>
-              <td><strong>Support Level</strong></td>
-              <td class="cell-neutral">GitHub Community</td>
-              <td class="col-hijin cell-pass">Priority GitHub &amp; Email</td>
-              <td class="cell-pass">Dedicated Slack &amp; Engineer</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Commercial & Licensing FAQ -->
-    <section class="container">
-      <div class="section-header">
-        <div class="section-label">Answers to Common Questions</div>
-        <h2>Licensing &amp; Commercial FAQ</h2>
-        <p>Everything you need to know about our billing, model delivery, and offline guarantees.</p>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>What happens when my 14-day trial ends?</h3>
-          <p>
-            When your trial period concludes, the desktop application enters read-only evaluation mode. Your locally stored financial ledgers, parsed documents, and exported reports remain completely intact on your machine. You can upgrade to a commercial subscription anytime to reactivate inference.
+    <!-- FAQ -->
+    <div style="max-width:760px;margin:0 auto;">
+      <h3 style="margin-bottom:1.5rem;">Licensing &amp; Commercial FAQ</h3>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="card" style="padding:1.25rem;">
+          <h4 style="color:#fff;margin-bottom:0.4rem;">What happens when the 14-day trial ends?</h4>
+          <p style="font-size:0.875rem;color:var(--text-muted);">
+            The software enters read-only evaluation mode. All parsed financial documents, audit reports, and local databases remain 100% accessible on your machine. You can activate a commercial subscription anytime to restore active inference.
           </p>
         </div>
 
-        <div class="card">
-          <h3>Do I have to pay extra when newer, larger AI models are released?</h3>
-          <p>
-            <strong>No!</strong> All active subscribers receive future model architecture upgrades (including upcoming 8B parameter models) directly in the in-app Model Hub at zero extra charge. You never need to purchase additional "add-on" model packs.
+        <div class="card" style="padding:1.25rem;">
+          <h4 style="color:#fff;margin-bottom:0.4rem;">Are future model updates included in the $99/month price?</h4>
+          <p style="font-size:0.875rem;color:var(--text-muted);">
+            Yes. Eligible active subscribers receive supported Hijin model updates included with their subscription through the in-app Model Hub without additional fees.
           </p>
         </div>
 
-        <div class="card">
-          <h3>How does the 7-day offline grace period work?</h3>
-          <p>
-            Hijin validates your cryptographic Ed25519 license online once every 7 days. If your workstation is taken on an airplane, audit field site, or air-gapped secure facility, it functions with 100% operational capability for up to 7 full days without checking in.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Can I use my license across two workstations?</h3>
-          <p>
-            A single-user license allows activation on up to two machines (such as your office workstation and your travel laptop), provided both instances belong to the designated named licensee.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>What payment methods are supported?</h3>
-          <p>
-            We process subscription billing via Lemon Squeezy and Stripe, supporting all major credit cards, Apple Pay, Google Pay, and SEPA. For institutional multi-seat purchases ($2,500+), we support ACH wire transfers and custom invoicing.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Is my financial data truly safe?</h3>
-          <p>
-            Yes. The desktop app runs an embedded Rust daemon and SQLite database entirely on your local machine. There are zero cloud AI calls, zero analytics trackers, and zero telemetry transmissions of your accounting records.
+        <div class="card" style="padding:1.25rem;">
+          <h4 style="color:#fff;margin-bottom:0.4rem;">How does the 7-day offline grace period work?</h4>
+          <p style="font-size:0.875rem;color:var(--text-muted);">
+            Hijin performs an online cryptographic check once every 7 days. If your workstation is offline for travel, air-gapped site visits, or secure field audits, it operates with full functionality for up to 7 consecutive days without an internet connection.
           </p>
         </div>
       </div>
-    </section>
+    </div>
   </main>
 
   <!-- Site Footer -->
@@ -413,52 +175,54 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="brand">
-            <div class="brand-icon" style="width:28px;height:28px;"><img src="assets/hijin_logo.png" alt="" onerror="this.style.display='none'"></div>
-            <span class="brand-wordmark">Hijin</span>
+            <div class="brand-icon" style="width:24px;height:24px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4v16M20 4v16M4 12h16"/>
+              </svg>
+            </div>
+            <span class="brand-wordmark">HIJIN</span>
           </a>
-          <p>Hijin Tech · Enterprise Desktop AI Financial Specialist Workbench</p>
+          <p>Private intelligence, running on your machine.</p>
           <div class="footer-tech-note">
             <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
-            100% Local Inference · Ed25519 Verified · Zero Cloud Data Leaks
+            Local-First Architecture · Ed25519 Signed · Zero Data Telemetry
           </div>
         </div>
         <div class="footer-col">
-          <h4>Product &amp; Releases</h4>
+          <h4>Product</h4>
           <ul class="footer-links">
-            <li><a href="index.html#capabilities">Capabilities</a></li>
-            <li><a href="releases.html">Release Hub &amp; Checksums</a></li>
-            <li><a href="pricing.html">Subscription Pricing</a></li>
-            <li><a href="download.html">Download Windows Installer</a></li>
-            <li><a href="pricing.html#trial-generator">Generate Trial Key</a></li>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="capabilities.html">Capabilities</a></li>
+            <li><a href="models.html">Models Catalog</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+            <li><a href="releases.html">Releases &amp; Checksums</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Documentation</h4>
+          <h4>Resources</h4>
           <ul class="footer-links">
-            <li><a href="docs.html#getting-started">Getting Started</a></li>
-            <li><a href="docs.html#hardware">Hardware &amp; Benchmarks</a></li>
-            <li><a href="docs.html#installation">Installation Guide</a></li>
-            <li><a href="docs.html#model-hub">Dual-Core Model Hub</a></li>
-            <li><a href="docs.html#reconciliation">Reconciliation Engine</a></li>
-            <li><a href="docs.html#licensing">Licensing &amp; Offline Mode</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="security.html">Security Architecture</a></li>
+            <li><a href="support.html">Support &amp; Feedback</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">Community Discussions</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Community &amp; Trust</h4>
+          <h4>Legal &amp; Privacy</h4>
           <ul class="footer-links">
-            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a></li>
-            <li><a href="https://github.com/Aktnyl/Hijin-AI/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
-            <li><a href="privacy.html">Zero-Data Privacy Guarantee</a></li>
+            <li><a href="privacy.html">Privacy Guarantee</a></li>
             <li><a href="terms.html">Terms of Service</a></li>
-            <li><a href="https://huggingface.co/Aktnyl/hijin-neural-pack" target="_blank" rel="noopener noreferrer">Hugging Face Models</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Software License</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <div>&copy; 2026 Hijin Tech. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
+        <div>&copy; 2026 Hijin. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
         <div class="footer-bottom-right">
           <div class="footer-status-dot"></div>
-          Zero tracking cookies · 100% Client-side static distribution
+          Zero surveillance tracking cookies · Static client-side distribution
         </div>
       </div>
     </div>

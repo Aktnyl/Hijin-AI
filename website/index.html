@@ -3,44 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hijin — Private Desktop AI Financial Specialist Workbench</title>
-  <meta name="description" content="Autonomous local-first desktop AI workbench for accounts reconciliation, audit variance detection, and financial report generation. 100% offline. Zero cloud data leaks.">
-  <meta property="og:title" content="Hijin — Private Desktop AI for Financial Workflows">
-  <meta property="og:description" content="Local-first AI workbench for CPAs, controllers, and finance teams. 100% offline local inference. Zero cloud document uploads.">
+  <title>Hijin — Private Intelligence on Your Machine</title>
+  <meta name="description" content="Hijin is a local-first AI workspace for understanding documents, analyzing information, working with financial data, and creating verified outputs while keeping your workspace on your machine.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <!-- Ambient background canvas -->
-  <div class="bg-canvas" aria-hidden="true">
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-    <div class="bg-orb bg-orb-3"></div>
-  </div>
+  <div class="bg-canvas" aria-hidden="true"></div>
 
   <!-- Site Navigation -->
   <header class="site-header" id="site-header">
     <div class="nav-container">
       <a href="index.html" class="brand">
         <div class="brand-icon">
-          <img src="assets/hijin_logo.png" alt="Hijin Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<svg width=18 height=18 viewBox=\'0 0 24 24\' fill=\'white\'><path d=\'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\'/></svg>'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4v16M20 4v16M4 12h16"/>
+          </svg>
         </div>
-        <span class="brand-wordmark">Hijin</span>
+        <span class="brand-wordmark">HIJIN</span>
       </a>
       <ul class="nav-links" id="nav-links">
-        <li><a href="index.html" class="nav-link active">Overview</a></li>
-        <li><a href="index.html#capabilities" class="nav-link">Capabilities</a></li>
-        <li><a href="releases.html" class="nav-link ">Releases</a></li>
+        <li><a href="index.html" class="nav-link active">Product</a></li>
+        <li><a href="capabilities.html" class="nav-link ">Capabilities</a></li>
+        <li><a href="models.html" class="nav-link ">Models</a></li>
         <li><a href="pricing.html" class="nav-link ">Pricing</a></li>
         <li><a href="docs.html" class="nav-link ">Docs</a></li>
-        <li><a href="download.html" class="nav-link ">Download</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="pricing.html#trial-generator" class="btn btn-secondary btn-sm">Get Free Trial</a>
-        <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm">Download v1.0.0</a>
+        <a href="pricing.html" class="btn btn-secondary btn-sm">Start Trial</a>
+        <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin</a>
       </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
         <span></span><span></span><span></span>
@@ -50,654 +43,203 @@
 
   <!-- Mobile Drawer -->
   <nav class="nav-mobile-drawer" id="nav-mobile-drawer">
-    <a href="index.html" class="nav-link active">Overview</a>
-    <a href="index.html#capabilities" class="nav-link">Capabilities</a>
-    <a href="releases.html" class="nav-link ">Releases &amp; Checksums</a>
-    <a href="pricing.html" class="nav-link ">Pricing Plans</a>
+    <a href="index.html" class="nav-link active">Product</a>
+    <a href="capabilities.html" class="nav-link ">Capabilities</a>
+    <a href="models.html" class="nav-link ">Models Catalog</a>
+    <a href="pricing.html" class="nav-link ">Pricing</a>
     <a href="docs.html" class="nav-link ">Documentation</a>
-    <a href="download.html" class="nav-link ">Download</a>
-    <a href="pricing.html#trial-generator" class="btn btn-secondary btn-sm" style="margin-top:0.75rem;align-self:flex-start;">Get Free Trial Key</a>
-    <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm" style="margin-top:0.5rem;align-self:flex-start;">Download v1.0.0 (.exe)</a>
+    <a href="downloads.html" class="nav-link ">Downloads</a>
+    <a href="releases.html" class="nav-link">Releases &amp; Checksums</a>
+    <a href="security.html" class="nav-link ">Security Architecture</a>
+    <a href="support.html" class="nav-link ">Support &amp; Community</a>
+    <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <a href="pricing.html" class="btn btn-secondary btn-sm">Start 14-Day Free Trial</a>
+      <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin v1.0.0</a>
+    </div>
   </nav>
 
   <main>
-    <!-- Hero Section -->
+    <!-- Section 9: Hero -->
     <section class="hero">
-      <div class="hero-badge-row">
-        <span class="badge"><span class="badge-dot"></span>Now Available v1.0.0 for Windows</span>
-        <span class="badge badge-success">14-Day Free Evaluation</span>
-        <span class="badge badge-cyan">Zero Cloud Uploads</span>
+      <div style="margin-bottom:1.25rem;">
+        <span class="badge badge-primary"><span class="badge-dot"></span>Local-First Desktop AI</span>
+        <span class="badge badge-success">Windows 10 / 11 x64</span>
       </div>
 
-      <h1>Private Desktop AI for<br><span class="gradient-text">Financial Workflows</span></h1>
+      <h1>Private Intelligence.<br>On Your Machine.</h1>
 
       <p class="hero-subtitle">
-        Autonomous local-first desktop workbench for accounts reconciliation, multi-document variance detection, and audited report generation.
-        Your accounting ledgers never leave your workstation — zero cloud uploads, zero token meters, 100% on your hardware.
+        Hijin is a local-first AI workspace for understanding documents, analyzing information, working with financial data, and creating verified outputs while keeping your workspace on your machine.
       </p>
 
       <div class="hero-ctas">
-        <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-xl" id="hero-download-btn">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          Download for Windows (6.58 MB)
-        </a>
-        <a href="pricing.html#trial-generator" class="btn btn-secondary btn-xl">Start 14-Day Free Trial</a>
+        <a href="downloads.html" class="btn btn-primary btn-xl">Download Hijin</a>
+        <a href="capabilities.html" class="btn btn-secondary btn-xl">Explore Capabilities</a>
       </div>
 
-      <!-- Telemetry Metrics Ribbon -->
-      <div class="hero-metrics" id="hero-metrics">
-        <div class="hero-metric">
-          <span class="hero-metric-value" data-count="85" data-suffix="/85">85/85</span>
-          <span class="hero-metric-label">Commercial Tests Passed</span>
-        </div>
-        <div class="hero-metric">
-          <span class="hero-metric-value" style="color:var(--emerald-light);">0.000%</span>
-          <span class="hero-metric-label">Decimal Math Drift</span>
-        </div>
-        <div class="hero-metric">
-          <span class="hero-metric-value" data-count="0" data-suffix="">0</span>
-          <span class="hero-metric-label">Cloud Document Uploads</span>
-        </div>
-        <div class="hero-metric">
-          <span class="hero-metric-value" data-count="32" data-suffix=" t/s">32 t/s</span>
-          <span class="hero-metric-label">CUDA Streaming Speed</span>
-        </div>
-      </div>
-
-      <div class="hero-trust-note">
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
-        Local Inference Daemon
-        <span class="dot">·</span>
-        Ed25519 Cryptographic Licensing
-        <span class="dot">·</span>
-        Zero Outbound Telemetry
-        <span class="dot">·</span>
-        7-Day Offline Grace Period
+      <div style="display:flex;justify-content:center;gap:1.5rem;font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);flex-wrap:wrap;">
+        <span>✓ 100% Local Inference</span>
+        <span>·</span>
+        <span>✓ Deterministic Decimal Math</span>
+        <span>·</span>
+        <span>✓ 14-Day Free Evaluation</span>
+        <span>·</span>
+        <span>✓ Zero Cloud Document Uploads</span>
       </div>
     </section>
 
-    <!-- Desktop App Showcase Window -->
-    <section class="container" style="padding-top: 0; padding-bottom: 2.5rem;">
-      <div class="app-preview-frame">
-        <div class="app-preview-titlebar">
-          <div class="win-dots">
-            <span class="win-dot win-dot-close"></span>
-            <span class="win-dot win-dot-min"></span>
-            <span class="win-dot win-dot-max"></span>
-            <span style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem;font-family:var(--font-mono);">Hijin | Local Cognitive AI Workstation v1.0.0</span>
-          </div>
-
-          <div class="app-preview-tabs">
-            <button class="preview-tab-btn active" data-tab="tab-recon">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              Reconciliation Workspace
-            </button>
-            <button class="preview-tab-btn" data-tab="tab-variance">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-              Variance &amp; Audit Inspector
-            </button>
-            <button class="preview-tab-btn" data-tab="tab-assistant">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-              Cognitive Assistant
-            </button>
-            <button class="preview-tab-btn" data-tab="tab-modelhub">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-              In-App Model Hub
-            </button>
-          </div>
-        </div>
-
-        <div class="app-preview-viewport">
-          <!-- TAB 1: Reconciliation Workspace -->
-          <div class="preview-tab-pane active" id="tab-recon">
-            <div class="workbench-demo-split">
-              <!-- Left: Document Inspector -->
-              <div class="demo-doc-pane">
-                <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border-subtle);">
-                  <span style="font-weight:700;color:var(--text-sub);">INV-2026-88194.pdf (Vector Page 1)</span>
-                  <span class="badge badge-success" style="font-size:0.65rem;">Grounding Active</span>
-                </div>
-                <div style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.75rem;line-height:1.7;">
-                  VENDOR: Apex Logistics Corp &nbsp;|&nbsp; DATE: Sept 28, 2026<br>
-                  PO MATCH: #PO-99124-A (Three-Way Verified)<br>
-                  ────────────────────────────────────────────<br>
-                  ITEM 1: Freight Handling Service &nbsp;&nbsp;&nbsp;&nbsp; $2,800.00<br>
-                  ITEM 2: Customs Clearance Tariff &nbsp;&nbsp;&nbsp;&nbsp; $1,450.00<br>
-                  <span class="demo-bbox">SUBTOTAL: $4,250.00 [x: 412, y: 680, w: 120, h: 22]</span><br>
-                  STATE TAX (8.25%): $350.63<br>
-                  TOTAL BILLED: $4,600.63
-                </div>
-              </div>
-
-              <!-- Right: Verification Ledger -->
-              <div class="demo-ledger-pane">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-                  <strong style="color:var(--emerald-light);font-size:0.88rem;">Deterministic Decimal Ledger</strong>
-                  <span class="status-pill status-verified" style="font-size:0.68rem;">0.000 ms Latency</span>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.8rem;color:var(--text-sub);">
-                  <div style="display:flex;justify-content:space-between;"><span>Calculated Sum:</span><strong style="color:#fff;">$4,250.00</strong></div>
-                  <div style="display:flex;justify-content:space-between;"><span>PO Authorized:</span><strong style="color:#fff;">$4,250.00</strong></div>
-                  <div style="display:flex;justify-content:space-between;"><span>Variance:</span><strong style="color:var(--emerald-light);">$0.00 (Exact Match)</strong></div>
-                  <div style="display:flex;justify-content:space-between;"><span>Audited Provenance:</span><span style="color:var(--cyan-light);">BBox #1 Verified</span></div>
-                </div>
-                <div style="margin-top:1rem;display:flex;gap:0.4rem;flex-wrap:wrap;">
-                  <span class="status-pill status-unsupported" style="font-size:0.68rem;">Export: .pdf brief</span>
-                  <span class="status-pill status-unsupported" style="font-size:0.68rem;">Export: .pptx briefing</span>
-                  <span class="status-pill status-unsupported" style="font-size:0.68rem;">Export: .csv ledger</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 2: Variance & Audit Inspector -->
-          <div class="preview-tab-pane" id="tab-variance">
-            <div style="display:flex;flex-direction:column;gap:0.85rem;">
-              <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-weight:700;color:var(--text-sub);font-size:0.88rem;">Automated Multi-Period Variance Analysis (Q3 vs Q4 2026)</span>
-                <span class="badge badge-amber" style="font-size:0.68rem;">1 Anomaly Flagged (&gt;10% Threshold)</span>
-              </div>
-              <div class="table-wrapper">
-                <table class="data-table" style="font-size:0.78rem;">
-                  <thead>
-                    <tr>
-                      <th>Account Category</th>
-                      <th>Q3 Authorized</th>
-                      <th>Q4 Invoiced</th>
-                      <th>Variance ($)</th>
-                      <th>Variance (%)</th>
-                      <th>Audit Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>6100 · Freight &amp; Shipping</td>
-                      <td>$18,400.00</td>
-                      <td>$21,012.80</td>
-                      <td style="color:#fb7185;font-weight:700;">+$2,612.80</td>
-                      <td style="color:#fb7185;font-weight:700;">+14.2%</td>
-                      <td><span class="status-pill badge-amber">Flagged for Review</span></td>
-                    </tr>
-                    <tr>
-                      <td>6200 · Warehouse Utilities</td>
-                      <td>$4,200.00</td>
-                      <td>$4,185.00</td>
-                      <td style="color:var(--emerald-light);">-$15.00</td>
-                      <td style="color:var(--emerald-light);">-0.3%</td>
-                      <td><span class="status-pill status-verified">Within Tolerance</span></td>
-                    </tr>
-                    <tr>
-                      <td>6300 · Customs Duties</td>
-                      <td>$9,500.00</td>
-                      <td>$9,500.00</td>
-                      <td style="color:var(--emerald-light);">$0.00</td>
-                      <td style="color:var(--emerald-light);">0.0%</td>
-                      <td><span class="status-pill status-verified">Exact Match</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p style="font-size:0.78rem;color:var(--text-muted);margin:0;">
-                <strong style="color:var(--text-sub);">Cognitive Root Cause:</strong> Traced +14.2% freight surge to three supplemental fuel surcharges on PO-99124-B without purchase-order revision addendums.
-              </p>
-            </div>
-          </div>
-
-          <!-- TAB 3: Cognitive Assistant -->
-          <div class="preview-tab-pane" id="tab-assistant">
-            <div style="display:flex;flex-direction:column;gap:0.85rem;font-size:0.82rem;">
-              <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);border-radius:var(--r-md);padding:0.85rem;">
-                <div style="font-weight:700;color:var(--indigo-light);margin-bottom:0.25rem;">Senior Auditor:</div>
-                <div style="color:var(--text-sub);">"Summarize all unmatched freight charges above $500 across our September supplier invoices and flag any missing PO references."</div>
-              </div>
-              <div style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);border-radius:var(--r-md);padding:1rem;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
-                  <span style="font-weight:700;color:var(--emerald-light);">Hijin Financial Specialist (Dual-Core Runtime):</span>
-                  <span class="status-pill status-verified" style="font-size:0.65rem;">Grounding: 3 Documents</span>
-                </div>
-                <div style="color:var(--text-sub);line-height:1.55;font-size:0.8rem;">
-                  Identified <strong>2 unmatched freight charges</strong> above $500 in September 2026:<br><br>
-                  1. <strong>$1,250.00</strong> on <code>INV-88194.pdf</code> (Apex Logistics) — Line 2 "Fuel Expedited Charge" has no matching line item in PO #99124-A. [Bounding Box: p.1, (412, 680)]<br>
-                  2. <strong>$780.00</strong> on <code>INV-88203.pdf</code> (Pacific Port Freight) — Invoice references expired contract PO #98440.<br><br>
-                  <em>Recommendation:</em> Hold $2,030.00 in accounts payable pending supplier credit memo issuance.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 4: In-App Model Hub -->
-          <div class="preview-tab-pane" id="tab-modelhub">
-            <div class="model-hub-grid">
-              <div class="model-hub-card">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                  <div>
-                    <div class="model-title-text">Hijin Financial Specialist</div>
-                    <div class="model-subtitle-text">Fine-tuned Gemma 3 4B (Q4_K_M GGUF) · Fixed-point math &amp; audit specialist</div>
-                  </div>
-                  <span class="status-pill status-verified">Active Engine</span>
-                </div>
-                <div class="model-progress-bar"><div class="model-progress-fill" style="width: 100%;"></div></div>
-                <div class="model-meta-row">
-                  <span>6.2 GB / 6.2 GB (Verified SHA-256)</span>
-                  <span style="color:var(--emerald-light);">GPU Offloaded (100%)</span>
-                </div>
-              </div>
-
-              <div class="model-hub-card">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                  <div>
-                    <div class="model-title-text">Gemma 3 Conversation Core</div>
-                    <div class="model-subtitle-text">Google Gemma 3 4B IT (Q4_K_M GGUF) · Conversational reasoning &amp; query planning</div>
-                  </div>
-                  <span class="status-pill status-verified">Active Engine</span>
-                </div>
-                <div class="model-progress-bar"><div class="model-progress-fill" style="width: 100%;"></div></div>
-                <div class="model-meta-row">
-                  <span>6.1 GB / 6.1 GB (Verified SHA-256)</span>
-                  <span style="color:var(--emerald-light);">GPU Offloaded (100%)</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="hub-toolbar-note">
-              <span><strong>Dual-Core Neural Pack (~12.3 GB total):</strong> Both models run simultaneously in local memory. 100% offline hot-swapping enabled.</span>
-              <span class="badge badge-success" style="font-size:0.68rem;">Air-Gapped Inference</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Architecture Callout: Four Separated Systems -->
+    <!-- Section 10: Hero UI Composition Preview -->
     <section class="container" style="padding-top:0;padding-bottom:3rem;">
-      <div class="callout">
-        <h4>
-          <svg width="18" height="18" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-          Four Separated Systems — Complete Architectural Transparency
-        </h4>
-        <p>
-          <strong style="color:#fff;">① Website Account</strong> — Identifies commercial tier.
-          &nbsp;<strong style="color:#fff;">② Desktop App (35.1 MB)</strong> — Native Tauri 2 + Rust daemon running locally on your PC.
-          &nbsp;<strong style="color:#fff;">③ License Entitlement</strong> — Ed25519-signed offline cryptographic token verifying license validity.
-          &nbsp;<strong style="color:#fff;">④ Local AI Runtime</strong> — Dual-Core neural engine executing entirely on your local hardware.
-          Accounting records, financial ledgers, and prompts are processed on-device and are never uploaded to any cloud server.
-        </p>
+      <div style="background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.5);">
+        <div style="background:var(--bg-surface);padding:0.75rem 1.25rem;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></span>
+            <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;"></span>
+            <span style="width:10px;height:10px;border-radius:50%;background:#10b981;"></span>
+            <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);margin-left:0.75rem;">Hijin Desktop Workstation · Local Workspace</span>
+          </div>
+          <span class="badge badge-success" style="font-size:0.7rem;">Engine Status: Localhost Active</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-subtle);">
+          <!-- Left: Document Context Inspection -->
+          <div style="background:var(--bg-card);padding:1.5rem;">
+            <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--primary);margin-bottom:0.5rem;text-transform:uppercase;">Input Context (Local PDF)</div>
+            <div style="font-size:0.875rem;font-weight:700;color:var(--text-primary);margin-bottom:1rem;">Invoice_Apex_2026_09.pdf · Page 1</div>
+            <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);line-height:1.7;background:var(--bg-surface);padding:1rem;border-radius:var(--radius-md);border:1px solid var(--border-subtle);">
+              Line 1: Cloud Storage Cluster B &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$3,400.00<br>
+              Line 2: Data Transfer Outbound &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$820.00<br>
+              Line 3: Managed Database Replica &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$1,150.00<br>
+              ─────────────────────────────────────────<br>
+              <strong style="color:var(--primary);">Subtotal Claimed: $5,370.00</strong> [Box: 380, 520, 110, 20]<br>
+              Tax (8.25%): $443.03<br>
+              Total Billed: $5,813.03
+            </div>
+          </div>
+
+          <!-- Right: Deterministic Decimal Verification -->
+          <div style="background:var(--bg-card);padding:1.5rem;">
+            <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--status-verified);margin-bottom:0.5rem;text-transform:uppercase;">Deterministic Verification Ledger</div>
+            <div style="font-size:0.875rem;font-weight:700;color:var(--text-primary);margin-bottom:1rem;">Fixed-Point 28-Digit Mathematical Proof</div>
+            <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);line-height:1.7;background:var(--bg-surface);padding:1rem;border-radius:var(--radius-md);border:1px solid var(--border-subtle);">
+              Calculated Sum: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:#fff;">$5,370.000000000000</strong><br>
+              PO-2026-881 Authorization: <strong style="color:#fff;">$5,370.000000000000</strong><br>
+              Mathematical Variance: &nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:var(--status-verified);">$0.000000000000 (Exact Match)</strong><br>
+              ─────────────────────────────────────────<br>
+              Provenance Citation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Verified against PO-881 line-items<br>
+              Artifact Export: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--primary);">Ready for Audit PDF generation</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Dual-Core Architecture Deep Dive & Future Model Upgrades -->
+    <!-- Section 11: Core Product Section (UNDERSTAND -> REASON -> VERIFY -> CREATE) -->
     <section class="container">
       <div class="section-header">
-        <div class="section-label">Engineered for Accuracy</div>
-        <h2>The Dual-Core Neural Pack</h2>
-        <p>Generic cloud chatbots hallucinate floating-point numbers. Hijin uses a specialized two-tier neural architecture paired with a deterministic execution sandbox.</p>
+        <div class="section-label">Core Architecture</div>
+        <h2>The Fundamental Hijin Workflow</h2>
+        <p>Four disciplined stages that ensure private inputs result in mathematically verified outputs.</p>
       </div>
 
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-icon">
-            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-          </div>
-          <h3>Core 1: Google Gemma 3 4B IT (6.1 GB)</h3>
-          <p style="margin-bottom:0.75rem;">
-            Acts as the <strong>Conversational &amp; Synthesis Director</strong>. Handles natural language query parsing, multi-document context orchestration, reasoning, and human communication.
-          </p>
-          <ul style="color:var(--text-muted);font-size:0.85rem;line-height:1.7;margin-left:1.25rem;">
-            <li>4 Billion Parameter Instruction-Tuned Architecture (Q4_K_M GGUF)</li>
-            <li>Understands natural language accounting inquiries and ambiguous queries</li>
-            <li>Generates executive narrative summaries and presentation outlines</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">
-            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-          </div>
-          <h3>Core 2: Hijin Financial Specialist (6.2 GB)</h3>
-          <p style="margin-bottom:0.75rem;">
-            Acts as the <strong>Domain Accounting &amp; Math Execution Core</strong>. Fine-tuned on specialized accounting taxonomy, ledger balance invariants, and invoice schemas.
-          </p>
-          <ul style="color:var(--text-muted);font-size:0.85rem;line-height:1.7;margin-left:1.25rem;">
-            <li>Deterministic Python <code>decimal.Decimal</code> 28-digit fixed-point math engine</li>
-            <li>Zero floating-point rounding errors across 5,000+ line-item reconciliations</li>
-            <li>Extracts bounding boxes from source PDF invoices for forensic audit trails</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Privilege of Free Lifetime Model Upgrades -->
-      <div class="callout callout-emerald" style="margin-top:2rem;">
-        <h4>
-          <svg width="18" height="18" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-          Free Lifetime Model Upgrades for Active Subscribers
-        </h4>
-        <p>
-          As we train larger and more advanced specialized financial intelligence models (including future 8B parameter releases), 
-          <strong>active license holders receive these upgraded model weights directly in the in-app Model Hub at zero additional cost</strong>. 
-          Your workstation continuously gains higher reasoning power without expensive subscription tier jumps.
-        </p>
-      </div>
-    </section>
-
-    <!-- TRUTH IN TESTING: The Grounded Benchmark Rig -->
-    <section class="container">
-      <div class="section-header">
-        <div class="section-label">Empirical Verification</div>
-        <h2>Truth in Testing: Our Measured Benchmarks</h2>
-        <p>We do not publish imaginary synthetic claims. Below are the exact physical specifications of the test workstation and empirical telemetry measured across our automated commercial test suite.</p>
-      </div>
-
-      <div class="benchmark-card">
-        <div class="benchmark-card-header">
+      <div class="grid-4">
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
           <div>
-            <h3 style="margin:0;font-size:1.15rem;color:#fff;">Reference Test System Hardware Specifications</h3>
-            <p style="margin:0.25rem 0 0;font-size:0.82rem;color:var(--text-muted);">Exact laboratory rig used to validate the v1.0.0 release candidate (Waves 1 &amp; 2).</p>
-          </div>
-          <span class="status-pill status-verified">Hardware Verified</span>
-        </div>
-
-        <div class="benchmark-grid">
-          <div class="benchmark-stat-box">
-            <div class="benchmark-stat-val">Win 11 / 10</div>
-            <div class="benchmark-stat-label">OS: 64-Bit x64 (Build 22631)</div>
-          </div>
-          <div class="benchmark-stat-box">
-            <div class="benchmark-stat-val">Ryzen 7 / i7</div>
-            <div class="benchmark-stat-label">8 Cores / 16 Threads @ 3.2–4.4 GHz</div>
-          </div>
-          <div class="benchmark-stat-box">
-            <div class="benchmark-stat-val">16.0 GB</div>
-            <div class="benchmark-stat-label">System RAM (DDR4-3200 MHz)</div>
-          </div>
-          <div class="benchmark-stat-box">
-            <div class="benchmark-stat-val">RTX 3060</div>
-            <div class="benchmark-stat-label">6 GB VRAM (CUDA 12.4, Compute 8.6)</div>
+            <h3 style="color:#fff;">Understand</h3>
+            <p style="font-size:0.875rem;color:var(--text-muted);">
+              Parses documents, invoices, structured tables, and workspace context locally without cloud dependencies.
+            </p>
           </div>
         </div>
 
-        <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Measured Operational Benchmark</th>
-                <th class="col-hijin-header">Hijin Tested Result</th>
-                <th>CPU-Only Fallback</th>
-                <th>Cloud ERP / Web AI Comparison</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Commercial Test Suite</strong></td>
-                <td class="col-hijin cell-pass">85 / 85 Passed (19.96s)</td>
-                <td>85 / 85 Passed (28.4s)</td>
-                <td>N/A (Opaque Black-Box APIs)</td>
-              </tr>
-              <tr>
-                <td><strong>Adversarial Security Suite</strong></td>
-                <td class="col-hijin cell-pass">13 / 13 Passed (Zero Leaks)</td>
-                <td class="cell-pass">13 / 13 Passed</td>
-                <td class="cell-fail">Data shared with third-party vendors</td>
-              </tr>
-              <tr>
-                <td><strong>Decimal Arithmetic Accuracy</strong></td>
-                <td class="col-hijin cell-pass">0.00000% Rounding Error (5,000 rows)</td>
-                <td class="cell-pass">0.00000% (Fixed-Point)</td>
-                <td class="cell-fail">~2.8% Floating-point hallucination drift</td>
-              </tr>
-              <tr>
-                <td><strong>Token Streaming Latency</strong></td>
-                <td class="col-hijin cell-pass">32.4 tokens/second (CUDA)</td>
-                <td>11.2 tokens/second (AVX2)</td>
-                <td>15–25 tokens/s (Subject to network lag)</td>
-              </tr>
-              <tr>
-                <td><strong>Cold-Start Model Weight Offload</strong></td>
-                <td class="col-hijin cell-pass">4.1 seconds (Memory-Mapped)</td>
-                <td>8.8 seconds (System RAM)</td>
-                <td>Indefinite (Cloud queue latency)</td>
-              </tr>
-              <tr>
-                <td><strong>Stranger Pilot Milestone Testing</strong></td>
-                <td class="col-hijin cell-pass">12 / 12 Milestones Verified</td>
-                <td class="cell-pass">12 / 12 Verified</td>
-                <td>Requires manual IT integration</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div>
+            <h3 style="color:#fff;">Reason</h3>
+            <p style="font-size:0.875rem;color:var(--text-muted);">
+              Combines conversational intelligence with specialized domain models trained for financial structures.
+            </p>
+          </div>
         </div>
-        <p style="font-size:0.75rem;color:var(--text-dim);margin:0.75rem 0 0;">
-          * Stranger Pilot was conducted with Sarah Jenkins (Senior Financial Controller), executing end-to-end reconciliation, variance reporting, and offline token validation without developer intervention.
+
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div>
+            <h3 style="color:#fff;">Verify</h3>
+            <p style="font-size:0.875rem;color:var(--text-muted);">
+              Validates numbers with fixed 28-digit precision decimal math. Prevents rounding drift and floating-point errors.
+            </p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-step-num">4</div>
+          <div>
+            <h3 style="color:#fff;">Create</h3>
+            <p style="font-size:0.875rem;color:var(--text-muted);">
+              Generates audit-ready reports, forensic reconciliation tables, and executive briefing artifacts.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 13: "How Hijin Works" Visual Flow -->
+    <section class="container" style="padding-top:1rem;">
+      <div class="card" style="padding:2.5rem 2rem;">
+        <div class="section-label">Pipeline Architecture</div>
+        <h2>How Data Moves Through Hijin</h2>
+        <p style="margin-bottom:2rem;max-width:720px;">
+          All sensitive document parsing and arithmetic execute strictly inside your local workstation boundary.
         </p>
-      </div>
 
-      <!-- Hardware Recommendations Table -->
-      <div style="margin-top:2.5rem;">
-        <h3 style="margin-bottom:1rem;font-size:1.15rem;color:#fff;">Recommended System Specifications for Downloading Hijin</h3>
-        <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Tier</th>
-                <th>Processor (CPU)</th>
-                <th>System Memory (RAM)</th>
-                <th>Graphics Acceleration (GPU)</th>
-                <th>Disk Storage</th>
-                <th>Operating Profile</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Minimum</strong></td>
-                <td>4-Core x64 (Intel i5 8th Gen+ / AMD Ryzen 3)</td>
-                <td>8 GB DDR4</td>
-                <td>Intel UHD / Iris Xe / AMD Vega</td>
-                <td>25 GB free space (SSD)</td>
-                <td>Supported in sequential model paging mode (8–10 tokens/sec).</td>
-              </tr>
-              <tr style="background:rgba(16,185,129,0.04);">
-                <td><strong style="color:var(--emerald-light);">Recommended (Tested Sweet Spot)</strong></td>
-                <td><strong>8-Core x64 (Intel i7 11th Gen+ / AMD Ryzen 7)</strong></td>
-                <td><strong>16 GB DDR4/DDR5</strong></td>
-                <td><strong>NVIDIA RTX 3060/4060 (6+ GB VRAM)</strong></td>
-                <td><strong>40 GB NVMe Gen4 SSD</strong></td>
-                <td><strong style="color:var(--emerald-light);">Optimal Performance: Both models resident in memory simultaneously (32+ tokens/sec).</strong></td>
-              </tr>
-              <tr>
-                <td><strong>Enterprise Workstation</strong></td>
-                <td>12+ Core x64 (Intel i9 / AMD Ryzen 9)</td>
-                <td>32 GB+ DDR5</td>
-                <td>NVIDIA RTX 4070/4080 (12–16 GB VRAM)</td>
-                <td>100 GB NVMe Gen4 SSD</td>
-                <td>Multi-document parallel batch processing and instant forensic audit rendering.</td>
-              </tr>
-            </tbody>
-          </table>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.8rem;text-align:center;">
+          <div style="background:var(--bg-surface);padding:0.75rem 1rem;border-radius:var(--radius-md);border:1px solid var(--border-subtle);flex:1;min-width:140px;">
+            <span style="color:var(--primary);display:block;font-size:0.7rem;">STAGE 1</span>
+            <strong>Your Local Files</strong>
+          </div>
+          <span style="color:var(--text-dim);">→</span>
+          <div style="background:var(--bg-surface);padding:0.75rem 1rem;border-radius:var(--radius-md);border:1px solid var(--border-subtle);flex:1;min-width:140px;">
+            <span style="color:var(--primary);display:block;font-size:0.7rem;">STAGE 2</span>
+            <strong>Private Workspace</strong>
+          </div>
+          <span style="color:var(--text-dim);">→</span>
+          <div style="background:var(--bg-surface);padding:0.75rem 1rem;border-radius:var(--radius-md);border:1px solid var(--border-subtle);flex:1;min-width:140px;">
+            <span style="color:var(--primary);display:block;font-size:0.7rem;">STAGE 3</span>
+            <strong>Local Intelligence</strong>
+          </div>
+          <span style="color:var(--text-dim);">→</span>
+          <div style="background:var(--bg-surface);padding:0.75rem 1rem;border-radius:var(--radius-md);border:1px solid var(--border-subtle);flex:1;min-width:140px;">
+            <span style="color:var(--status-verified);display:block;font-size:0.7rem;">STAGE 4</span>
+            <strong>Decimal Verification</strong>
+          </div>
+          <span style="color:var(--text-dim);">→</span>
+          <div style="background:var(--bg-surface);padding:0.75rem 1rem;border-radius:var(--radius-md);border:1px solid var(--border-subtle);flex:1;min-width:140px;">
+            <span style="color:var(--status-verified);display:block;font-size:0.7rem;">STAGE 5</span>
+            <strong>Verified Artifact</strong>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Capabilities Section -->
-    <section class="container" id="capabilities">
-      <div class="section-header">
-        <div class="section-label">Enterprise Accounting Modules</div>
-        <h2>Audited Desktop Capabilities</h2>
-        <p>Engineered to handle high-volume financial document reconciliation with deterministic precision.</p>
-      </div>
-
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-icon">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          </div>
-          <h3>Multi-Way Reconciliation</h3>
-          <p>Autonomous two-way and three-way matching between Purchase Orders, Supplier Invoices, and Bank Settlement CSVs with fuzzy vendor matching and tolerance threshold controls.</p>
+    <!-- Pricing Teaser (Strict $99 / mo) -->
+    <section class="container" style="padding-top:1rem;">
+      <div class="card" style="border-color:var(--border-active);text-align:center;max-width:760px;margin:0 auto;padding:3rem 2rem;">
+        <span class="badge badge-primary" style="margin-bottom:0.75rem;">Commercial Subscription</span>
+        <h2 style="font-size:2rem;margin-bottom:0.5rem;">Hijin</h2>
+        <div style="font-size:3rem;font-weight:800;font-family:var(--font-display);color:#fff;margin-bottom:0.25rem;">
+          $99 <span style="font-size:1.1rem;font-weight:500;color:var(--text-muted);">/ month</span>
         </div>
-
-        <div class="card">
-          <div class="card-icon">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          </div>
-          <h3>Deterministic Decimal Precision</h3>
-          <p>Every arithmetic operation uses Python's 28-digit fixed-point <code>decimal.Decimal</code> engine. Eliminates IEEE 754 floating-point inaccuracies entirely.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-          </div>
-          <h3>Forensic Coordinate Grounding</h3>
-          <p>Every extracted invoice line item or discrepancy returns exact bounding box coordinates <code>[x, y, w, h]</code> pointing to the visual location in the source PDF file.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          </div>
-          <h3>Air-Gapped Offline Operation</h3>
-          <p>Ed25519-signed asymmetric cryptographic tokens cache entitlements locally for up to 7 days offline. Unplug your network cable and reconcile freely.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          </div>
-          <h3>Automated Journal Entry Balancing</h3>
-          <p>Inspects double-entry accounting batches. Flags unbalanced debits and credits, improper revenue recognition timing, and duplicate invoice submissions.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          </div>
-          <h3>Multi-Format Audit Artifacts</h3>
-          <p>Exports formal Audit Discrepancy PDF briefs with embedded provenance screenshots, Executive PPTX briefings for leadership, and cleansed reconciliation CSVs.</p>
-        </div>
-      </div>
-
-      <!-- Capability Allowlist & Honest Claims Disclosure -->
-      <div style="margin-top:2.5rem;">
-        <h3 style="margin-bottom:0.75rem;font-size:1.15rem;color:#fff;">Grounded Claims Policy: What Hijin Does vs What It Does Not Claim</h3>
-        <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Workflow Category</th>
-                <th class="col-hijin-header">Verified Capability (What Hijin Does)</th>
-                <th>Explicit Disclaimer (Unsupported Claim Policy)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Arithmetic Precision</strong></td>
-                <td class="col-hijin cell-pass">Deterministic fixed-point decimal engine (0.00000% math drift)</td>
-                <td>Hijin does not claim generic LLM arithmetic is infallible; all calculations bypass token prediction and execute in deterministic Python sandbox code.</td>
-              </tr>
-              <tr>
-                <td><strong>Cognitive Reasoning</strong></td>
-                <td class="col-hijin cell-pass">Grounded document question-answering with bounding box citations</td>
-                <td>Hijin does not claim zero hallucinations without human verification. Ambiguous or blurry invoice scans are flagged for human CPA sign-off.</td>
-              </tr>
-              <tr>
-                <td><strong>Fiduciary Responsibility</strong></td>
-                <td class="col-hijin cell-pass">Accelerates reconciliation and identifies variance anomalies</td>
-                <td>Hijin does not claim to replace a certified public accountant (CPA) or provide independent legal audit opinion. Final sign-off rests with human controllers.</td>
-              </tr>
-              <tr>
-                <td><strong>Data Security</strong></td>
-                <td class="col-hijin cell-pass">100% on-device inference with zero network socket transmission</td>
-                <td>Hijin protects data by never uploading documents. Physical workstation security and OS access controls remain the user's responsibility.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Side-by-Side Competitive Matrix -->
-    <section class="container">
-      <div class="section-header">
-        <div class="section-label">Architectural Advantage</div>
-        <h2>Hijin Desktop vs Alternatives</h2>
-        <p>Why modern accounting teams choose a dedicated local desktop workbench over cloud AI and legacy ERPs.</p>
-      </div>
-
-      <div class="table-wrapper">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Evaluation Criteria</th>
-              <th class="col-hijin-header">Hijin Desktop AI</th>
-              <th>Cloud AI (ChatGPT / Copilot)</th>
-              <th>Legacy ERPs (SAP / NetSuite)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Document Privacy</strong></td>
-              <td class="col-hijin cell-pass">100% Local (Zero Cloud Uploads)</td>
-              <td class="cell-fail">Uploaded to third-party data centers</td>
-              <td class="cell-neutral">Hosted in vendor cloud database</td>
-            </tr>
-            <tr>
-              <td><strong>Math Calculation Method</strong></td>
-              <td class="col-hijin cell-pass">Deterministic Fixed-Point Decimal</td>
-              <td class="cell-fail">Probabilistic Token Prediction (Drift)</td>
-              <td class="cell-pass">Database SQL arithmetic</td>
-            </tr>
-            <tr>
-              <td><strong>Air-Gapped / Offline Use</strong></td>
-              <td class="col-hijin cell-pass">Yes (Full 7-day offline grace)</td>
-              <td class="cell-fail">No (Constant internet required)</td>
-              <td class="cell-fail">No (Cloud connection mandatory)</td>
-            </tr>
-            <tr>
-              <td><strong>Audit Trail Provenance</strong></td>
-              <td class="col-hijin cell-pass">Visual Bounding Boxes [x, y, w, h]</td>
-              <td class="cell-fail">Unverifiable text citations</td>
-              <td class="cell-neutral">Database audit logs only</td>
-            </tr>
-            <tr>
-              <td><strong>Future Model Upgrades</strong></td>
-              <td class="col-hijin cell-pass">Free for active subscribers</td>
-              <td class="cell-fail">Higher subscription tiers required</td>
-              <td class="cell-fail">Expensive multi-year consulting upgrades</td>
-            </tr>
-            <tr>
-              <td><strong>Recurring Cost Model</strong></td>
-              <td class="col-hijin cell-pass">Predictable flat subscription ($79/mo)</td>
-              <td class="cell-fail">Per-token metered billing spikes</td>
-              <td class="cell-fail">Six-figure annual enterprise licensing</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Stranger Pilot Case Study -->
-    <section class="container">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-quote">
-          "In our month-end close at Meridian Logistics, matching 1,420 freight carrier invoices against bill-of-lading manifests normally required three staff accountants four full days. With Hijin running on our local ThinkPad workstations, the entire batch was reconciled in under 20 minutes with zero rounding discrepancies and without uploading a single client bill of lading to the cloud."
+        <p style="color:var(--status-verified);font-weight:600;font-size:0.95rem;margin-bottom:1.5rem;">
+          14-day free trial · No credit card required
         </p>
-        <div class="testimonial-author">
-          <strong>Sarah Jenkins, CPA</strong>
-          <span>Senior Financial Controller · Stranger Pilot Commercial Validator</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Final CTA Section -->
-    <section class="container">
-      <div class="cta-section">
-        <h2>Transform Your Month-End Close Today</h2>
-        <p>Download the 6.58 MB installer in 2 seconds or generate an instant 14-day evaluation key.</p>
-        <div class="cta-actions">
-          <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-xl">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Download Hijin for Windows
-          </a>
-          <a href="pricing.html#trial-generator" class="btn btn-secondary btn-xl">Get Free 14-Day Trial Key</a>
+        <p style="color:var(--text-body);font-size:0.95rem;max-width:540px;margin:0 auto 2rem;">
+          Full local AI, financial intelligence, document understanding, deterministic verification, and Model Hub access.
+        </p>
+        <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+          <a href="pricing.html" class="btn btn-primary btn-lg">Start Free Trial</a>
+          <a href="downloads.html" class="btn btn-secondary btn-lg">Download Installer</a>
         </div>
       </div>
     </section>
@@ -709,52 +251,54 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="brand">
-            <div class="brand-icon" style="width:28px;height:28px;"><img src="assets/hijin_logo.png" alt="" onerror="this.style.display='none'"></div>
-            <span class="brand-wordmark">Hijin</span>
+            <div class="brand-icon" style="width:24px;height:24px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4v16M20 4v16M4 12h16"/>
+              </svg>
+            </div>
+            <span class="brand-wordmark">HIJIN</span>
           </a>
-          <p>Hijin Tech · Enterprise Desktop AI Financial Specialist Workbench</p>
+          <p>Private intelligence, running on your machine.</p>
           <div class="footer-tech-note">
             <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
-            100% Local Inference · Ed25519 Verified · Zero Cloud Data Leaks
+            Local-First Architecture · Ed25519 Signed · Zero Data Telemetry
           </div>
         </div>
         <div class="footer-col">
-          <h4>Product &amp; Releases</h4>
+          <h4>Product</h4>
           <ul class="footer-links">
-            <li><a href="index.html#capabilities">Capabilities</a></li>
-            <li><a href="releases.html">Release Hub &amp; Checksums</a></li>
-            <li><a href="pricing.html">Subscription Pricing</a></li>
-            <li><a href="download.html">Download Windows Installer</a></li>
-            <li><a href="pricing.html#trial-generator">Generate Trial Key</a></li>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="capabilities.html">Capabilities</a></li>
+            <li><a href="models.html">Models Catalog</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+            <li><a href="releases.html">Releases &amp; Checksums</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Documentation</h4>
+          <h4>Resources</h4>
           <ul class="footer-links">
-            <li><a href="docs.html#getting-started">Getting Started</a></li>
-            <li><a href="docs.html#hardware">Hardware &amp; Benchmarks</a></li>
-            <li><a href="docs.html#installation">Installation Guide</a></li>
-            <li><a href="docs.html#model-hub">Dual-Core Model Hub</a></li>
-            <li><a href="docs.html#reconciliation">Reconciliation Engine</a></li>
-            <li><a href="docs.html#licensing">Licensing &amp; Offline Mode</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="security.html">Security Architecture</a></li>
+            <li><a href="support.html">Support &amp; Feedback</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">Community Discussions</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Community &amp; Trust</h4>
+          <h4>Legal &amp; Privacy</h4>
           <ul class="footer-links">
-            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a></li>
-            <li><a href="https://github.com/Aktnyl/Hijin-AI/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
-            <li><a href="privacy.html">Zero-Data Privacy Guarantee</a></li>
+            <li><a href="privacy.html">Privacy Guarantee</a></li>
             <li><a href="terms.html">Terms of Service</a></li>
-            <li><a href="https://huggingface.co/Aktnyl/hijin-neural-pack" target="_blank" rel="noopener noreferrer">Hugging Face Models</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Software License</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <div>&copy; 2026 Hijin Tech. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
+        <div>&copy; 2026 Hijin. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
         <div class="footer-bottom-right">
           <div class="footer-status-dot"></div>
-          Zero tracking cookies · 100% Client-side static distribution
+          Zero surveillance tracking cookies · Static client-side distribution
         </div>
       </div>
     </div>

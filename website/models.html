@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Models — Hijin</title>
+  <meta name="description" content="Curated catalog of official, verified neural models compatible with the Hijin desktop workspace.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-canvas" aria-hidden="true"></div>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4v16M20 4v16M4 12h16"/>
+          </svg>
+        </div>
+        <span class="brand-wordmark">HIJIN</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link ">Product</a></li>
+        <li><a href="capabilities.html" class="nav-link ">Capabilities</a></li>
+        <li><a href="models.html" class="nav-link active">Models</a></li>
+        <li><a href="pricing.html" class="nav-link ">Pricing</a></li>
+        <li><a href="docs.html" class="nav-link ">Docs</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="pricing.html" class="btn btn-secondary btn-sm">Start Trial</a>
+        <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <nav class="nav-mobile-drawer" id="nav-mobile-drawer">
+    <a href="index.html" class="nav-link ">Product</a>
+    <a href="capabilities.html" class="nav-link ">Capabilities</a>
+    <a href="models.html" class="nav-link active">Models Catalog</a>
+    <a href="pricing.html" class="nav-link ">Pricing</a>
+    <a href="docs.html" class="nav-link ">Documentation</a>
+    <a href="downloads.html" class="nav-link ">Downloads</a>
+    <a href="releases.html" class="nav-link">Releases &amp; Checksums</a>
+    <a href="security.html" class="nav-link ">Security Architecture</a>
+    <a href="support.html" class="nav-link ">Support &amp; Community</a>
+    <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <a href="pricing.html" class="btn btn-secondary btn-sm">Start 14-Day Free Trial</a>
+      <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin v1.0.0</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="section-header">
+      <div class="section-label">Official Registry</div>
+      <h1>Hijin Model Catalog</h1>
+      <p>Official, verified neural packages engineered for local execution within the Hijin desktop workspace. Models are installed and managed directly through the application.</p>
+    </div>
+
+    <!-- Notice on Model Installation -->
+    <div class="callout callout-primary" style="margin-bottom:2.5rem;">
+      <h4>Managed In-App Experience</h4>
+      <p style="font-size:0.9rem;color:var(--text-body);">
+        Hijin is designed around a curated, secure model distribution architecture. You do not need to download raw model files manually through your browser. Once the Hijin application is installed, the in-app <strong>Model Hub</strong> handles streaming, SHA-256 checksum verification, and activation.
+      </p>
+    </div>
+
+    <!-- Models Grid -->
+    <div class="grid-2">
+      <!-- Model 1: Hijin Financial Specialist -->
+      <div class="model-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <span class="badge badge-primary">Financial Specialist</span>
+            <h3 style="margin-top:0.5rem;color:#fff;">Hijin Financial Specialist</h3>
+          </div>
+          <span class="badge badge-success">v1.0.0 Stable</span>
+        </div>
+
+        <p style="font-size:0.875rem;color:var(--text-muted);line-height:1.6;">
+          Domain-adapted neural weights fine-tuned specifically for invoice line-item extraction, two-way and three-way purchase order reconciliation, and financial discrepancy detection.
+        </p>
+
+        <div class="model-meta-grid">
+          <div class="model-meta-item">
+            <span>Payload Size:</span>
+            <strong>~6.0 GB</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>Weight Format:</span>
+            <strong>GGUF (Q4_K_M)</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>Context Window:</span>
+            <strong>16,384 tokens</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>Hardware Target:</span>
+            <strong>8 GB+ VRAM (or CPU)</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>Application Version:</span>
+            <strong>Hijin 1.0+</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>License:</span>
+            <strong>Hijin Commercial</strong>
+          </div>
+        </div>
+
+        <div style="margin-top:auto;padding-top:1rem;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">ID: hijin-specialist-4b</span>
+          <span style="font-size:0.8rem;color:var(--primary);font-weight:600;">Managed in Desktop App</span>
+        </div>
+      </div>
+
+      <!-- Model 2: Gemma 3 4B IT -->
+      <div class="model-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <span class="badge badge-primary">General Intelligence</span>
+            <h3 style="margin-top:0.5rem;color:#fff;">Gemma 3 4B IT (Conversation Core)</h3>
+          </div>
+          <span class="badge badge-success">4B-IT-v1.0</span>
+        </div>
+
+        <p style="font-size:0.875rem;color:var(--text-muted);line-height:1.6;">
+          Instruction-tuned foundational reasoning core developed by Google DeepMind. Provides conversational analysis, document query synthesis, and executive briefing memo drafting.
+        </p>
+
+        <div class="model-meta-grid">
+          <div class="model-meta-item">
+            <span>Payload Size:</span>
+            <strong>~6.0 GB</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>Weight Format:</span>
+            <strong>GGUF (Q4_K_M)</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>Context Window:</span>
+            <strong>131,072 tokens</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>Hardware Target:</span>
+            <strong>8 GB+ VRAM (or CPU)</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>Application Version:</span>
+            <strong>Hijin 1.0+</strong>
+          </div>
+          <div class="model-meta-item">
+            <span>License:</span>
+            <strong>Gemma Terms of Use</strong>
+          </div>
+        </div>
+
+        <div style="margin-top:auto;padding-top:1rem;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">ID: gemma-3-4b-it</span>
+          <span style="font-size:0.8rem;color:var(--primary);font-weight:600;">Managed in Desktop App</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 24: Security Notice on Model Packages -->
+    <div class="card" style="margin-top:2.5rem;">
+      <h3>Model Package Integrity &amp; Security Policy</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted);line-height:1.6;">
+        To safeguard enterprise financial integrity, Hijin executes only officially verified, manifest-signed model packages. The application does not permit unauthenticated third-party model uploads, arbitrary web searches, or unverified community GGUF imports. Every model downloaded by the desktop client must pass SHA-256 checksum verification before activation.
+      </p>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand">
+            <div class="brand-icon" style="width:24px;height:24px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4v16M20 4v16M4 12h16"/>
+              </svg>
+            </div>
+            <span class="brand-wordmark">HIJIN</span>
+          </a>
+          <p>Private intelligence, running on your machine.</p>
+          <div class="footer-tech-note">
+            <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
+            Local-First Architecture · Ed25519 Signed · Zero Data Telemetry
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="capabilities.html">Capabilities</a></li>
+            <li><a href="models.html">Models Catalog</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+            <li><a href="releases.html">Releases &amp; Checksums</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul class="footer-links">
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="security.html">Security Architecture</a></li>
+            <li><a href="support.html">Support &amp; Feedback</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">Community Discussions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Privacy</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Guarantee</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Software License</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 Hijin. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
+        <div class="footer-bottom-right">
+          <div class="footer-status-dot"></div>
+          Zero surveillance tracking cookies · Static client-side distribution
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

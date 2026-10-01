@@ -1,17 +1,18 @@
-# Hardware Compatibility Guide
+# Hardware Requirements & Compatibility
 
-Hijin is an edge-native application. All neural inference runs directly on your machine's CPU, GPU, or NPU.
+Hijin is an edge-native desktop application. All neural inference runs directly on your workstation's local hardware (CPU, GPU, or NPU).
 
-## Minimum vs Recommended Specs
+## Validated & Recommended Specifications
 
 | Component | Minimum Specification | Recommended Specification |
 | :--- | :--- | :--- |
-| **Processor** | 4-Core x86_64 CPU (Intel 10th Gen+ / AMD Ryzen 3000+) | 8-Core CPU (Intel 12th Gen+ / AMD Ryzen 5000+) |
-| **Memory (RAM)** | 8 GB System RAM | 16 GB or 32 GB High-Speed RAM |
-| **Graphics (GPU)** | Integrated Intel Iris Xe / AMD Radeon Graphics | Dedicated NVIDIA RTX 3060+ (6 GB+ VRAM) or Apple M-series |
-| **Disk Storage** | 25 GB available space (Standard SSD) | 40 GB available space (NVMe SSD) |
-| **Operating System**| Windows 10 64-bit (20H2+) | Windows 11 64-bit (Latest Build) |
+| **Operating System** | Windows 10 64-bit (1903+) | Windows 11 Pro 64-bit (23H2+) |
+| **Processor** | 64-bit x86_64 Dual-Core CPU | 64-bit Multi-Core Processor |
+| **System Memory (RAM)** | 8 GB System RAM | 16 GB or 32 GB RAM |
+| **Graphics (GPU)** | Integrated Graphics (CPU fallback) | Dedicated NVIDIA GPU with CUDA support (6 GB+ VRAM) |
+| **Disk Storage** | 15 GB available disk space | 25 GB+ available space (NVMe SSD recommended for models) |
 
-## Performance Notes
-* **With 8 GB RAM:** Gemma 3 and the Specialist model run sequentially via CPU offloading. Tokens stream at ~8-14 tokens/sec.
-* **With 16 GB+ RAM / Dedicated GPU:** Both models stay resident in VRAM/RAM simultaneously. Tokens stream at 25-45+ tokens/sec.
+## Operational Modes
+
+* **Standard Memory (8 GB RAM):** Models execute sequentially with CPU multi-threaded offloading. Suitable for batch document processing.
+* **Dedicated GPU / High Memory (16 GB+ RAM / Dedicated VRAM):** Models remain resident in memory for low-latency interactive reconciliation and real-time document analysis.

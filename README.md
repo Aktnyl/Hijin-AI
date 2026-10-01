@@ -60,7 +60,7 @@ curl.exe -L -o "$HOME\Downloads\Hijin_Setup_1.0.0.exe" "https://github.com/Aktny
 | **Operating System** | Windows 10 (64-bit, Build 19041+) or Windows 11 | Windows 11 (64-bit, Latest Build) |
 | **Processor** | 4-Core x86_64 CPU (Intel 10th Gen+ / AMD Ryzen 3000+) | 8-Core CPU (Intel 12th Gen+ / AMD Ryzen 5000+) |
 | **Memory (RAM)** | 8 GB System RAM | 16 GB or 32 GB High-Speed RAM |
-| **Graphics (GPU)** | Integrated Intel Iris Xe / AMD Radeon Vega | NVIDIA RTX 3060+ (6 GB+ VRAM) or Apple M-series equivalent |
+| **Graphics (GPU)** | Integrated Intel Iris Xe / AMD Radeon Vega | Dedicated NVIDIA GPU with CUDA support (6 GB+ VRAM) or Apple Silicon |
 | **Disk Storage** | 25 GB available space (Standard SSD) | 40 GB available space (NVMe SSD) |
 
 See the complete [Hardware Compatibility Guide](docs/hardware.md) for full benchmarks.

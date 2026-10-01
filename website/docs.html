@@ -3,39 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documentation — Hijin Desktop AI Financial Specialist</title>
-  <meta name="description" content="Official technical documentation, hardware benchmarks, installation guide, model architecture, and troubleshooting for Hijin Desktop AI.">
+  <title>Documentation — Hijin</title>
+  <meta name="description" content="Technical and task-oriented documentation for the Hijin desktop AI workspace.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="bg-canvas" aria-hidden="true">
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-  </div>
+  <div class="bg-canvas" aria-hidden="true"></div>
 
   <!-- Site Navigation -->
   <header class="site-header" id="site-header">
     <div class="nav-container">
       <a href="index.html" class="brand">
         <div class="brand-icon">
-          <img src="assets/hijin_logo.png" alt="Hijin Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<svg width=18 height=18 viewBox=\'0 0 24 24\' fill=\'white\'><path d=\'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\'/></svg>'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4v16M20 4v16M4 12h16"/>
+          </svg>
         </div>
-        <span class="brand-wordmark">Hijin</span>
+        <span class="brand-wordmark">HIJIN</span>
       </a>
       <ul class="nav-links" id="nav-links">
-        <li><a href="index.html" class="nav-link ">Overview</a></li>
-        <li><a href="index.html#capabilities" class="nav-link">Capabilities</a></li>
-        <li><a href="releases.html" class="nav-link ">Releases</a></li>
+        <li><a href="index.html" class="nav-link ">Product</a></li>
+        <li><a href="capabilities.html" class="nav-link ">Capabilities</a></li>
+        <li><a href="models.html" class="nav-link ">Models</a></li>
         <li><a href="pricing.html" class="nav-link ">Pricing</a></li>
         <li><a href="docs.html" class="nav-link active">Docs</a></li>
-        <li><a href="download.html" class="nav-link ">Download</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="pricing.html#trial-generator" class="btn btn-secondary btn-sm">Get Free Trial</a>
-        <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm">Download v1.0.0</a>
+        <a href="pricing.html" class="btn btn-secondary btn-sm">Start Trial</a>
+        <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin</a>
       </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
         <span></span><span></span><span></span>
@@ -45,274 +43,166 @@
 
   <!-- Mobile Drawer -->
   <nav class="nav-mobile-drawer" id="nav-mobile-drawer">
-    <a href="index.html" class="nav-link ">Overview</a>
-    <a href="index.html#capabilities" class="nav-link">Capabilities</a>
-    <a href="releases.html" class="nav-link ">Releases &amp; Checksums</a>
-    <a href="pricing.html" class="nav-link ">Pricing Plans</a>
+    <a href="index.html" class="nav-link ">Product</a>
+    <a href="capabilities.html" class="nav-link ">Capabilities</a>
+    <a href="models.html" class="nav-link ">Models Catalog</a>
+    <a href="pricing.html" class="nav-link ">Pricing</a>
     <a href="docs.html" class="nav-link active">Documentation</a>
-    <a href="download.html" class="nav-link ">Download</a>
-    <a href="pricing.html#trial-generator" class="btn btn-secondary btn-sm" style="margin-top:0.75rem;align-self:flex-start;">Get Free Trial Key</a>
-    <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm" style="margin-top:0.5rem;align-self:flex-start;">Download v1.0.0 (.exe)</a>
+    <a href="downloads.html" class="nav-link ">Downloads</a>
+    <a href="releases.html" class="nav-link">Releases &amp; Checksums</a>
+    <a href="security.html" class="nav-link ">Security Architecture</a>
+    <a href="support.html" class="nav-link ">Support &amp; Community</a>
+    <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <a href="pricing.html" class="btn btn-secondary btn-sm">Start 14-Day Free Trial</a>
+      <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin v1.0.0</a>
+    </div>
   </nav>
 
   <main class="docs-layout">
-    <!-- Sticky Table of Contents Sidebar -->
     <aside class="docs-sidebar">
-      <div class="docs-sidebar-header">
-        <span class="badge badge-cyan" style="font-size:0.7rem;">Hijin Workstation v1.0</span>
-      </div>
+      <div style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);margin-bottom:0.75rem;text-transform:uppercase;">Documentation</div>
       <ul class="docs-toc">
-        <li><a href="#getting-started" class="active">1. Getting Started &amp; Arch</a></li>
-        <li><a href="#hardware">2. Hardware &amp; Rig Benchmarks</a></li>
-        <li><a href="#installation">3. Windows Setup &amp; SmartScreen</a></li>
-        <li><a href="#model-hub">4. Dual-Core Model Hub</a></li>
-        <li><a href="#reconciliation">5. Decimal Reconciliation Engine</a></li>
-        <li><a href="#forensic-grounding">6. Forensic Grounding &amp; PDF Export</a></li>
-        <li><a href="#licensing">7. Licensing &amp; Offline Grace</a></li>
-        <li><a href="#troubleshooting">8. Troubleshooting &amp; Error Codes</a></li>
+        <li><a href="#getting-started" class="active">Getting Started</a></li>
+        <li><a href="#installation">Installation Guide</a></li>
+        <li><a href="#first-launch">First Launch &amp; Setup</a></li>
+        <li><a href="#model-hub">Model Hub &amp; Neural Cores</a></li>
+        <li><a href="#documents">Document Processing</a></li>
+        <li><a href="#reconciliation">Financial Reconciliation</a></li>
+        <li><a href="#evidence">Evidence &amp; Artifacts</a></li>
+        <li><a href="#offline">Offline Mode &amp; Licensing</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
       </ul>
-      <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle);">
-        <a href="download.html" class="btn btn-primary btn-sm" style="width:100%;">Download v1.0.0</a>
+      <div style="margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border-subtle);">
+        <a href="downloads.html" class="btn btn-primary btn-sm" style="width:100%;">Download v1.0.0</a>
       </div>
     </aside>
 
-    <!-- Main Documentation Content Body -->
     <article class="docs-content">
-      <!-- Chapter 1 -->
+      <!-- Getting Started -->
       <section id="getting-started" class="docs-section">
-        <div class="section-label">Chapter 1</div>
-        <h2>Getting Started &amp; System Architecture</h2>
+        <div class="section-label">Architecture</div>
+        <h2>Getting Started</h2>
         <p>
-          Hijin is a private, local-first desktop AI workbench engineered specifically for corporate accounting, audit, and finance professionals. Unlike cloud AI tools that ingest your sensitive ledgers onto third-party servers, Hijin runs completely locally on your Windows workstation.
+          Hijin is an autonomous local-first desktop application engineered for corporate accounting, audit reconciliation, and financial document analysis. Unlike cloud SaaS products that transmit ledger contents to third-party APIs, Hijin operates entirely inside your local operating system environment.
         </p>
-
-        <h3>Two-Tier Binary Architecture</h3>
-        <p>
-          Hijin separates the lightweight user application from the high-throughput inference engine:
-        </p>
-        <ul style="margin-left:1.25rem;color:var(--text-sub);line-height:1.7;margin-bottom:1rem;">
-          <li><strong>Desktop Application Shell (Tauri 2):</strong> Native Windows desktop UI compiled in Rust and WebView2. Consumes under 180 MB of RAM while rendering fluid 60 FPS interfaces.</li>
-          <li><strong>Rust Daemon Sidecar (<code>hijin_daemon.exe</code>):</strong> Embedded background process that runs on localhost (<code>127.0.0.1:49210</code>). Handles local SQLite ledger storage, GGUF model memory allocation, and token streaming.</li>
-          <li><strong>Dual-Core Neural Pack:</strong> Local quantized weights loaded directly into CPU RAM or GPU VRAM without requiring an active internet connection.</li>
-        </ul>
-
-        <div class="callout callout-emerald">
-          <h4>Zero Cloud Upload Architecture</h4>
+        <div class="callout callout-primary">
+          <h4>Local Isolation Standard</h4>
           <p>
-            When you drag and drop invoice PDFs, bank statements, or ERP ledgers into Hijin, they are parsed and stored in your local application directory (<code>%LOCALAPPDATA%\Hijin\data</code>). No financial records ever cross your network perimeter.
+            When you import invoices, Purchase Orders, or bank statements into Hijin, they are parsed and indexed locally in <code>%LOCALAPPDATA%\Hijin\data</code>. Documents are never uploaded to Hijin servers or external cloud AI services.
           </p>
         </div>
       </section>
 
-      <!-- Chapter 2 -->
-      <section id="hardware" class="docs-section">
-        <div class="section-label">Chapter 2</div>
-        <h2>Empirical Benchmarks &amp; Tested Rig Specifications</h2>
-        <p>
-          We do not publish theoretical marketing figures. All performance metrics published on this site are grounded in empirical laboratory testing on standard commercial hardware.
-        </p>
-
-        <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Hardware Component</th>
-                <th>Tested Rig Specification</th>
-                <th>Minimum Required</th>
-                <th>Recommended Performance</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Operating System</strong></td>
-                <td>Windows 11 Pro 64-bit (23H2)</td>
-                <td>Windows 10 64-bit (1903+)</td>
-                <td>Windows 11 Pro 64-bit</td>
-              </tr>
-              <tr>
-                <td><strong>Processor (CPU)</strong></td>
-                <td>AMD Ryzen 5 5600X (6 cores, 12 threads)</td>
-                <td>Intel Core i5 (8th Gen+) or AMD Zen 2</td>
-                <td>Intel Core i7/i9 or AMD Ryzen 7/9</td>
-              </tr>
-              <tr>
-                <td><strong>System RAM</strong></td>
-                <td>16 GB DDR4-3200 CL16</td>
-                <td>8 GB System RAM</td>
-                <td>16 GB to 32 GB DDR4/DDR5</td>
-              </tr>
-              <tr>
-                <td><strong>Graphics Card (GPU)</strong></td>
-                <td>NVIDIA GeForce RTX 3060 (6 GB VRAM)</td>
-                <td>Integrated CPU / DirectML Fallback</td>
-                <td>NVIDIA RTX 3060 / 4060+ (6 GB+ VRAM)</td>
-              </tr>
-              <tr>
-                <td><strong>Storage Subsystem</strong></td>
-                <td>1 TB NVMe SSD (PCIe Gen 3.0)</td>
-                <td>15 GB Free Disk Space (HDD compatible)</td>
-                <td>40 GB Free Space on NVMe SSD</td>
-              </tr>
-              <tr>
-                <td><strong>Empirical Test Results</strong></td>
-                <td class="cell-pass"><strong>85 of 85 Tests Passed (100%)</strong></td>
-                <td class="cell-pass">All core tests pass</td>
-                <td class="cell-pass">Zero decimal drift recorded</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3 style="margin-top:1.5rem;">Measured Inference Throughput</h3>
-        <p>
-          On the tested RTX 3060 rig with 6 GB VRAM, the Hijin Financial Specialist (Q4_K_M) achieves <strong>32.8 tokens per second</strong> with 16k context. On CPU-only fallbacks (Ryzen 5), it delivers <strong>14.2 tokens per second</strong>, perfectly suitable for overnight batch document reconciliation.
-        </p>
-      </section>
-
-      <!-- Chapter 3 -->
+      <!-- Installation Guide -->
       <section id="installation" class="docs-section">
-        <div class="section-label">Chapter 3</div>
-        <h2>Windows Installation &amp; SmartScreen Guide</h2>
+        <div class="section-label">Setup</div>
+        <h2>Installation Guide</h2>
         <p>
-          Hijin is packaged as a standard Windows executable installer (<code>Hijin_Setup_1.0.0.exe</code>, 6.58 MB) created with NSIS.
+          Hijin is packaged as an NSIS Windows installer (<code>Hijin_Setup_1.0.0.exe</code>, 6.58 MB) targeting Windows 10 and 11 (64-bit x86_64).
         </p>
-
-        <h3>Installation Directory</h3>
-        <p>
-          By default, Hijin installs to the user profile without requiring elevated Administrator privileges:
-        </p>
-        <div class="code-box">
-          <div class="code-box-header">
-            <span>Default Installation Path</span>
-            <button class="copy-btn">Copy</button>
-          </div>
-          <pre><code>%LOCALAPPDATA%\Programs\Hijin\</code></pre>
-        </div>
-
-        <h3 style="margin-top:1rem;">Navigating Windows SmartScreen</h3>
-        <p>
-          Because Hijin is an independent software release, Windows SmartScreen may display an informational modal stating <em>"Windows protected your PC"</em>:
-        </p>
-        <ol style="margin-left:1.25rem;color:var(--text-sub);line-height:1.7;">
-          <li>Click the <strong>More info</strong> link in the SmartScreen dialog.</li>
-          <li>Confirm the publisher is <strong>Hijin Tech</strong> or the app is <code>Hijin_Setup_1.0.0.exe</code>.</li>
-          <li>Click <strong>Run anyway</strong> to execute the setup wizard.</li>
+        <h3>Installation Procedure:</h3>
+        <ol style="margin-left:1.25rem;color:var(--text-body);line-height:1.75;">
+          <li>Download the validated installer from the <a href="downloads.html" style="color:var(--primary);">Downloads page</a>.</li>
+          <li>Double-click the setup executable. The software installs to <code>%LOCALAPPDATA%\Programs\Hijin\</code> without requiring administrative privileges.</li>
+          <li>If Windows SmartScreen displays a warning modal, select <strong>More info</strong> then <strong>Run anyway</strong>.</li>
         </ol>
       </section>
 
-      <!-- Chapter 4 -->
-      <section id="model-hub" class="docs-section">
-        <div class="section-label">Chapter 4</div>
-        <h2>Dual-Core Model Hub &amp; Weights Management</h2>
+      <!-- First Launch -->
+      <section id="first-launch" class="docs-section">
+        <div class="section-label">Onboarding</div>
+        <h2>First Launch &amp; Activation</h2>
         <p>
-          Hijin features a two-tiered neural architecture designed for specialization and synthesis:
+          Upon launching Hijin for the first time, the application presents the First-Launch Activation Wizard:
         </p>
-
-        <div class="grid-2" style="margin:1rem 0;">
-          <div class="card" style="padding:1.25rem;">
-            <div class="badge badge-cyan" style="margin-bottom:0.5rem;">Core 1: Specialist</div>
-            <h4 style="color:#fff;">Hijin Financial Specialist (6.2 GB)</h4>
-            <p style="font-size:0.85rem;color:var(--text-sub);line-height:1.5;">
-              Domain-adapted model trained on financial ledgers, tax codes, and invoice structures. Outputs structured JSON matching payloads with zero floating-point arithmetic.
-            </p>
-          </div>
-          <div class="card" style="padding:1.25rem;">
-            <div class="badge badge-amber" style="margin-bottom:0.5rem;">Core 2: Synthesizer</div>
-            <h4 style="color:#fff;">Gemma 3 Conversation Core (6.1 GB)</h4>
-            <p style="font-size:0.85rem;color:var(--text-sub);line-height:1.5;">
-              General-domain executive intelligence core for drafting audit variance memos, explaining tax discrepancies, and synthesizing PowerPoint briefings for board meetings.
-            </p>
-          </div>
-        </div>
-
-        <h3>Resumable Model Hub Streaming</h3>
-        <p>
-          The in-app Model Hub streams weights with chunked checksum validation directly from the official Hugging Face CDN. If your network connection drops, the download resumes from the exact byte where it paused.
-        </p>
-      </section>
-
-      <!-- Chapter 5 -->
-      <section id="reconciliation" class="docs-section">
-        <div class="section-label">Chapter 5</div>
-        <h2>Deterministic Decimal Reconciliation Engine</h2>
-        <p>
-          Standard large language models fail at corporate accounting because they hallucinate calculations or use standard IEEE-754 floating-point mathematics, which introduces rounding errors like <code>0.1 + 0.2 = 0.30000000000000004</code>.
-        </p>
-
-        <h3>Fixed 28-Digit Decimal Precision</h3>
-        <p>
-          Hijin delegates all arithmetic to a deterministic Rust mathematical engine using fixed 28-digit precision:
-        </p>
-        <ul style="margin-left:1.25rem;color:var(--text-sub);line-height:1.7;">
-          <li><strong>Two-Way Matching:</strong> Matches Purchase Order line items against Vendor Invoices with exact line-level reconciliation.</li>
-          <li><strong>Three-Way Matching:</strong> Matches Purchase Order, Receiving Inspection Ticket (Goods Receipt Note), and Vendor Invoice with tolerance thresholds configured by the user.</li>
-          <li><strong>Zero Rounding Drift:</strong> Tested across 100,000 synthetic transaction pairs with <strong>0.00000% decimal drift</strong>.</li>
+        <ul style="margin-left:1.25rem;color:var(--text-body);line-height:1.75;">
+          <li><strong>14-Day Free Evaluation:</strong> Click "Start 14-Day Free Trial" to generate an authentic cryptographic evaluation token tied to your workstation. No credit card is required.</li>
+          <li><strong>Commercial License:</strong> If you have an active commercial subscription, enter your license key to activate full offline entitlements.</li>
         </ul>
       </section>
 
-      <!-- Chapter 6 -->
-      <section id="forensic-grounding" class="docs-section">
-        <div class="section-label">Chapter 6</div>
-        <h2>Forensic Grounding &amp; Audit PDF Export</h2>
+      <!-- Model Hub -->
+      <section id="model-hub" class="docs-section">
+        <div class="section-label">Neural Distribution</div>
+        <h2>Model Hub &amp; Neural Cores</h2>
         <p>
-          Every finding generated by Hijin includes verifiable evidence coordinates. If the model flags a $450 variance between an invoice and a purchase order, it displays the bounding-box highlight on the original PDF scan.
+          Hijin separates application binaries from neural weight packages. Models are distributed in <strong>GGUF (Q4_K_M)</strong> format and managed through the in-app Model Hub:
         </p>
+        <ul style="margin-left:1.25rem;color:var(--text-body);line-height:1.75;">
+          <li><strong>Hijin Financial Specialist (~6.0 GB):</strong> Domain-adapted model fine-tuned for two-way/three-way matching and discrepancy verification.</li>
+          <li><strong>Gemma 3 4B IT (~6.0 GB):</strong> General conversational reasoning core licensed under Google Gemma Terms of Use.</li>
+        </ul>
+      </section>
+
+      <!-- Documents -->
+      <section id="documents" class="docs-section">
+        <div class="section-label">Input Data</div>
+        <h2>Document Processing</h2>
         <p>
-          With one click, you can generate an audit-ready <strong>Forensic Verification PDF</strong> or <strong>Executive Briefing PPTX</strong> containing full citations, document hashes, and mathematical proofs ready for partner review or external auditor submission.
+          Hijin processes native PDF files (containing embedded text layers and vector tables), structured CSV records, and JSON accounting streams. All document parsing executes via native background routines with zero network transmission.
         </p>
       </section>
 
-      <!-- Chapter 7 -->
-      <section id="licensing" class="docs-section">
-        <div class="section-label">Chapter 7</div>
-        <h2>Licensing, Cryptographic Verification &amp; Offline Grace</h2>
+      <!-- Reconciliation -->
+      <section id="reconciliation" class="docs-section">
+        <div class="section-label">Verification</div>
+        <h2>Financial Reconciliation &amp; Decimal Engine</h2>
         <p>
-          Hijin uses Ed25519 asymmetric cryptography to sign and verify commercial license tokens.
+          Standard large language models fail at mathematical accounting because they use floating-point mathematics prone to rounding drift. Hijin couples neural parsing with a compiled deterministic math engine:
         </p>
+        <ul style="margin-left:1.25rem;color:var(--text-body);line-height:1.75;">
+          <li>Calculations are verified using fixed 28-digit precision.</li>
+          <li>Two-way matching compares Purchase Orders and Vendor Invoices.</li>
+          <li>Three-way matching reconciles Purchase Orders, Receiving Goods Receipts, and Invoices against user-defined tolerance thresholds.</li>
+        </ul>
+      </section>
 
-        <h3>7-Day Offline Entitlement</h3>
+      <!-- Evidence -->
+      <section id="evidence" class="docs-section">
+        <div class="section-label">Auditability</div>
+        <h2>Evidence &amp; Artifact Generation</h2>
         <p>
-          Unlike aggressive cloud DRM that crashes when you lose internet connectivity, Hijin checks in only once every 7 days. If you are traveling or working in an air-gapped facility, the desktop app functions with 100% capability for up to 7 full days offline.
+          Every finding extracted by Hijin preserves precise spatial coordinates (page number and bounding box). When review is complete, the application generates a self-contained <strong>Forensic Audit PDF</strong> containing verifiable mathematical proofs.
         </p>
       </section>
 
-      <!-- Chapter 8 -->
+      <!-- Offline -->
+      <section id="offline" class="docs-section">
+        <div class="section-label">Network Policy</div>
+        <h2>Offline Mode &amp; Licensing</h2>
+        <p>
+          Hijin checks license status online once every 7 days. If your machine is disconnected for travel or field auditing, it operates with full functionality for up to 7 consecutive days offline.
+        </p>
+      </section>
+
+      <!-- Troubleshooting -->
       <section id="troubleshooting" class="docs-section">
-        <div class="section-label">Chapter 8</div>
-        <h2>Troubleshooting &amp; Common Error Codes</h2>
-        <p>
-          Reference table for resolving setup, daemon connection, or model download errors.
-        </p>
-
+        <div class="section-label">Diagnostics</div>
+        <h2>Troubleshooting &amp; Common Issues</h2>
         <div class="table-wrapper">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Error Code</th>
-                <th>Diagnostic Meaning</th>
-                <th>Recommended Resolution</th>
+                <th>Error Diagnostic</th>
+                <th>Underlying Cause</th>
+                <th>Resolution Procedure</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><code>ERR_DAEMON_PORT_BOUND</code></td>
-                <td>Port 49210 is occupied by another process.</td>
-                <td>Restart Hijin or run <code>Stop-Process -Name hijin_daemon</code> in PowerShell.</td>
+                <td><code>ERR_DAEMON_PORT_CONFLICT</code></td>
+                <td>Port 8765 or loopback interface is occupied.</td>
+                <td>Restart Hijin or terminate conflicting local processes.</td>
               </tr>
               <tr>
-                <td><code>ERR_MODEL_DISK_FULL</code></td>
-                <td>Insufficient disk space to stream GGUF model weights.</td>
-                <td>Ensure at least 15 GB of free disk space is available on the target drive.</td>
+                <td><code>ERR_INSUFFICIENT_DISK</code></td>
+                <td>Target drive has under 15 GB free space for model weights.</td>
+                <td>Free disk space on your local user drive.</td>
               </tr>
               <tr>
-                <td><code>ERR_TOKEN_EXPIRED</code></td>
-                <td>7-day offline grace period has concluded.</td>
-                <td>Connect to the internet briefly to refresh your Ed25519 license token.</td>
-              </tr>
-              <tr>
-                <td><code>ERR_VRAM_FALLBACK</code></td>
-                <td>GPU VRAM was exhausted during large batch processing.</td>
-                <td>Hijin automatically transitions to CPU multi-threaded RAM fallback.</td>
+                <td><code>ERR_GRACE_EXPIRED</code></td>
+                <td>Workstation has exceeded 7 consecutive days offline.</td>
+                <td>Connect to the internet briefly to refresh cryptographic license token.</td>
               </tr>
             </tbody>
           </table>
@@ -327,52 +217,54 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="brand">
-            <div class="brand-icon" style="width:28px;height:28px;"><img src="assets/hijin_logo.png" alt="" onerror="this.style.display='none'"></div>
-            <span class="brand-wordmark">Hijin</span>
+            <div class="brand-icon" style="width:24px;height:24px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4v16M20 4v16M4 12h16"/>
+              </svg>
+            </div>
+            <span class="brand-wordmark">HIJIN</span>
           </a>
-          <p>Hijin Tech · Enterprise Desktop AI Financial Specialist Workbench</p>
+          <p>Private intelligence, running on your machine.</p>
           <div class="footer-tech-note">
             <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
-            100% Local Inference · Ed25519 Verified · Zero Cloud Data Leaks
+            Local-First Architecture · Ed25519 Signed · Zero Data Telemetry
           </div>
         </div>
         <div class="footer-col">
-          <h4>Product &amp; Releases</h4>
+          <h4>Product</h4>
           <ul class="footer-links">
-            <li><a href="index.html#capabilities">Capabilities</a></li>
-            <li><a href="releases.html">Release Hub &amp; Checksums</a></li>
-            <li><a href="pricing.html">Subscription Pricing</a></li>
-            <li><a href="download.html">Download Windows Installer</a></li>
-            <li><a href="pricing.html#trial-generator">Generate Trial Key</a></li>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="capabilities.html">Capabilities</a></li>
+            <li><a href="models.html">Models Catalog</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+            <li><a href="releases.html">Releases &amp; Checksums</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Documentation</h4>
+          <h4>Resources</h4>
           <ul class="footer-links">
-            <li><a href="docs.html#getting-started">Getting Started</a></li>
-            <li><a href="docs.html#hardware">Hardware &amp; Benchmarks</a></li>
-            <li><a href="docs.html#installation">Installation Guide</a></li>
-            <li><a href="docs.html#model-hub">Dual-Core Model Hub</a></li>
-            <li><a href="docs.html#reconciliation">Reconciliation Engine</a></li>
-            <li><a href="docs.html#licensing">Licensing &amp; Offline Mode</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="security.html">Security Architecture</a></li>
+            <li><a href="support.html">Support &amp; Feedback</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">Community Discussions</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Community &amp; Trust</h4>
+          <h4>Legal &amp; Privacy</h4>
           <ul class="footer-links">
-            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a></li>
-            <li><a href="https://github.com/Aktnyl/Hijin-AI/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
-            <li><a href="privacy.html">Zero-Data Privacy Guarantee</a></li>
+            <li><a href="privacy.html">Privacy Guarantee</a></li>
             <li><a href="terms.html">Terms of Service</a></li>
-            <li><a href="https://huggingface.co/Aktnyl/hijin-neural-pack" target="_blank" rel="noopener noreferrer">Hugging Face Models</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Software License</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <div>&copy; 2026 Hijin Tech. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
+        <div>&copy; 2026 Hijin. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
         <div class="footer-bottom-right">
           <div class="footer-status-dot"></div>
-          Zero tracking cookies · 100% Client-side static distribution
+          Zero surveillance tracking cookies · Static client-side distribution
         </div>
       </div>
     </div>

@@ -6,44 +6,42 @@
       "id": "free_trial",
       "name": "14-Day Free Trial",
       "price_monthly": 0,
-      "price_annual": 0,
       "period": "14 days",
       "features": [
-        "Full local document analysis (PDF & scans)",
-        "Deterministic Decimal two-way & three-way matching",
-        "Evidence citations with coordinates & bounding boxes",
-        "Forensic Audit PDF & Executive PPTX export",
-        "In-app model downloader with resumable streaming",
-        "7-day offline entitlement caching"
+        "Local AI inference on your machine",
+        "Full document analysis (PDF & structured tables)",
+        "Deterministic 28-digit decimal reconciliation",
+        "Evidence citations with coordinate grounding",
+        "Audit PDF and structured artifact generation",
+        "Access to official Hijin Model Hub"
       ]
     },
     {
       "id": "specialist_monthly",
-      "name": "Financial Specialist",
-      "price_monthly": 79,
-      "price_annual": 65,
-      "period": "/ user / month",
+      "name": "Hijin Subscription",
+      "price_monthly": 99,
+      "period": "/ month",
       "features": [
-        "Everything in Free Trial with no time expiration",
-        "Free Lifetime Model Upgrades (future 8B+ models included)",
-        "Unlimited local reconciliations (zero per-token meters)",
-        "Full Dual-Core Neural Pack (Gemma 3 + Hijin Specialist)",
-        "Ed25519 cryptographic token with 7-day offline grace",
-        "Priority GitHub Discussions & email support"
+        "Full local AI desktop workspace",
+        "Financial intelligence & multi-document reconciliation",
+        "Document intelligence & PDF parsing",
+        "Evidence-backed answers with bounding boxes",
+        "Audit PDF and structured report generation",
+        "Access to official Hijin Model Hub",
+        "Eligible supported model updates included with active subscription",
+        "Single-user commercial license (up to 2 personal workstations)",
+        "7-day offline grace period between license checks"
       ]
     },
     {
       "id": "institutional_annual",
-      "name": "Institutional & Firm",
+      "name": "Multi-Seat & Organization",
       "price_monthly": 99,
-      "price_annual": 84,
-      "period": "volume discounts",
+      "period": "/ user / month",
       "features": [
-        "Multi-seat floating license server deployment",
-        "Air-gapped USB/LAN model weight distribution packages",
-        "Custom ERP chart of accounts & ledger schema mapping",
-        "Dedicated onboarding engineer & custom fine-tuning",
-        "Invoicing by ACH wire with formal MSA agreement"
+        "Volume workstation licensing",
+        "Centralized license deployment",
+        "Air-gapped deployment packages"
       ]
     }
   ]
