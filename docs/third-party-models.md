@@ -13,7 +13,7 @@ Hijin uses a **Unified Dual-Core Neural Architecture** combining open foundation
 | Attribute | Component 1: Conversation Core | Component 2: Financial Specialist | Component 3: Local Engine |
 | :--- | :--- | :--- | :--- |
 | **Model Name** | **Gemma 3 4B IT** | **Hijin Financial Specialist v1.0** | **llama.cpp / Local Runtime** |
-| **Provider / Author** | Google DeepMind | Hijin Tech / Hanging Clock | Georgi Gerganov & Contributors |
+| **Provider / Author** | Google DeepMind | Hijin Tech / Hijin Tech | Georgi Gerganov & Contributors |
 | **Model Version** | Gemma 3 (4B Parameters, Instruction-Tuned) | 1.0.0 (Wave 3 Production Baseline) | Native Embedded Runtime |
 | **File Format** | GGUF (Quantization: Q4_K_M) | GGUF (Quantization: Q4_K_M) | Native Executable / Dynamic Library |
 | **Payload Size** | ~6.0 GB (6,442,450,944 bytes) | ~6.0 GB (6,442,450,944 bytes) | ~1.2 MB |

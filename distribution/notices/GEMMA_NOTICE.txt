@@ -10,7 +10,7 @@ https://ai.google.dev/gemma/terms
 
 1. ATTRIBUTION & NON-ENDORSEMENT
 Gemma is a trademark of Google LLC. 
-Hijin Tech and Hanging Clock are independent software entities and are NOT 
+Hijin Tech and Hijin Tech are independent software entities and are NOT 
 affiliated with, sponsored by, or endorsed by Google LLC. 
 
 2. RESPONSIBLE USE POLICY

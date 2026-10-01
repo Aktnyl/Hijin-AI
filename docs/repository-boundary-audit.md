@@ -24,7 +24,7 @@ Every file and directory across the project is evaluated and assigned exactly on
 
 * **[A] PUBLIC-SAFE:** Safe for public distribution as-is (e.g., open static marketing assets, generic notices).
 * **[B] PUBLIC-SAFE AFTER SANITIZATION:** User-facing content that must be stripped of internal development flags, private endpoints, or local machine absolute paths before publication.
-* **[C] PRIVATE / PROPRIETARY:** Intellectual property of Hijin Tech / Hanging Clock. Must remain in the private repository.
+* **[C] PRIVATE / PROPRIETARY:** Intellectual property of Hijin Tech / Hijin Tech. Must remain in the private repository.
 * **[D] SECRET / CREDENTIAL / CRYPTOGRAPHIC MATERIAL:** Private keys, signing credentials, API tokens, webhook secrets. Strictly prohibited from public export.
 * **[E] THIRD-PARTY / LICENSE-RESTRICTED:** Materials governed by upstream licenses (e.g., Google Gemma 3 Terms of Use, open-source npm/cargo packages). Requires explicit attribution and notice files.
 * **[F] MODEL / LARGE-BINARY DISTRIBUTION:** Artifacts exceeding GitHub's file storage thresholds (~12 GB neural weights, compiled NSIS setup exe). Must be distributed via dedicated external infrastructure (Hugging Face Hub LFS, GitHub Releases CDN).
