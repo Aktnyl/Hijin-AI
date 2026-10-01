@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download Hijin — Desktop AI Financial Workbench</title>
-  <meta name="description" content="Download Hijin for Windows. The local-first AI financial specialist workbench. Lightweight 6.58 MB installer, in-app model streaming, 100% offline operation.">
+  <title>Download Hijin — Desktop AI Financial Specialist Workbench</title>
+  <meta name="description" content="Download Hijin for Windows. Lightweight 6.58 MB installer, in-app model streaming, 100% offline local inference. Zero cloud document uploads.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,40 +17,43 @@
     <div class="bg-orb bg-orb-2"></div>
   </div>
 
+  <!-- Site Navigation -->
   <header class="site-header" id="site-header">
     <div class="nav-container">
       <a href="index.html" class="brand">
         <div class="brand-icon">
-          <img src="assets/hijin_logo.png" alt="Hijin Logo" onerror="this.style.display='none'">
+          <img src="assets/hijin_logo.png" alt="Hijin Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<svg width=18 height=18 viewBox=\'0 0 24 24\' fill=\'white\'><path d=\'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\'/></svg>'">
         </div>
         <span class="brand-wordmark">Hijin</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="index.html" class="nav-link">Overview</a></li>
-        <li><a href="index.html#capabilities" class="nav-link">Capabilities</a>
-    <a href="releases.html" class="nav-link">Releases</a></li>
-        <li><a href="releases.html" class="nav-link">Releases</a></li>
-        <li><a href="pricing.html" class="nav-link">Pricing</a></li>
-        <li><a href="docs.html" class="nav-link">Docs</a></li>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link ">Overview</a></li>
+        <li><a href="index.html#capabilities" class="nav-link">Capabilities</a></li>
+        <li><a href="releases.html" class="nav-link ">Releases</a></li>
+        <li><a href="pricing.html" class="nav-link ">Pricing</a></li>
+        <li><a href="docs.html" class="nav-link ">Docs</a></li>
         <li><a href="download.html" class="nav-link active">Download</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="download.html?plan=trial" class="btn btn-primary btn-sm">Start Free Trial</a>
+        <a href="pricing.html#trial-generator" class="btn btn-secondary btn-sm">Get Free Trial</a>
+        <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm">Download v1.0.0</a>
       </div>
-      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
+  <!-- Mobile Drawer -->
   <nav class="nav-mobile-drawer" id="nav-mobile-drawer">
-    <a href="index.html" class="nav-link">Overview</a>
+    <a href="index.html" class="nav-link ">Overview</a>
     <a href="index.html#capabilities" class="nav-link">Capabilities</a>
-    <a href="releases.html" class="nav-link">Releases</a>
-    <a href="pricing.html" class="nav-link">Pricing</a>
-    <a href="docs.html" class="nav-link">Documentation</a>
+    <a href="releases.html" class="nav-link ">Releases &amp; Checksums</a>
+    <a href="pricing.html" class="nav-link ">Pricing Plans</a>
+    <a href="docs.html" class="nav-link ">Documentation</a>
     <a href="download.html" class="nav-link active">Download</a>
-    <a href="download.html?plan=trial" class="btn btn-primary btn-sm" style="margin-top:0.75rem;align-self:flex-start;">Start Free Trial</a>
+    <a href="pricing.html#trial-generator" class="btn btn-secondary btn-sm" style="margin-top:0.75rem;align-self:flex-start;">Get Free Trial Key</a>
+    <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm" style="margin-top:0.5rem;align-self:flex-start;">Download v1.0.0 (.exe)</a>
   </nav>
 
   <main>
@@ -58,7 +61,7 @@
       <div class="hero-badge-row">
         <span class="badge badge-success"><span class="badge-dot"></span>Official Release v1.0.0</span>
         <span class="badge badge-cyan">Windows 10 / 11 · x64</span>
-        <span class="badge badge-amber">6.58 MB Lightweight Installer</span>
+        <span class="badge badge-amber">6.58 MB Lightweight Setup</span>
       </div>
       <h1>Download<br><span class="gradient-text">Hijin Workbench</span></h1>
       <p class="hero-subtitle">
@@ -74,7 +77,7 @@
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
             14-Day Free Evaluation Selected
           </h4>
-          <p>Download the installer below. When launched, select "Start 14-Day Free Trial" or enter your key from the pricing page. No credit card required.</p>
+          <p>Download the installer below. When launched, select "Start 14-Day Free Trial" or paste your key from the <a href="pricing.html#trial-generator" style="color:var(--cyan);font-weight:600;">Pricing Trial Generator</a>. No credit card required.</p>
         </div>
       </div>
       <div id="monthly-banner" style="display:none;">
@@ -91,287 +94,205 @@
       </div>
     </section>
 
-    <!-- Download Options Grid -->
+    <!-- Primary Download Box -->
     <section class="container" style="padding-top:0;">
-      <div class="section-header reveal">
-        <div class="section-label">Distribution Architecture</div>
-        <h2>Select Your Deployment Method</h2>
-        <p>Choose between our high-speed smart installer, local Ollama hub integration, or pre-bundled enterprise air-gap packages.</p>
-      </div>
+      <div class="card download-card reveal">
+        <div class="download-icon">
+          <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </div>
+        <div class="download-size-badge">
+          <span>Hijin_Setup_1.0.0.exe</span>
+          <span>·</span>
+          <span>6.58 MB (6,579,864 bytes)</span>
+          <span>·</span>
+          <span style="color:var(--emerald-light);">Production Stable</span>
+        </div>
+        <h2 style="font-size:1.75rem;font-weight:800;letter-spacing:-0.02em;margin-top:0.25rem;">Download Hijin for Windows</h2>
+        <p style="color:var(--text-muted);font-size:0.95rem;max-width:560px;">
+          Includes the native Tauri 2 desktop shell, packaged Rust daemon sidecar (<code>hijin_daemon.exe</code>), and local SQLite database engine.
+        </p>
 
-      <div class="grid-3">
-        <!-- Option 1: Smart Installer (Recommended) -->
-        <div class="card download-card reveal reveal-delay-1" style="border-color:var(--border-active);box-shadow:var(--shadow-lg),var(--shadow-glow);">
-          <div class="download-icon" style="background:rgba(99,102,241,0.18);box-shadow:0 0 24px rgba(99,102,241,0.3);">
-            <svg width="32" height="32" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-xl" id="main-download-btn" data-download-installer style="margin: 0.5rem 0;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Download Installer (6.58 MB)
+        </a>
+
+        <!-- SHA-256 verification hash -->
+        <div style="width:100%;max-width:620px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;font-size:0.75rem;color:var(--text-dim);">
+            <span>SHA-256 Checksum:</span>
+            <button class="btn btn-ghost btn-sm" data-copy-hash style="padding:2px 8px;font-size:0.72rem;">Copy SHA-256</button>
           </div>
-          <h3>Smart Installer <span class="badge badge-success" style="font-size:0.65rem;vertical-align:middle;margin-left:0.35rem;">Recommended</span></h3>
-          <p style="font-size:0.85rem;color:var(--text-muted);">
-            Installs the lightweight Tauri 2 desktop app in ~2 seconds. The in-app Model Hub streams the ~6 GB Hijin Financial Specialist model directly with multi-threaded pause/resume support.
-          </p>
-          <span class="download-size-badge" style="border-color:rgba(16,185,129,0.25);color:#34d399;">
-            <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            6.58 MB setup · In-app model stream
-          </span>
-          <div style="display:flex;flex-direction:column;gap:0.5rem;width:100%;margin-top:0.5rem;">
-            <div class="download-step">
-              <div class="download-step-num">1</div>
-              <span>Download &amp; launch <strong>Hijin_Setup_1.0.0.exe</strong> (6.58 MB)</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">2</div>
-              <span>Sign in / activate 14-day free trial or enter license key</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">3</div>
-              <span>In-app Model Hub streams the 6 GB specialist model with progress bar</span>
-            </div>
-          </div>
-          <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-primary" id="main-download-btn" style="width:100%;margin-top:0.75rem;" download data-download-installer>
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Download Smart Installer (6.58 MB)
-          </a>
+          <div class="hash-display">4b68e9102c98d63d0473919ad7783fe1f7a07ceef77800742f9b8c0352ef2e55</div>
         </div>
 
-        <!-- Option 2: Connected Hub (Bring Your Own Ollama) -->
-        <div class="card download-card reveal reveal-delay-2">
-          <div class="download-icon" style="background:rgba(34,211,238,0.1);border-color:rgba(34,211,238,0.2);">
-            <svg width="32" height="32" fill="none" stroke="#22d3ee" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <!-- PowerShell One-Liner Box -->
+        <div style="width:100%;max-width:620px;text-align:left;margin-top:0.75rem;">
+          <div class="code-box">
+            <div class="code-box-header">
+              <span>PowerShell Direct Install</span>
+              <span>1-Click Copy</span>
+            </div>
+            <pre><code>Invoke-WebRequest -Uri "https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" -OutFile "$env:USERPROFILE\Downloads\Hijin_Setup_1.0.0.exe"</code></pre>
           </div>
-          <h3>Connected Hub (BYO Ollama)</h3>
-          <p style="font-size:0.85rem;color:var(--text-muted);">
-            Already have Ollama running locally with Gemma 3? Hijin auto-detects <code>127.0.0.1:11434</code> on launch and re-uses your local weights with zero redundant downloads.
-          </p>
-          <span class="download-size-badge" style="border-color:rgba(34,211,238,0.25);color:#22d3ee;">
-            <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            6.58 MB setup · Zero model download
-          </span>
-          <div style="display:flex;flex-direction:column;gap:0.5rem;width:100%;margin-top:0.5rem;">
-            <div class="download-step">
-              <div class="download-step-num">1</div>
-              <span>Ensure Ollama is running (<code>ollama serve</code>)</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">2</div>
-              <span>Install Hijin Desktop App (6.58 MB)</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">3</div>
-              <span>Workbench connects automatically and binds local math verification</span>
-            </div>
-          </div>
-          <a href="https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe" class="btn btn-secondary" style="width:100%;margin-top:0.75rem;" download data-download-installer>
-            Download Connected Hub (6.58 MB)
-          </a>
-        </div>
-
-        <!-- Option 3: Institutional Air-Gap -->
-        <div class="card download-card reveal reveal-delay-3">
-          <div class="download-icon" style="background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.18);">
-            <svg width="32" height="32" fill="none" stroke="#fcd34d" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-          </div>
-          <h3>Enterprise Air-Gap Package</h3>
-          <p style="font-size:0.85rem;color:var(--text-muted);">
-            For audit departments with zero-internet security policies. Includes full pre-bundled offline models (12.4 GB ISO/ZIP archive) and cryptographic offline token packs.
-          </p>
-          <span class="download-size-badge" style="border-color:rgba(245,158,11,0.2);color:#fcd34d;">
-            <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-            12.4 GB bundle · Offline ISO / USB
-          </span>
-          <div style="display:flex;flex-direction:column;gap:0.5rem;width:100%;margin-top:0.5rem;">
-            <div class="download-step">
-              <div class="download-step-num">1</div>
-              <span>Request institutional multi-seat bundle from sales</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">2</div>
-              <span>Deploy via private corporate LAN share or encrypted USB image</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">3</div>
-              <span>Distribute air-gap Ed25519 tokens — 100% offline activation</span>
-            </div>
-          </div>
-          <a href="mailto:enterprise@hijintech.com" class="btn btn-secondary" style="width:100%;margin-top:0.75rem;border-color:rgba(245,158,11,0.3);color:#fcd34d;">
-            Contact Enterprise Sales
-          </a>
         </div>
       </div>
     </section>
 
-    <!-- Hardware & Storage Readiness Checker -->
-    <section class="container" style="padding-top:0;">
-      <div class="hw-checker-card reveal">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:0.75rem;">
+    <!-- Interactive Hardware Readiness Diagnostic Calculator -->
+    <section class="container reveal">
+      <div class="hw-checker-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
           <div>
-            <div class="section-label" style="margin-bottom:0.25rem;">Diagnostic Pre-Flight</div>
-            <h3 style="font-size:1.2rem;margin:0;">Hardware &amp; Storage Readiness Checker</h3>
+            <div class="badge"><span class="badge-dot"></span>Hardware Compatibility Diagnostic</div>
+            <h3 style="margin-top:0.5rem;font-size:1.35rem;font-weight:800;">Hardware Readiness Assessment</h3>
+            <p style="color:var(--text-muted);font-size:0.88rem;max-width:620px;">
+              Select your workstation specifications to see how the Dual-Core Neural Pack will allocate in your memory and predict your streaming token throughput.
+            </p>
           </div>
-          <span class="status-pill status-verified" id="hw-result-badge">✓ Hardware Verified: Optimal Performance</span>
         </div>
-        <p style="color:var(--text-muted);font-size:0.88rem;">
-          Select your workstation specs to verify local AI inference capability and calculate expected model performance before downloading.
-        </p>
 
         <div class="hw-options-grid">
           <div class="hw-option-box">
-            <div class="hw-option-label">System RAM</div>
+            <div class="hw-option-label">System Memory (RAM)</div>
             <select class="hw-select" id="hw-ram">
-              <option value="8">8 GB RAM (Minimum)</option>
-              <option value="16" selected>16 GB RAM (Recommended)</option>
-              <option value="32">32 GB RAM (High-Performance)</option>
-              <option value="64">64 GB RAM (Enterprise)</option>
+              <option value="8">8 GB (Minimum)</option>
+              <option value="16" selected>16 GB (Recommended / Tested Sweet Spot)</option>
+              <option value="32">32 GB (High Performance)</option>
+              <option value="64">64 GB (Enterprise Workstation)</option>
             </select>
           </div>
+
           <div class="hw-option-box">
-            <div class="hw-option-label">Free SSD Storage</div>
+            <div class="hw-option-label">Free Disk Space</div>
             <select class="hw-select" id="hw-storage">
-              <option value="10">10 GB Free</option>
-              <option value="25" selected>25 GB Free (Recommended)</option>
-              <option value="50">50+ GB Free (Optimal)</option>
+              <option value="15">15 GB (Setup Only)</option>
+              <option value="25">25 GB (Minimum Full)</option>
+              <option value="40" selected>40 GB (Recommended NVMe)</option>
+              <option value="100">100 GB+ (Enterprise)</option>
             </select>
           </div>
+
           <div class="hw-option-box">
-            <div class="hw-option-label">GPU Acceleration</div>
+            <div class="hw-option-label">Graphics Card (GPU)</div>
             <select class="hw-select" id="hw-gpu">
-              <option value="cpu">CPU Inference (Multi-threaded AVX2)</option>
-              <option value="directml">DirectML (Intel Iris / AMD Radeon)</option>
-              <option value="cuda" selected>NVIDIA RTX (CUDA Acceleration)</option>
+              <option value="integrated">Intel / AMD Integrated (CPU Fallback)</option>
+              <option value="cuda" selected>NVIDIA RTX 3060 / 4060 (6–8 GB VRAM)</option>
+              <option value="cuda-high">NVIDIA RTX 4080 / 4090 (16–24 GB VRAM)</option>
+              <option value="apple">Apple Silicon M-Series (Unified Memory)</option>
             </select>
           </div>
         </div>
 
         <div class="hw-assessment-banner">
-          <div style="font-size:0.85rem;color:var(--text-main);" id="hw-result-text">
-            Your workstation has sufficient memory and high-speed NVMe storage to run both the <strong>Hijin Financial Specialist (6 GB)</strong> and <strong>Gemma 3 Conversation Core (6 GB)</strong> entirely locally. GPU offload enabled via NVIDIA CUDA.
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.35rem;">
+              <span class="status-pill status-verified" id="hw-result-badge">✓ Hardware Verified: Optimal Performance</span>
+            </div>
+            <div style="font-size:0.85rem;color:var(--text-sub);line-height:1.5;" id="hw-result-text">
+              Your workstation has sufficient memory and high-speed NVMe storage to run both the <strong>Hijin Financial Specialist (6.2 GB)</strong> and <strong>Gemma 3 Conversation Core (6.1 GB)</strong> entirely locally.
+            </div>
           </div>
-          <div style="font-size:0.78rem;color:var(--emerald-light);font-family:var(--mono);font-weight:600;" id="hw-eta-text">
-            Expected Inference Speed: ~45–60 tokens/sec (High-speed RTX)
+          <div style="text-align:right;font-family:var(--mono);font-size:0.85rem;color:var(--emerald-light);font-weight:700;" id="hw-eta-text">
+            Expected Inference Speed: ~32–40 tokens/sec (RTX CUDA)
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Component Breakdown: How the Package Works -->
-    <section class="container" style="padding-top:0;">
-      <div class="section-header reveal">
-        <div class="section-label">Architecture Deep-Dive</div>
-        <h2>What Makes Up the Full Stack</h2>
-        <p>Hijin decouples the lightweight desktop application from neural weights so you only download what you need.</p>
+    <!-- The Smart 2-Tier Architecture Explained -->
+    <section class="container reveal">
+      <div class="section-header">
+        <div class="section-label">Smart Delivery Architecture</div>
+        <h2>Why is the Setup File Only 6.58 MB?</h2>
+        <p>We engineered a modern two-tier distribution system to prevent massive multi-gigabyte browser download failures.</p>
       </div>
 
-      <div class="grid-2 reveal">
-        <!-- Component Breakdown -->
-        <div class="card" style="padding:1.75rem;">
-          <h3 style="margin-bottom:1.25rem;font-size:0.85rem;color:var(--indigo-light);text-transform:uppercase;letter-spacing:0.06em;">Modular Component Weights</h3>
-
-          <div class="dist-tier">
-            <div class="dist-tier-icon" style="background:rgba(99,102,241,0.12);">
-              <svg width="18" height="18" fill="none" stroke="#818cf8" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
-            </div>
-            <div class="dist-tier-text">
-              <h4>Hijin Desktop App (Tauri 2 + Rust)</h4>
-              <p>Native UI runtime, supervisory daemon, fixed-point math engine — <strong style="color:var(--text-sub)">6.58 MB (.exe setup)</strong></p>
-            </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon" style="background:rgba(99,102,241,0.15);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
           </div>
+          <h3>Tier 1: Desktop Shell &amp; Daemon (6.58 MB)</h3>
+          <p>
+            The initial Windows installer downloads in under 3 seconds. It deploys the native Tauri 2 application, the Rust background daemon (<code>hijin_daemon.exe</code>), cryptographic license manager, and local SQLite document database.
+          </p>
+        </div>
 
-          <div class="dist-tier" style="border-color:var(--border-active);">
-            <div class="dist-tier-icon" style="background:rgba(16,185,129,0.12);">
-              <svg width="18" height="18" fill="none" stroke="#34d399" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            </div>
-            <div class="dist-tier-text">
-              <h4>Unified Dual-Core AI Engine Pack (~12.0 GB Total)</h4>
-              <p>
-                <strong>Gemma 3 Conversation Cortex (~6.0 GB)</strong> for general comprehension &amp; user dialogue + 
-                <strong>Hijin Financial Specialist (~6.0 GB)</strong> for deterministic mathematical audit &amp; reconciliation. Packaged together so natural language queries bridge directly to fixed-point math verification.
-              </p>
-            </div>
+        <div class="card">
+          <div class="card-icon" style="background:rgba(16,185,129,0.15);color:var(--emerald-light);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
           </div>
+          <h3>Tier 2: In-App AI Model Hub (~12.3 GB)</h3>
+          <p>
+            When you launch Hijin, the built-in Model Hub streams the fine-tuned neural weights with pause, resume, background downloading, and SHA-256 chunk validation. If you already have local GGUF models or Ollama, Hijin detects and links them instantly.
+          </p>
+        </div>
+      </div>
+    </section>
 
-          <div class="dist-tier">
-            <div class="dist-tier-icon" style="background:rgba(34,211,238,0.08);">
-              <svg width="18" height="18" fill="none" stroke="#67e8f9" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            </div>
-            <div class="dist-tier-text">
-              <h4>Future Model Upgrades Included (No Extra Fee)</h4>
-              <p>Active subscribers receive all future fine-tuned model releases, higher parameter checkpoints, and expanded domain capabilities directly in the in-app Model Hub without extra charges.</p>
-            </div>
+    <!-- Step-by-Step Installation Walkthrough -->
+    <section class="container reveal">
+      <div class="section-header">
+        <div class="section-label">Fast Setup</div>
+        <h2>Step-by-Step Windows Installation</h2>
+        <p>From download to your first automated reconciliation in four easy steps.</p>
+      </div>
+
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-num-col">
+            <div class="step-num">1</div>
+            <div class="step-connector"></div>
           </div>
-
-          <div class="dist-tier" style="margin-bottom:0;">
-            <div class="dist-tier-icon" style="background:rgba(124,58,237,0.1);">
-              <svg width="18" height="18" fill="none" stroke="#a78bfa" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-            </div>
-            <div class="dist-tier-text">
-              <h4>Cryptographic Entitlement Cache</h4>
-              <p>P26 Ed25519 offline license engine — <strong style="color:var(--text-sub)">&lt;5 MB on disk</strong></p>
-            </div>
+          <div class="step-content">
+            <h4>Download the Validated Installer</h4>
+            <p>Click the download button above to get <code>Hijin_Setup_1.0.0.exe</code> (6.58 MB) directly from our official GitHub release CDN.</p>
           </div>
         </div>
 
-        <!-- In-App Downloader Benefits -->
-        <div class="card" style="padding:1.75rem;">
-          <h3 style="margin-bottom:1.25rem;color:var(--indigo-light);text-transform:uppercase;letter-spacing:0.06em;font-size:0.85rem;">Why In-App Model Streaming?</h3>
-          <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1.25rem;">
-            Downloading large AI model files inside the desktop application eliminates the failure points of traditional web browser downloads:
-          </p>
-
-          <div style="display:flex;flex-direction:column;gap:0.6rem;">
-            <div class="download-step">
-              <div class="download-step-num">✓</div>
-              <span><strong>Byte-for-byte resumable transfers</strong> — if your connection drops, it resumes without restarting</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">✓</div>
-              <span><strong>SHA-256 chunk integrity verification</strong> — each 64 MB block is verified to guarantee zero model corruption</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">✓</div>
-              <span><strong>Lightweight application updates</strong> — app bug fixes only download ~10 MB patches, never re-downloading the 12 GB models</span>
-            </div>
-            <div class="download-step">
-              <div class="download-step-num">✓</div>
-              <span><strong>Zero SmartScreen freezes</strong> — 6.58 MB binary passes Windows security checks immediately</span>
-            </div>
+        <div class="step-item">
+          <div class="step-num-col">
+            <div class="step-num">2</div>
+            <div class="step-connector"></div>
           </div>
+          <div class="step-content">
+            <h4>Run the Setup Wizard (Windows SmartScreen)</h4>
+            <p>
+              Double-click the setup file. If Windows SmartScreen displays "Windows protected your PC", click <strong>More info</strong> and select <strong>Run anyway</strong> (standard for new software builds). The installer deploys to <code>%LOCALAPPDATA%\Programs\Hijin</code> without requiring Administrator privileges.
+            </p>
+          </div>
+        </div>
 
-          <div class="callout" style="margin-top:1.25rem;padding:1rem 1.25rem;">
-            <h4 style="font-size:0.85rem;margin-bottom:0.4rem;">Model Stream Speed Estimates (6.0 GB Model)</h4>
-            <p style="font-size:0.8rem;">
-              50 Mbps ≈ 16 min &nbsp;·&nbsp; 150 Mbps ≈ 5.5 min &nbsp;·&nbsp; 500 Mbps ≈ 1.6 min &nbsp;·&nbsp; 1 Gbps ≈ 48 sec
+        <div class="step-item">
+          <div class="step-num-col">
+            <div class="step-num">3</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h4>Activate Evaluation or Commercial License</h4>
+            <p>
+              Launch Hijin from your Start menu or Desktop shortcut. The First-Launch Wizard prompts you to enter your License Key or click "Start 14-Day Free Evaluation". An Ed25519 cryptographic token is saved locally to your system.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num-col">
+            <div class="step-num">4</div>
+          </div>
+          <div class="step-content">
+            <h4>Stream Local Models &amp; Begin Reconciling</h4>
+            <p>
+              The in-app Model Hub downloads the Dual-Core Neural Pack (~12.3 GB) or connects to your existing local Ollama instance. Drag-and-drop your bank statement CSVs and supplier invoice PDFs to begin reconciling!
             </p>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- Build Verification -->
-    <section class="container" style="padding-top:0;">
-      <div class="card reveal" style="padding:1.75rem;">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;">
-          <div>
-            <h3 style="font-size:1rem;margin-bottom:0.3rem;">Cryptographic Release Verification</h3>
-            <p style="font-size:0.85rem;color:var(--text-muted);">Validate the authenticity and integrity of the release installer before execution.</p>
-          </div>
-          <span class="badge badge-success">v1.0.0-stable</span>
-        </div>
-
-        <div class="hash-display">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
-            <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--indigo-light);font-weight:700;">SHA-256 · Hijin_Setup_1.0.0.exe</span>
-            <button class="btn btn-ghost btn-sm" data-copy-hash style="padding:0.15rem 0.5rem;font-size:0.7rem;">Copy Hash</button>
-          </div>
-          3d74cbdd8142ecd8c77b9c8d6e04faa6175bd129e9f9ad6f7d2fdb49e62d9172
-        </div>
-
-        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.5rem;">
-          <a href="docs.html#installation" class="btn btn-ghost btn-sm">Installation Guide →</a>
-          <a href="https://github.com/Aktnyl/Hijin-AI/blob/main/https://github.com/Aktnyl/Hijin-AI/blob/main/distribution/manifests/hijin-distribution-v1.json" class="btn btn-ghost btn-sm">Release Manifest (latest.json)</a>
-        </div>
-      </div>
-    </section>
   </main>
 
+  <!-- Site Footer -->
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-grid">
@@ -380,50 +301,53 @@
             <div class="brand-icon" style="width:28px;height:28px;"><img src="assets/hijin_logo.png" alt="" onerror="this.style.display='none'"></div>
             <span class="brand-wordmark">Hijin</span>
           </a>
-          <p>Hijin Tech · Desktop AI Financial Specialist Workbench</p>
+          <p>Hijin Tech · Enterprise Desktop AI Financial Specialist Workbench</p>
           <div class="footer-tech-note">
             <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
-            Ed25519 Verified · 6.58 MB NSIS Bundle
+            100% Local Inference · Ed25519 Verified · Zero Cloud Data Leaks
           </div>
         </div>
         <div class="footer-col">
-          <h4>Product</h4>
+          <h4>Product &amp; Releases</h4>
           <ul class="footer-links">
             <li><a href="index.html#capabilities">Capabilities</a></li>
-            <li><a href="releases.html">Releases &amp; Checksums</a></li>
-            <li><a href="pricing.html">Pricing Plans</a></li>
-            <li><a href="download.html">Download</a></li>
+            <li><a href="releases.html">Release Hub &amp; Checksums</a></li>
+            <li><a href="pricing.html">Subscription Pricing</a></li>
+            <li><a href="download.html">Download Windows Installer</a></li>
+            <li><a href="pricing.html#trial-generator">Generate Trial Key</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Documentation</h4>
           <ul class="footer-links">
             <li><a href="docs.html#getting-started">Getting Started</a></li>
-            <li><a href="docs.html#activation">License Activation</a></li>
-            <li><a href="docs.html#offline">Offline Usage</a></li>
+            <li><a href="docs.html#hardware">Hardware &amp; Benchmarks</a></li>
+            <li><a href="docs.html#installation">Installation Guide</a></li>
+            <li><a href="docs.html#model-hub">Dual-Core Model Hub</a></li>
+            <li><a href="docs.html#reconciliation">Reconciliation Engine</a></li>
+            <li><a href="docs.html#licensing">Licensing &amp; Offline Mode</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Legal</h4>
+          <h4>Community &amp; Trust</h4>
           <ul class="footer-links">
-            <li><a href="privacy.html">Privacy Guarantee</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a></li>
+            <li><a href="https://github.com/Aktnyl/Hijin-AI/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
+            <li><a href="privacy.html">Zero-Data Privacy Guarantee</a></li>
             <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="https://huggingface.co/Aktnyl/hijin-neural-pack" target="_blank" rel="noopener noreferrer">Hugging Face Models</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <div>&copy; 2026 Hijin Tech. All rights reserved.</div>
+        <div>&copy; 2026 Hijin Tech. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
         <div class="footer-bottom-right">
           <div class="footer-status-dot"></div>
-          Zero tracking cookies · Static distribution
+          Zero tracking cookies · 100% Client-side static distribution
         </div>
       </div>
     </div>
   </footer>
-
-  <button class="fab-top" id="fab-top" title="Back to top" aria-label="Scroll to top">
-    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-  </button>
 
   <script src="app.js"></script>
 </body>
