@@ -1,48 +1,68 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
   "currency": "USD",
   "tiers": [
     {
       "id": "free_trial",
       "name": "14-Day Free Trial",
-      "price_monthly": 0,
+      "price": 0,
       "period": "14 days",
+      "badge": "No Credit Card",
+      "description": "Evaluate Hijin on your own accounting documents before purchasing. 100% local, instant evaluation.",
       "features": [
         "Local AI inference on your machine",
-        "Full document analysis (PDF & structured tables)",
+        "Full document analysis (PDF, DOCX, CSV)",
         "Deterministic 28-digit decimal reconciliation",
         "Evidence citations with coordinate grounding",
-        "Audit PDF and structured artifact generation",
-        "Access to official Hijin Model Hub"
-      ]
+        "Audit PDF & structured artifact generation",
+        "Model Hub access with preview capabilities"
+      ],
+      "cta_text": "Start 14-Day Free Trial",
+      "cta_url": "downloads.html",
+      "cta_style": "btn-secondary"
     },
     {
       "id": "specialist_monthly",
-      "name": "Hijin Subscription",
-      "price_monthly": 99,
+      "name": "Professional Subscription",
+      "price": 99,
       "period": "/ month",
+      "badge": "Most Flexible \u00b7 All Models",
+      "popular": true,
+      "description": "Full continuous workstation access with all future model releases and priority support included.",
       "features": [
-        "Full local AI desktop workspace",
-        "Financial intelligence & multi-document reconciliation",
-        "Document intelligence & PDF parsing",
-        "Evidence-backed answers with bounding boxes",
-        "Audit PDF and structured report generation",
-        "Access to official Hijin Model Hub",
-        "Eligible supported model updates included with active subscription",
-        "Single-user commercial license (up to 2 personal workstations)",
-        "7-day offline grace period between license checks"
-      ]
+        "Full local AI desktop workstation (Windows 10/11)",
+        "Continuous priority customer support while subscribed",
+        "All software updates and runtime performance enhancements",
+        "Access to ALL trained models in the Model Store (Financial, Tax, Legal)",
+        "Deterministic financial reconciliation & multi-document cross-matching",
+        "Interactive tables with 1-click 'Copy TSV for Excel'",
+        "Single-user license for up to 2 workstations",
+        "30-day offline grace period between license renewals"
+      ],
+      "cta_text": "Subscribe Monthly ($99/mo)",
+      "cta_url": "https://checkout.blinkpay.com/pay/hijin_specialist_monthly",
+      "cta_style": "btn-primary"
     },
     {
-      "id": "institutional_annual",
-      "name": "Multi-Seat & Organization",
-      "price_monthly": 99,
-      "period": "/ user / month",
+      "id": "standalone_lifetime",
+      "name": "Standalone Model License",
+      "price": 349,
+      "period": "one-time",
+      "badge": "Perpetual License \u00b7 1 Yr Support",
+      "description": "Complete standalone workstation setup with 1 specialized model, perpetual offline license, and 1 full year of support.",
       "features": [
-        "Volume workstation licensing",
-        "Centralized license deployment",
-        "Air-gapped deployment packages"
-      ]
+        "Complete standalone desktop workstation setup",
+        "Perpetual offline lifetime license (no recurring monthly fees)",
+        "Includes Financial Specialist V2 model (.gguf weights & LoRA adapter access)",
+        "1 Full Year of software updates and maintenance support",
+        "Deterministic PDF/DOCX/PPTX executive deliverable compilers",
+        "Single-model focus (extra models in Store available \u00e0 la carte)",
+        "100% air-gapped; never phones home or locks out",
+        "Direct developer onboarding assistance"
+      ],
+      "cta_text": "Get Lifetime License ($349)",
+      "cta_url": "https://checkout.blinkpay.com/pay/hijin_standalone_lifetime",
+      "cta_style": "btn-accent"
     }
   ]
 }

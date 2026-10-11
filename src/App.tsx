@@ -70,6 +70,17 @@ export const App: React.FC = () => {
         const rawConvList = await agentClient.getConversations();
         const convList = [...rawConvList].sort((a, b) => (b.updated_at || 0) - (a.updated_at || 0));
         setConversations((prev) => {
+          // Guard: Never wipe in-flight optimistic or streaming messages during generation
+          if (activeStreamRef.current) {
+            return prev;
+          }
+          const hasStreamingMsg = prev.some((p) =>
+            p.messages.some((m) => m.metadata?.is_streaming)
+          );
+          if (hasStreamingMsg) {
+            return prev;
+          }
+
           if (prev.length === convList.length) {
             const isIdentical = prev.every((p, i) => {
               const c = convList[i];
