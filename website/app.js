@@ -79,3 +79,19 @@
     });
   });
 })();
+
+// 6. Account session detection across navigation
+(function () {
+  try {
+    const stored = localStorage.getItem('hijin_auth_session_v1');
+    if (stored) {
+      const session = JSON.parse(stored);
+      if (session && session.expiresAt > Date.now()) {
+        document.querySelectorAll('a[href="auth.html"], #nav-auth-btn').forEach(el => {
+          el.textContent = 'Account';
+          el.setAttribute('href', 'account.html');
+        });
+      }
+    }
+  } catch (e) {}
+})();

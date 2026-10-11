@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Portal — Hijin</title>
+  <meta name="description" content="Manage your Hijin account, active subscription, entitlements, and official downloads.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .portal-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 2rem;
+      margin: 3rem 0;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .portal-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .portal-sidebar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1rem;
+    }
+    .portal-user-summary {
+      padding: 0 0.5rem 1.25rem 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 1rem;
+    }
+    .portal-user-summary h3 {
+      font-size: 1.1rem;
+      color: #fff;
+      margin: 0 0 0.25rem 0;
+      word-break: break-all;
+    }
+    .portal-user-uid {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      word-break: break-all;
+    }
+    .portal-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .portal-nav-btn:hover {
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+    }
+    .portal-nav-btn.active {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .portal-content-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    }
+    .portal-tab-content {
+      display: none;
+    }
+    .portal-tab-content.active {
+      display: block;
+    }
+    .portal-header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+    }
+    .portal-header h2 {
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+    .portal-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 600px) {
+      .portal-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+    .info-box {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+    }
+    .info-box-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .info-box-val {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .badge-pill {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-warning {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-canvas" aria-hidden="true"></div>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4v16M20 4v16M4 12h16"/>
+          </svg>
+        </div>
+        <span class="brand-wordmark">HIJIN</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link">Product</a></li>
+        <li><a href="capabilities.html" class="nav-link">Capabilities</a></li>
+        <li><a href="models.html" class="nav-link">Models</a></li>
+        <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+        <li><a href="downloads.html" class="nav-link">Downloads</a></li>
+        <li><a href="docs.html" class="nav-link">Docs</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button onclick="handleSignOut()" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="portal-layout">
+      <!-- Portal Sidebar -->
+      <aside class="portal-sidebar">
+        <div class="portal-user-summary">
+          <h3 id="sidebar-display-name">Loading...</h3>
+          <div class="portal-user-uid" id="sidebar-uid" title="Firebase UID">UID: resolving...</div>
+        </div>
+
+        <nav>
+          <button class="portal-nav-btn active" data-tab="tab-account" onclick="switchPortalTab('tab-account')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Account Overview
+          </button>
+          <button class="portal-nav-btn" data-tab="tab-subscription" onclick="switchPortalTab('tab-subscription')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            Subscription ($99/mo)
+          </button>
+          <button class="portal-nav-btn" data-tab="tab-entitlements" onclick="switchPortalTab('tab-entitlements')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Entitlements
+          </button>
+          <button class="portal-nav-btn" data-tab="tab-downloads" onclick="switchPortalTab('tab-downloads')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            Downloads &amp; Releases
+          </button>
+          <button class="portal-nav-btn" data-tab="tab-models" onclick="switchPortalTab('tab-models')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+            Model Hub Access
+          </button>
+          <button class="portal-nav-btn" data-tab="tab-notifications" onclick="switchPortalTab('tab-notifications')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notifications
+          </button>
+          <button class="portal-nav-btn" data-tab="tab-security" onclick="switchPortalTab('tab-security')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Security &amp; Sessions
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Main Portal Content -->
+      <section class="portal-content-card">
+        <!-- TAB 1: ACCOUNT OVERVIEW -->
+        <div id="tab-account" class="portal-tab-content active">
+          <div class="portal-header">
+            <h2>Account Overview</h2>
+            <p>Authoritative identity verified through Firebase Authentication.</p>
+          </div>
+
+          <div class="portal-grid-2">
+            <div class="info-box">
+              <div class="info-box-label">Account Email</div>
+              <div class="info-box-val" id="acc-email">—</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Account Status</div>
+              <div class="info-box-val"><span class="badge-pill" id="acc-status">ACTIVE</span></div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Firebase UID (Universal Identity)</div>
+              <div class="info-box-val" style="font-family:var(--font-mono);font-size:0.85rem;" id="acc-uid">—</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Workstation Binding</div>
+              <div class="info-box-val"><span class="badge-pill">Cross-Platform Sync Enabled</span></div>
+            </div>
+          </div>
+
+          <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;">
+            Your Firebase UID is cross-compatible with the native desktop application. Signing into the Hijin Windows desktop workstation with these same credentials activates local offline processing and binds your commercial license.
+          </p>
+        </div>
+
+        <!-- TAB 2: SUBSCRIPTION ($99/mo) -->
+        <div id="tab-subscription" class="portal-tab-content">
+          <div class="portal-header">
+            <h2>Subscription Plan</h2>
+            <p>Canonical pricing: $99/month for institutional local cognitive workstation access.</p>
+          </div>
+
+          <div class="portal-grid-2">
+            <div class="info-box">
+              <div class="info-box-label">Current Tier</div>
+              <div class="info-box-val">Hijin Professional</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Monthly Rate</div>
+              <div class="info-box-val" style="color:var(--primary);">$99 / month</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Entitlement Period</div>
+              <div class="info-box-val">Active / 14-Day Free Trial</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Offline Grace Policy</div>
+              <div class="info-box-val">30 Days Autonomous Validity</div>
+            </div>
+          </div>
+
+          <div style="background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.2);padding:1rem;border-radius:var(--radius-md);font-size:0.85rem;color:#94a3b8;">
+            💳 <strong>Billing Architecture:</strong> Commercial billing is verified through Lemon Squeezy sandbox in this phase. Production payment cutover occurs in Phase C commercial distribution.
+          </div>
+        </div>
+
+        <!-- TAB 3: ENTITLEMENTS -->
+        <div id="tab-entitlements" class="portal-tab-content">
+          <div class="portal-header">
+            <h2>Server-Authoritative Entitlements</h2>
+            <p>Cryptographic policy verified by Ed25519 commercial licensing authority.</p>
+          </div>
+
+          <div class="portal-grid-2">
+            <div class="info-box">
+              <div class="info-box-label">Channel Access</div>
+              <div class="info-box-val">Production Stable</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Max Application Version</div>
+              <div class="info-box-val">v1.x.x Series</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Local Model Inference</div>
+              <div class="info-box-val"><span class="badge-pill">Unlimited Local Compute</span></div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Privacy Shield</div>
+              <div class="info-box-val"><span class="badge-pill">Zero Cloud Telemetry</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: DOWNLOADS -->
+        <div id="tab-downloads" class="portal-tab-content">
+          <div class="portal-header">
+            <h2>Download Center</h2>
+            <p>Official cryptographic installer packages and documentation.</p>
+          </div>
+
+          <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:1.5rem;margin-bottom:1.5rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+              <div>
+                <h4 style="color:#fff;margin:0 0 0.3rem 0;">Hijin for Windows (x64)</h4>
+                <div style="font-size:0.8rem;color:var(--text-muted);">
+                  Version 1.0.0 &bull; 6.8 MB &bull; NSIS Executable Installer
+                </div>
+              </div>
+              <a href="releases/Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-sm">
+                Download Installer (.EXE)
+              </a>
+            </div>
+            <div style="margin-top:1rem;font-size:0.75rem;color:var(--text-muted);font-family:var(--font-mono);word-break:break-all;">
+              SHA-256: 924a89fdb24762b1d8d6ed779ce460452fce839bde40992071220abd4ce4a8bb
+            </div>
+          </div>
+
+          <div class="portal-grid-2">
+            <div class="info-box">
+              <div class="info-box-label">macOS Distribution</div>
+              <div class="info-box-val" style="color:var(--text-muted);font-size:0.95rem;">Coming Soon (Scheduled for C.2)</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Linux Distribution</div>
+              <div class="info-box-val" style="color:var(--text-muted);font-size:0.95rem;">Coming Soon (Scheduled for C.2)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: MODELS -->
+        <div id="tab-models" class="portal-tab-content">
+          <div class="portal-header">
+            <h2>Model Hub Access</h2>
+            <p>Truthful disclosure of local neural model weight distribution.</p>
+          </div>
+
+          <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);padding:1.25rem;border-radius:var(--radius-md);margin-bottom:1.5rem;font-size:0.85rem;color:#fde68a;">
+            ⚠️ <strong>Phase C.1 Foundation Notice:</strong> Proprietary Neural Pack model distribution is staged in Cloudflare R2 staging buckets. In Phase C.1, model distribution is truthfully marked as <strong>Coming Soon</strong>. The installer installs the execution foundation only.
+          </div>
+
+          <div class="portal-grid-2">
+            <div class="info-box">
+              <div class="info-box-label">Hijin Neural Pack (12GB)</div>
+              <div class="info-box-val"><span class="badge-pill badge-warning">Coming Soon</span></div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Gemma 2B Quantized</div>
+              <div class="info-box-val"><span class="badge-pill">Local Ollama Compatible</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 6: NOTIFICATIONS -->
+        <div id="tab-notifications" class="portal-tab-content">
+          <div class="portal-header">
+            <h2>Operational Notifications</h2>
+            <p>Truthful operational alerts and cryptographic integrity status.</p>
+          </div>
+
+          <div style="border-left:3px solid #38bdf8;padding:0.75rem 1rem;background:rgba(0,0,0,0.2);margin-bottom:1rem;border-radius:0 var(--radius-md) var(--radius-md) 0;">
+            <div style="font-size:0.85rem;font-weight:600;color:#fff;">Production Foundation Deployed</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem;">Firebase Authentication project (hijin-ai) active in asia-south1. Session restored cleanly.</div>
+          </div>
+
+          <div style="border-left:3px solid #10b981;padding:0.75rem 1rem;background:rgba(0,0,0,0.2);border-radius:0 var(--radius-md) var(--radius-md) 0;">
+            <div style="font-size:0.85rem;font-weight:600;color:#fff;">Local Air-Gap Enforced</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem;">Zero customer prompts, documents, or financial artifacts are transmitted externally.</div>
+          </div>
+        </div>
+
+        <!-- TAB 7: SECURITY & SESSIONS -->
+        <div id="tab-security" class="portal-tab-content">
+          <div class="portal-header">
+            <h2>Security &amp; Sessions</h2>
+            <p>Manage active authenticated sessions and security credentials.</p>
+          </div>
+
+          <div class="portal-grid-2">
+            <div class="info-box">
+              <div class="info-box-label">Authentication Provider</div>
+              <div class="info-box-val">Firebase Password (hijin-ai)</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Session Status</div>
+              <div class="info-box-val"><span class="badge-pill">Valid &amp; Restored</span></div>
+            </div>
+          </div>
+
+          <button onclick="handleSignOut()" class="btn btn-secondary" style="margin-top:1rem;color:#fca5a5;border-color:rgba(239,68,68,0.3);">
+            Sign Out of All Sessions
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-bottom">
+        <div>&copy; 2026 Hijin. All rights reserved. Zero surveillance cookies.</div>
+        <div class="footer-bottom-right">
+          <a href="privacy.html" style="color:var(--text-muted); margin-right:1rem;">Privacy</a>
+          <a href="terms.html" style="color:var(--text-muted);">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    const STORAGE_KEY = "hijin_auth_session_v1";
+
+    function getSession() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) return null;
+        const session = JSON.parse(stored);
+        if (Date.now() >= session.expiresAt) return null;
+        return session;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // Auth Guard
+    (function authGuard() {
+      const session = getSession();
+      if (!session) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      // Populate user info
+      document.getElementById('sidebar-display-name').textContent = session.displayName || session.email.split('@')[0];
+      document.getElementById('sidebar-uid').textContent = "UID: " + session.uid;
+      document.getElementById('acc-email').textContent = session.email;
+      document.getElementById('acc-uid').textContent = session.uid;
+    })();
+
+    function switchPortalTab(tabId) {
+      document.querySelectorAll('.portal-nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabId);
+      });
+      document.querySelectorAll('.portal-tab-content').forEach(pane => {
+        pane.classList.toggle('active', pane.id === tabId);
+      });
+    }
+
+    function handleSignOut() {
+      localStorage.removeItem(STORAGE_KEY);
+      window.location.href = "auth.html";
+    }
+  </script>
+</body>
+</html>

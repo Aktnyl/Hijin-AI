@@ -6,24 +6,57 @@ Desktop.ini
 # Node & Package Managers
 node_modules/
 npm-debug.log*
+.eslintcache
+.vite/
 
 # Build & Dist Outputs
 dist/
+dist-ssr/
 dist_installer/
-*.exe
+src-tauri/target/
+target/
 *.msi
 *.zip
 *.tar.gz
+*.exe
+!website/releases/*.exe
+
+# Logs & Transient Scratch Files
+*.log
+scratch/
+tmp/
+temp/
+sample_workspace_exports/
+UserData/
+ProgramData/
+Hijin-AI/
+__pycache__/
+
+# Internal / Proprietary Repositories (Private Engine)
+agent_alpha/
+tests/
+training/
+evaluation/
+scripts/
+docs/phase_*/
 
 # Models & Large Binaries
 *.gguf
 *.bin
 *.pt
+*.pth
 *.safetensors
+*.aapkg
+*.weights
 
-# Secrets & Local Configurations
+# Secrets & Local Configurations (CRITICAL)
 .env
 .env.*
+!.env.example
 *.key
 *.pem
 *.secret
+credentials/
+secrets/
+private_keys/
+signing_keys/

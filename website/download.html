@@ -32,7 +32,7 @@
         <li><a href="docs.html" class="nav-link ">Docs</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="pricing.html" class="btn btn-secondary btn-sm">Start Trial</a>
+        <a href="auth.html" class="btn btn-secondary btn-sm" id="nav-auth-btn">Sign In</a>
         <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin</a>
       </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
@@ -53,7 +53,7 @@
     <a href="security.html" class="nav-link ">Security Architecture</a>
     <a href="support.html" class="nav-link ">Support &amp; Community</a>
     <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.5rem;">
-      <a href="pricing.html" class="btn btn-secondary btn-sm">Start 14-Day Free Trial</a>
+      <a href="auth.html" class="btn btn-secondary btn-sm" id="nav-auth-btn">Sign In</a>
       <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin v1.0.0</a>
     </div>
   </nav>
@@ -89,7 +89,10 @@
         <!-- SHA-256 Checksum -->
         <div style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:1rem;text-align:left;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;font-size:0.75rem;color:var(--text-muted);">
-            <span>SHA-256 Verification Hash:</span>
+            <span>SHA-256 Checksum:</span>
+          </div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.4rem;">
+            <span>Verify Checksum: <code>CertUtil -hashfile Hijin_Setup_1.0.0.exe SHA256</code></span>
             <button class="btn btn-ghost btn-sm" data-copy="4b68e9102c98d63d0473919ad7783fe1f7a07ceef77800742f9b8c0352ef2e55">Copy Hash</button>
           </div>
           <code style="font-family:var(--font-mono);font-size:0.75rem;color:#fff;word-break:break-all;display:block;">

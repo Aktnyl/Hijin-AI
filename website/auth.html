@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Authentication — Hijin</title>
+  <meta name="description" content="Sign in or create your Hijin account. Authoritative Firebase Authentication with zero surveillance tracking.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .auth-container {
+      max-width: 460px;
+      margin: 4rem auto;
+      padding: 0 1rem;
+    }
+    .auth-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+    .auth-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.5rem;
+    }
+    .auth-tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      position: relative;
+    }
+    .auth-tab-btn.active {
+      color: #fff;
+    }
+    .auth-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -0.6rem;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-body);
+      margin-bottom: 0.4rem;
+    }
+    .form-control {
+      width: 100%;
+      box-sizing: border-box;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+    }
+    .auth-alert {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+    .auth-alert.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+    .auth-alert.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+    }
+    .auth-footer-note {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-canvas" aria-hidden="true"></div>
+
+  <!-- Site Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4v16M20 4v16M4 12h16"/>
+          </svg>
+        </div>
+        <span class="brand-wordmark">HIJIN</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link">Product</a></li>
+        <li><a href="capabilities.html" class="nav-link">Capabilities</a></li>
+        <li><a href="models.html" class="nav-link">Models</a></li>
+        <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+        <li><a href="docs.html" class="nav-link">Docs</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="auth.html" class="btn btn-secondary btn-sm" id="nav-auth-btn">Sign In</a>
+        <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <nav class="nav-mobile-drawer" id="nav-mobile-drawer">
+    <a href="index.html" class="nav-link">Product</a>
+    <a href="capabilities.html" class="nav-link">Capabilities</a>
+    <a href="models.html" class="nav-link">Models Catalog</a>
+    <a href="pricing.html" class="nav-link">Pricing</a>
+    <a href="docs.html" class="nav-link">Documentation</a>
+    <a href="downloads.html" class="nav-link">Downloads</a>
+    <a href="releases.html" class="nav-link">Releases</a>
+    <a href="auth.html" class="nav-link">Sign In / Account</a>
+  </nav>
+
+  <main class="container">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tab-login-btn" onclick="setAuthMode('login')">Sign In</button>
+          <button class="auth-tab-btn" id="tab-signup-btn" onclick="setAuthMode('signup')">Create Account</button>
+        </div>
+
+        <div id="auth-alert" class="auth-alert"></div>
+
+        <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+          <div class="form-group" id="group-name" style="display: none;">
+            <label for="display-name">Company or Name</label>
+            <input type="text" id="display-name" class="form-control" placeholder="Acme Capital or Jane Doe">
+          </div>
+
+          <div class="form-group">
+            <label for="email-address">Work Email</label>
+            <input type="email" id="email-address" class="form-control" required placeholder="analyst@firm.com">
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" required minlength="8" placeholder="Minimum 8 characters">
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary btn-xl" style="width: 100%; margin-top: 0.5rem;">
+            Sign In to Hijin
+          </button>
+        </form>
+
+        <div class="auth-footer-note">
+          🔒 <strong>Authoritative Identity:</strong> Secured via Firebase Authentication (<span id="project-tag">hijin-ai</span>). Same identity is recognized by the desktop workstation.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-bottom">
+        <div>&copy; 2026 Hijin. All rights reserved. Zero surveillance cookies.</div>
+        <div class="footer-bottom-right">
+          <a href="privacy.html" style="color:var(--text-muted); margin-right:1rem;">Privacy</a>
+          <a href="terms.html" style="color:var(--text-muted);">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    const FIREBASE_API_KEY = "AIzaSyBNNXFl4GbgsOBp4UeEBWL-7DGKRg9gIKw";
+    const STORAGE_KEY = "hijin_auth_session_v1";
+    let currentMode = "login";
+
+    // Auto-redirect if already logged in
+    (function checkExisting() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const s = JSON.parse(stored);
+          if (s.expiresAt > Date.now()) {
+            window.location.href = "account.html";
+          }
+        }
+      } catch (e) {}
+    })();
+
+    function setAuthMode(mode) {
+      currentMode = mode;
+      document.getElementById('tab-login-btn').classList.toggle('active', mode === 'login');
+      document.getElementById('tab-signup-btn').classList.toggle('active', mode === 'signup');
+      document.getElementById('group-name').style.display = mode === 'signup' ? 'block' : 'none';
+      document.getElementById('submit-btn').textContent = mode === 'signup' ? 'Create Hijin Account' : 'Sign In to Hijin';
+      hideAlert();
+    }
+
+    function showAlert(msg, isError) {
+      const el = document.getElementById('auth-alert');
+      el.textContent = msg;
+      el.className = 'auth-alert ' + (isError ? 'error' : 'success');
+      el.style.display = 'block';
+    }
+
+    function hideAlert() {
+      const el = document.getElementById('auth-alert');
+      el.style.display = 'none';
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      hideAlert();
+      const email = document.getElementById('email-address').value.trim();
+      const password = document.getElementById('password').value;
+      const displayName = document.getElementById('display-name').value.trim();
+
+      const btn = document.getElementById('submit-btn');
+      const origText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Authenticating...';
+
+      try {
+        const endpoint = currentMode === 'signup'
+          ? `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_API_KEY}`
+          : `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`;
+
+        const payload = {
+          email,
+          password,
+          returnSecureToken: true
+        };
+        if (currentMode === 'signup' && displayName) {
+          payload.displayName = displayName;
+        }
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          const msg = data.error?.message || 'Authentication failed';
+          if (msg === 'EMAIL_EXISTS') throw new Error('An account with this email address already exists. Please sign in.');
+          if (msg === 'INVALID_LOGIN_CREDENTIALS' || msg === 'INVALID_PASSWORD') throw new Error('Invalid email or password.');
+          if (msg === 'WEAK_PASSWORD : Password should be at least 6 characters') throw new Error('Password must be at least 8 characters.');
+          throw new Error(msg);
+        }
+
+        // Store session compatible with desktop workstation
+        const session = {
+          uid: data.localId,
+          email: data.email,
+          displayName: displayName || data.displayName || email.split('@')[0],
+          idToken: data.idToken,
+          refreshToken: data.refreshToken,
+          expiresAt: Date.now() + parseInt(data.expiresIn || '3600', 10) * 1000,
+          providerId: 'password',
+          accountStatus: 'ACTIVE',
+          planName: 'Hijin Professional ($99/mo)'
+        };
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+        showAlert('Authentication verified. Redirecting to Account Portal...', false);
+        setTimeout(() => {
+          window.location.href = 'account.html';
+        }, 800);
+
+      } catch (err) {
+        showAlert(err.message, true);
+        btn.disabled = false;
+        btn.textContent = origText;
+      }
+    }
+  </script>
+</body>
+</html>

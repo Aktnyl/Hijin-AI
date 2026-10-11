@@ -53,6 +53,34 @@ curl.exe -L -o "$HOME\Downloads\Hijin_Setup_1.0.0.exe" "https://github.com/Aktny
 
 ---
 
+## 🛠️ Building the Desktop App from Source
+
+The repository includes the complete source code for the **Hijin Native Desktop Workstation** (Tauri 2 + Rust + React 18 + TypeScript).
+
+### Quickstart
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/Aktnyl/Hijin-AI.git
+cd Hijin-AI
+
+# 2. Install dependencies
+npm install
+
+# 3. Launch UI in browser (development preview)
+npm run dev
+
+# 4. Launch Native Desktop Application (Tauri 2 + WebView2)
+npm run tauri:dev
+
+# 5. Build production Windows Installer (.exe / .msi)
+npm run tauri build
+```
+
+For detailed prerequisites (Rust toolchain, MSVC C++ Build Tools, and WebView2), see the complete [**Desktop App Build & Packaging Guide**](docs/app-build.md).
+
+---
+
 ## 💻 System & Hardware Requirements
 
 | Component | Minimum Requirement | Recommended Specification |

@@ -1,0 +1,61 @@
+{
+  "name": "hijin-workstation",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "test": "vitest run",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.2.0",
+    "@tauri-apps/plugin-dialog": "^2.2.0",
+    "@tauri-apps/plugin-fs": "^2.2.0",
+    "@tauri-apps/plugin-shell": "^2.2.0",
+    "@types/dompurify": "^3.0.5",
+    "@types/sql.js": "^1.4.11",
+    "docx": "^8.5.0",
+    "dompurify": "^3.4.15",
+    "lucide-react": "^1.47.0",
+    "mammoth": "^1.8.0",
+    "marked": "^18.0.14",
+    "pdfjs-dist": "^4.4.168",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sql.js": "^1.14.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.1.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.4",
+    "vitest": "^2.0.3"
+  },
+  "description": "Hijin — Enterprise Cognitive AI Platform & Local-First Desktop Operating Environment for Regulated Industries",
+  "author": "Hanging Clock",
+  "license": "Proprietary",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aktnyl/Agent_Alpha.git"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "cognitive-architecture",
+    "desktop-app",
+    "tauri",
+    "react",
+    "cuda",
+    "offline-first",
+    "financial-reconciliation"
+  ]
+}
