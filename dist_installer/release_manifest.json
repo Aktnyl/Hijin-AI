@@ -1,0 +1,55 @@
+{
+  "product_name": "Hijin",
+  "company_name": "Hijin Tech",
+  "version": "1.0.0-commercial.wave2",
+  "git_commit": "5c480468a7cd487a5284761f51be15454c3fc13e",
+  "build_timestamp": 1792147731.6043603,
+  "build_date_iso": "2026-10-16T10:48:51Z",
+  "installer_artifact": {
+    "filename": "Hijin_Setup_1.0.0.exe",
+    "size_bytes": 6881176,
+    "sha256": "8b3ef8555ec5cd3a7caf16df14ae6622732f6015fd61871c7a4c623681f157c5",
+    "format": "NSIS Nullsoft Executable"
+  },
+  "binaries": {
+    "hijin_ui": {
+      "filename": "hijin.exe",
+      "size_bytes": 28576162,
+      "sha256": "6bdbf0c93ee830a97280312ae974751f5912d51fd2d85ecb9dd681f4b3ff7488",
+      "framework": "Tauri 2 + React 18"
+    },
+    "hijin_daemon": {
+      "filename": "hijin_daemon.exe",
+      "size_bytes": 1318262,
+      "sha256": "fd1d7a6328b5d6e92e14c850414433c902634c2171020e4afd6c4679339d3d31",
+      "role": "Native Sidecar & Supervisor"
+    }
+  },
+  "supported_operating_systems": [
+    "Microsoft Windows 10 (64-bit, Version 1903 or higher)",
+    "Microsoft Windows 11 (64-bit)"
+  ],
+  "hardware_requirements": {
+    "recommended_ram_gb": 16,
+    "minimum_ram_gb": 8,
+    "recommended_disk_space_gb": 10,
+    "gpu_acceleration": "Supported via NVIDIA CUDA or DirectML (Optional CPU fallback)"
+  },
+  "runtime_dependencies": {
+    "local_daemon": "Bundled (hijin_daemon.exe)",
+    "cryptographic_licensing": "Bundled (P26 Ed25519 Authority)",
+    "local_llm_inference": "External Ollama runtime or local Gemma weights (auto-detected via 127.0.0.1:11434)",
+    "honest_disclosure": "Hijin is packaged with its native UI, supervisory daemon, and math engine. Local neural inference communicates with your local Ollama engine."
+  },
+  "validation_environment": {
+    "os": "Windows 11 Enterprise (win32 64-bit)",
+    "python_version": "3.13.1",
+    "rust_cargo_version": "1.98.0",
+    "tauri_cli_version": "2.11.4",
+    "classification": "Locally Validated & Staging Validated (Developer-Machine Rigorous Suite)"
+  },
+  "known_limitations": [
+    "Production payment integration is scheduled for Commercial Wave 3 (C9). Current billing utilizes the Lemon Squeezy sandbox adapter.",
+    "macOS and Linux builds are architecture-designed and scheduled for future distribution waves."
+  ]
+}
