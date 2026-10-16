@@ -1,0 +1,347 @@
+{
+  "artifact_id": "art_fin_887e9e26",
+  "task_type": "FINANCIAL_RECONCILIATION",
+  "reasoning_category": "MULTI_DOCUMENT_RECONCILIATION",
+  "input_payload": {
+    "prompt": "Reconcile all invoice PDFs against the register.",
+    "documents": [
+      "invoice_BRL-5512.pdf",
+      "invoice_VTX-7782.pdf",
+      "invoice_MX-9001_MISMATCH.pdf",
+      "invoice_VTX-7781.pdf",
+      "invoice_NS-1042.pdf",
+      "invoice_NS-1043.pdf",
+      "invoice_AFS-2209.pdf",
+      "invoice_BRL-5513.pdf",
+      "invoice_AFS-2210.pdf",
+      "att_e722d662e891_invoice_test_register.xlsx"
+    ]
+  },
+  "expected_output": {
+    "status": "DISCREPANCY_DETECTED",
+    "discrepancies_count": 2
+  },
+  "actual_output": {
+    "reconciliation_id": "rec_multi_da49ecc2",
+    "status": "DISCREPANCY_DETECTED",
+    "documents_analyzed": [
+      "invoice_BRL-5512.pdf",
+      "invoice_VTX-7782.pdf",
+      "invoice_MX-9001_MISMATCH.pdf",
+      "invoice_VTX-7781.pdf",
+      "invoice_NS-1042.pdf",
+      "invoice_NS-1043.pdf",
+      "invoice_AFS-2209.pdf",
+      "invoice_BRL-5513.pdf",
+      "invoice_AFS-2210.pdf",
+      "att_e722d662e891_invoice_test_register.xlsx"
+    ],
+    "records_matched_count": 9,
+    "discrepancies_count": 2,
+    "anomalies_count": 0,
+    "summary": "=== MULTI-DOCUMENT FINANCIAL RECONCILIATION REPORT ===\nTotal Invoices Analyzed: 9\nTotal Register Transactions: 11\nMatched Records: 9\nOverall Status: DISCREPANCY_DETECTED\nDiscrepancies Detected: 2 material issue(s) identified.\n- [TOTAL_MISMATCH] Invoice total mismatch: calculated total 29,913.00 (25,350.00 + 4,563.00), stated total 31,000.00. Variance: 1,087.00.\n- [TOTAL_MISMATCH] Register variance: Invoice MX-9001 states 31,000.00, but register lists 29,913.00. Variance: 1,087.00.\nItems requiring review: 2",
+    "requires_human_review": true,
+    "items_requiring_review": [
+      "TOTAL_MISMATCH: Invoice total mismatch: calculated total 29,913.00 (25,350.00 + 4,563.00), stated total 31,000.00. Variance: 1,087.00.",
+      "TOTAL_MISMATCH: Register variance: Invoice MX-9001 states 31,000.00, but register lists 29,913.00. Variance: 1,087.00."
+    ],
+    "verification_status": "VERIFIED",
+    "discrepancies": [
+      {
+        "discrepancy_id": "disc_tot_ae1d63",
+        "type": "TOTAL_MISMATCH",
+        "severity": "MATERIAL",
+        "expected": "29913.00",
+        "stated": "31000.00",
+        "expected_value": "29913.00",
+        "stated_value": "31000.00",
+        "difference": "1087.00",
+        "percentage_difference": null,
+        "calculation": "25350.00 + 4563.00 = 29913.00 vs stated 31000.00 (difference: 1087.00)",
+        "document_id": "MX-9001",
+        "description": "Invoice total mismatch: calculated total 29,913.00 (25,350.00 + 4,563.00), stated total 31,000.00. Variance: 1,087.00.",
+        "requires_human_review": true,
+        "evidence": [
+          {
+            "document_name": "invoice_MX-9001_MISMATCH.pdf",
+            "page_number": 1,
+            "field_name": "subtotal",
+            "extracted_text": "25350.00",
+            "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]"
+          },
+          {
+            "document_name": "invoice_MX-9001_MISMATCH.pdf",
+            "page_number": 1,
+            "field_name": "tax",
+            "extracted_text": "4563.00",
+            "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]"
+          },
+          {
+            "document_name": "invoice_MX-9001_MISMATCH.pdf",
+            "page_number": 1,
+            "field_name": "stated_total",
+            "extracted_text": "31000.00",
+            "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]"
+          }
+        ]
+      },
+      {
+        "discrepancy_id": "disc_reg_e24e88",
+        "type": "TOTAL_MISMATCH",
+        "severity": "MATERIAL",
+        "expected": "29913",
+        "stated": "31000.00",
+        "expected_value": "29913",
+        "stated_value": "31000.00",
+        "difference": "1087.00",
+        "percentage_difference": null,
+        "calculation": "Invoice 'MX-9001' Stated 31000.00 != Register 'MX-9001' Amount 29913 (diff: 1087.00)",
+        "document_id": "MX-9001",
+        "description": "Register variance: Invoice MX-9001 states 31,000.00, but register lists 29,913.00. Variance: 1,087.00.",
+        "requires_human_review": true,
+        "evidence": [
+          {
+            "document_name": "invoice_MX-9001_MISMATCH.pdf",
+            "page_number": 1,
+            "field_name": "stated_total",
+            "extracted_text": "31000.00",
+            "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]"
+          },
+          {
+            "document_name": "att_e722d662e891_invoice_test_register.xlsx",
+            "page_number": 1,
+            "field_name": "register_amount",
+            "extracted_text": "29913",
+            "citation": "[Source: att_e722d662e891_invoice_test_register.xlsx, page 1]"
+          }
+        ]
+      }
+    ],
+    "anomalies": [],
+    "line_item_matches": [],
+    "evidence_items": [
+      {
+        "document_name": "invoice_MX-9001_MISMATCH.pdf",
+        "page_number": 1,
+        "field_name": "subtotal",
+        "extracted_text": "25350.00",
+        "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]"
+      },
+      {
+        "document_name": "invoice_MX-9001_MISMATCH.pdf",
+        "page_number": 1,
+        "field_name": "tax",
+        "extracted_text": "4563.00",
+        "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]"
+      },
+      {
+        "document_name": "invoice_MX-9001_MISMATCH.pdf",
+        "page_number": 1,
+        "field_name": "stated_total",
+        "extracted_text": "31000.00",
+        "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]"
+      },
+      {
+        "document_name": "invoice_MX-9001_MISMATCH.pdf",
+        "page_number": 1,
+        "field_name": "stated_total",
+        "extracted_text": "31000.00",
+        "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]"
+      },
+      {
+        "document_name": "att_e722d662e891_invoice_test_register.xlsx",
+        "page_number": 1,
+        "field_name": "register_amount",
+        "extracted_text": "29913",
+        "citation": "[Source: att_e722d662e891_invoice_test_register.xlsx, page 1]"
+      }
+    ]
+  },
+  "evidence_items": [
+    {
+      "evidence_id": "ev_AFS-2209",
+      "claim_id": "ev_AFS-2209",
+      "claim_text": "Invoice AFS-2209 (invoice_AFS-2209.pdf): Stated Total=26550.00, Expected Total=26550.00 [VERIFIED MATCH]",
+      "text": "Invoice AFS-2209 (invoice_AFS-2209.pdf): Stated Total=26550.00, Expected Total=26550.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_AFS-2209.pdf, page 1]",
+      "document_id": "AFS-2209",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_AFS-2209.pdf",
+      "page_number": 1
+    },
+    {
+      "evidence_id": "ev_AFS-2210",
+      "claim_id": "ev_AFS-2210",
+      "claim_text": "Invoice AFS-2210 (invoice_AFS-2210.pdf): Stated Total=25016.00, Expected Total=25016.00 [VERIFIED MATCH]",
+      "text": "Invoice AFS-2210 (invoice_AFS-2210.pdf): Stated Total=25016.00, Expected Total=25016.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_AFS-2210.pdf, page 1]",
+      "document_id": "AFS-2210",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_AFS-2210.pdf",
+      "page_number": 1
+    },
+    {
+      "evidence_id": "ev_BRL-5512",
+      "claim_id": "ev_BRL-5512",
+      "claim_text": "Invoice BRL-5512 (invoice_BRL-5512.pdf): Stated Total=10384.00, Expected Total=10384.00 [VERIFIED MATCH]",
+      "text": "Invoice BRL-5512 (invoice_BRL-5512.pdf): Stated Total=10384.00, Expected Total=10384.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_BRL-5512.pdf, page 1]",
+      "document_id": "BRL-5512",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_BRL-5512.pdf",
+      "page_number": 1
+    },
+    {
+      "evidence_id": "ev_BRL-5513",
+      "claim_id": "ev_BRL-5513",
+      "claim_text": "Invoice BRL-5513 (invoice_BRL-5513.pdf): Stated Total=10266.00, Expected Total=10266.00 [VERIFIED MATCH]",
+      "text": "Invoice BRL-5513 (invoice_BRL-5513.pdf): Stated Total=10266.00, Expected Total=10266.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_BRL-5513.pdf, page 1]",
+      "document_id": "BRL-5513",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_BRL-5513.pdf",
+      "page_number": 1
+    },
+    {
+      "evidence_id": "ev_MX-9001",
+      "claim_id": "ev_MX-9001",
+      "claim_text": "Invoice MX-9001 (invoice_MX-9001_MISMATCH.pdf): Stated Total=31000.00, Expected Total=29913.00 [DISCREPANCY (Variance: 1087.00)]",
+      "text": "Invoice MX-9001 (invoice_MX-9001_MISMATCH.pdf): Stated Total=31000.00, Expected Total=29913.00 [DISCREPANCY (Variance: 1087.00)]",
+      "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]",
+      "document_id": "MX-9001",
+      "confidence": 1.0,
+      "is_verified": false,
+      "filename": "invoice_MX-9001_MISMATCH.pdf",
+      "page_number": 1
+    },
+    {
+      "evidence_id": "ev_NS-1042",
+      "claim_id": "ev_NS-1042",
+      "claim_text": "Invoice NS-1042 (invoice_NS-1042.pdf): Stated Total=10620.00, Expected Total=10620.00 [VERIFIED MATCH]",
+      "text": "Invoice NS-1042 (invoice_NS-1042.pdf): Stated Total=10620.00, Expected Total=10620.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_NS-1042.pdf, page 1]",
+      "document_id": "NS-1042",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_NS-1042.pdf",
+      "page_number": 1
+    },
+    {
+      "evidence_id": "ev_NS-1043",
+      "claim_id": "ev_NS-1043",
+      "claim_text": "Invoice NS-1043 (invoice_NS-1043.pdf): Stated Total=7316.00, Expected Total=7316.00 [VERIFIED MATCH]",
+      "text": "Invoice NS-1043 (invoice_NS-1043.pdf): Stated Total=7316.00, Expected Total=7316.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_NS-1043.pdf, page 1]",
+      "document_id": "NS-1043",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_NS-1043.pdf",
+      "page_number": 1
+    },
+    {
+      "evidence_id": "ev_VTX-7781",
+      "claim_id": "ev_VTX-7781",
+      "claim_text": "Invoice VTX-7781 (invoice_VTX-7781.pdf): Stated Total=29028.00, Expected Total=29028.00 [VERIFIED MATCH]",
+      "text": "Invoice VTX-7781 (invoice_VTX-7781.pdf): Stated Total=29028.00, Expected Total=29028.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_VTX-7781.pdf, page 1]",
+      "document_id": "VTX-7781",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_VTX-7781.pdf",
+      "page_number": 1
+    },
+    {
+      "evidence_id": "ev_VTX-7782",
+      "claim_id": "ev_VTX-7782",
+      "claim_text": "Invoice VTX-7782 (invoice_VTX-7782.pdf): Stated Total=19588.00, Expected Total=19588.00 [VERIFIED MATCH]",
+      "text": "Invoice VTX-7782 (invoice_VTX-7782.pdf): Stated Total=19588.00, Expected Total=19588.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_VTX-7782.pdf, page 1]",
+      "document_id": "VTX-7782",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_VTX-7782.pdf",
+      "page_number": 1
+    },
+    {
+      "document_name": "invoice_MX-9001_MISMATCH.pdf",
+      "page_number": 1,
+      "field_name": "subtotal",
+      "extracted_text": "25350.00",
+      "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]",
+      "claim_text": "Discrepancy [TOTAL_MISMATCH]: Invoice total mismatch: calculated total 29,913.00 (25,350.00 + 4,563.00), stated total 31,000.00. Variance: 1,087.00.",
+      "confidence": 1.0,
+      "is_verified": false,
+      "filename": "invoice_MX-9001_MISMATCH.pdf"
+    },
+    {
+      "document_name": "invoice_MX-9001_MISMATCH.pdf",
+      "page_number": 1,
+      "field_name": "tax",
+      "extracted_text": "4563.00",
+      "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]",
+      "claim_text": "Discrepancy [TOTAL_MISMATCH]: Invoice total mismatch: calculated total 29,913.00 (25,350.00 + 4,563.00), stated total 31,000.00. Variance: 1,087.00.",
+      "confidence": 1.0,
+      "is_verified": false,
+      "filename": "invoice_MX-9001_MISMATCH.pdf"
+    },
+    {
+      "document_name": "invoice_MX-9001_MISMATCH.pdf",
+      "page_number": 1,
+      "field_name": "stated_total",
+      "extracted_text": "31000.00",
+      "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]",
+      "claim_text": "Discrepancy [TOTAL_MISMATCH]: Invoice total mismatch: calculated total 29,913.00 (25,350.00 + 4,563.00), stated total 31,000.00. Variance: 1,087.00.",
+      "confidence": 1.0,
+      "is_verified": false,
+      "filename": "invoice_MX-9001_MISMATCH.pdf"
+    },
+    {
+      "document_name": "invoice_MX-9001_MISMATCH.pdf",
+      "page_number": 1,
+      "field_name": "stated_total",
+      "extracted_text": "31000.00",
+      "citation": "[Source: invoice_MX-9001_MISMATCH.pdf, page 1]",
+      "claim_text": "Discrepancy [TOTAL_MISMATCH]: Register variance: Invoice MX-9001 states 31,000.00, but register lists 29,913.00. Variance: 1,087.00.",
+      "confidence": 1.0,
+      "is_verified": false,
+      "filename": "invoice_MX-9001_MISMATCH.pdf"
+    },
+    {
+      "document_name": "att_e722d662e891_invoice_test_register.xlsx",
+      "page_number": 1,
+      "field_name": "register_amount",
+      "extracted_text": "29913",
+      "citation": "[Source: att_e722d662e891_invoice_test_register.xlsx, page 1]",
+      "claim_text": "Discrepancy [TOTAL_MISMATCH]: Register variance: Invoice MX-9001 states 31,000.00, but register lists 29,913.00. Variance: 1,087.00.",
+      "confidence": 1.0,
+      "is_verified": false,
+      "filename": "att_e722d662e891_invoice_test_register.xlsx"
+    }
+  ],
+  "verification_result": "VERIFIED",
+  "failure_category": null,
+  "correction": null,
+  "governance": {
+    "domain": "FINANCIAL_INTELLIGENCE",
+    "license": "PROPRIETARY_AGENT_ALPHA_SYNTHETIC",
+    "source": "SYNTHETIC_EVALUATION_SUITE",
+    "ownership": "Agent Alpha Proprietary Domain Intelligence",
+    "permitted_use": "SPECIALIST_MODEL_FINE_TUNING",
+    "is_synthetic": true,
+    "customer_data_included": false,
+    "air_gap_compliant": true,
+    "privacy_sanitized": true,
+    "compliance_standards": [
+      "SOC2_TYPE_II",
+      "GDPR_READY"
+    ],
+    "transformation_history": []
+  },
+  "provenance_hash": "cfc15dddbbc73fe6dd7ad3bddc25f5037bb55c9a81e8c7c8e7bd6b8dc3eb3648",
+  "storage_path": "",
+  "timestamp": 1792057908.6914105
+}

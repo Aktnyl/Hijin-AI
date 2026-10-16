@@ -1,0 +1,69 @@
+{
+  "artifact_id": "art_fin_39b492b9",
+  "task_type": "FINANCIAL_RECONCILIATION",
+  "reasoning_category": "INVOICE_ARITHMETIC",
+  "input_payload": {
+    "prompt": "Reconcile this invoice and compute totals.",
+    "documents": [
+      "invoice_AFS-2209.pdf"
+    ]
+  },
+  "expected_output": {
+    "status": "RECONCILED",
+    "discrepancies_count": 0
+  },
+  "actual_output": {
+    "reconciliation_id": "rec_inv_ca8bbcbe",
+    "status": "RECONCILED",
+    "documents_analyzed": [
+      "invoice_AFS-2209.pdf"
+    ],
+    "records_matched_count": 2,
+    "discrepancies_count": 0,
+    "anomalies_count": 0,
+    "summary": "Invoice 'AFS-2209' arithmetic successfully verified.\nSubtotal: INR 22,500.00, Tax: INR 4,050.00, Total: INR 26,550.00 [MATCH].",
+    "requires_human_review": false,
+    "items_requiring_review": [],
+    "verification_status": "VERIFIED",
+    "discrepancies": [],
+    "anomalies": [],
+    "line_item_matches": [],
+    "evidence_items": []
+  },
+  "evidence_items": [
+    {
+      "evidence_id": "ev_AFS-2209",
+      "claim_id": "ev_AFS-2209",
+      "claim_text": "Invoice AFS-2209 (invoice_AFS-2209.pdf): Stated Total=26550.00, Expected Total=26550.00 [VERIFIED MATCH]",
+      "text": "Invoice AFS-2209 (invoice_AFS-2209.pdf): Stated Total=26550.00, Expected Total=26550.00 [VERIFIED MATCH]",
+      "citation": "[Source: invoice_AFS-2209.pdf, page 1]",
+      "document_id": "AFS-2209",
+      "confidence": 1.0,
+      "is_verified": true,
+      "filename": "invoice_AFS-2209.pdf",
+      "page_number": 1
+    }
+  ],
+  "verification_result": "VERIFIED",
+  "failure_category": null,
+  "correction": null,
+  "governance": {
+    "domain": "FINANCIAL_INTELLIGENCE",
+    "license": "PROPRIETARY_AGENT_ALPHA_SYNTHETIC",
+    "source": "SYNTHETIC_EVALUATION_SUITE",
+    "ownership": "Agent Alpha Proprietary Domain Intelligence",
+    "permitted_use": "SPECIALIST_MODEL_FINE_TUNING",
+    "is_synthetic": true,
+    "customer_data_included": false,
+    "air_gap_compliant": true,
+    "privacy_sanitized": true,
+    "compliance_standards": [
+      "SOC2_TYPE_II",
+      "GDPR_READY"
+    ],
+    "transformation_history": []
+  },
+  "provenance_hash": "d3b8479d09c51934194b42e573ea6912c70f458b009fdf44329720546293a3fa",
+  "storage_path": "",
+  "timestamp": 1792057924.4487817
+}
