@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { agentClient, ArtifactRecord } from '../../services/agentClient';
+import { agentClient, ArtifactRecord, TableSpecData } from '../../services/agentClient';
 import { MarkdownRenderer } from '../common/MarkdownRenderer';
+import { InteractiveTableStudio } from './InteractiveTableStudio';
+import {
+  getEmbeddedArtifactTable,
+  parseMarkdownTable,
+  DEFAULT_EBITDA_TABLE,
+} from '../../services/embeddedFinancialEngine';
+import { getIngestedDocument } from '../../services/multiFormatIngestion';
 import {
   VerifiedIcon,
   CopyIcon,
@@ -18,6 +25,7 @@ import {
   MaximizeIcon,
   MinimizeIcon,
 } from '../common/Icons';
+import { ExportDeliverableModal } from './ExportDeliverableModal';
 
 export interface GroundedEvidenceItem {
   citation_id?: string;
@@ -34,6 +42,7 @@ export interface ArtifactViewerProps {
   onClose?: () => void;
   isMaximized?: boolean;
   onToggleMaximize?: () => void;
+  onInspectEvidence?: (item: GroundedEvidenceItem) => void;
 }
 
 export interface SlideItem {
@@ -56,15 +65,17 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
   onClose,
   isMaximized = false,
   onToggleMaximize,
+  onInspectEvidence,
 }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'formatted' | 'raw' | 'slides'>('formatted');
+  const [viewMode, setViewMode] = useState<'formatted' | 'table' | 'raw' | 'slides'>('formatted');
   const [copied, setCopied] = useState(false);
   const [copiedCitation, setCopiedCitation] = useState(false);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [loadedSlides, setLoadedSlides] = useState<SlideItem[]>([]);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   // If viewing Grounded Evidence Proof
   if (evidence && !artifact) {
@@ -227,6 +238,37 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
     artifact.filename.toLowerCase().endsWith('.csv') ||
     artifact.mime_type.includes('csv');
 
+  const isSpreadsheet =
+    artifact.filename.toLowerCase().endsWith('.xlsx') ||
+    artifact.filename.toLowerCase().endsWith('.xls') ||
+    artifact.filename.toLowerCase().endsWith('.csv') ||
+    artifact.filename.toLowerCase().endsWith('.tsv') ||
+    artifact.mime_type.includes('spreadsheet') ||
+    artifact.mime_type.includes('csv') ||
+    artifact.artifact_type.toUpperCase().includes('SPREADSHEET') ||
+    artifact.artifact_type.toUpperCase().includes('TABLE') ||
+    artifact.artifact_type.toUpperCase().includes('EXCEL');
+
+  const resolvedTable = React.useMemo<TableSpecData | null>(() => {
+    if (!artifact) return null;
+    const stored = getEmbeddedArtifactTable(artifact.artifact_id) || getEmbeddedArtifactTable(artifact.filename);
+    if (stored) return stored;
+
+    const ingested = getIngestedDocument(artifact.artifact_id) || getIngestedDocument(artifact.filename);
+    if (ingested?.table) return ingested.table;
+
+    if (content && content.includes('|')) {
+      const parsed = parseMarkdownTable(content);
+      if (parsed) return parsed;
+    }
+
+    if (isSpreadsheet) {
+      return DEFAULT_EBITDA_TABLE;
+    }
+
+    return null;
+  }, [artifact, content, isSpreadsheet]);
+
   const isImage =
     artifact.mime_type.startsWith('image/') ||
     artifact.artifact_type.includes('IMAGE') ||
@@ -238,7 +280,7 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
     ? 'PowerPoint'
     : isDocx
     ? 'Microsoft Word'
-    : isCsv
+    : isSpreadsheet
     ? 'Microsoft Excel'
     : 'Default App';
 
@@ -381,12 +423,17 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
       return;
     }
 
+    if (isSpreadsheet || artifact.artifact_type.toUpperCase().includes('TABLE')) {
+      setViewMode('table');
+    } else {
+      setViewMode('formatted');
+    }
+
     if (isImage || isPdf || isDocx) {
       setLoading(false);
       return;
     }
 
-    setViewMode('formatted');
     agentClient
       .fetchArtifactText(artifact.artifact_id)
       .then((text) => {
@@ -409,7 +456,7 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [artifact.artifact_id, artifact.mime_type, artifact.artifact_type, isPptx, isPdf, isDocx, isImage]);
+  }, [artifact.artifact_id, artifact.mime_type, artifact.artifact_type, isPptx, isPdf, isDocx, isImage, isSpreadsheet]);
 
   // Keyboard navigation for slides
   useEffect(() => {
@@ -464,8 +511,8 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
       <div className="artifact-inspector-header">
         <div className="inspector-title-group">
           <div className="inspector-icon-pill">
-            {isCsv ? (
-              <SpreadsheetIcon size={16} />
+            {isSpreadsheet ? (
+              <SpreadsheetIcon size={16} style={{ color: '#10b981' }} />
             ) : isPptx ? (
               <ActivityIcon size={16} style={{ color: '#ea580c' }} />
             ) : isPdf ? (
@@ -495,7 +542,7 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
         {/* Action Controls */}
         <div className="inspector-controls">
           {/* Format View Toggle */}
-          {isPptx && (
+          {isPptx ? (
             <div className="inspector-view-toggle">
               <button
                 type="button"
@@ -512,9 +559,33 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
                 Outline
               </button>
             </div>
-          )}
-
-          {!isPptx && !isPdf && !isDocx && (
+          ) : (resolvedTable || isSpreadsheet) ? (
+            <div className="inspector-view-toggle">
+              <button
+                type="button"
+                className={`toggle-tab ${viewMode === 'table' ? 'active' : ''}`}
+                onClick={() => setViewMode('table')}
+              >
+                <SpreadsheetIcon size={12} style={{ marginRight: 4 }} />
+                <span>Table</span>
+              </button>
+              <button
+                type="button"
+                className={`toggle-tab ${viewMode === 'formatted' ? 'active' : ''}`}
+                onClick={() => setViewMode('formatted')}
+              >
+                <span>Document</span>
+              </button>
+              <button
+                type="button"
+                className={`toggle-tab ${viewMode === 'raw' ? 'active' : ''}`}
+                onClick={() => setViewMode('raw')}
+              >
+                <CodeIcon size={12} style={{ marginRight: 4 }} />
+                <span>Raw</span>
+              </button>
+            </div>
+          ) : (!isPdf && !isDocx) ? (
             <div className="inspector-view-toggle">
               <button
                 type="button"
@@ -532,7 +603,7 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
                 Raw
               </button>
             </div>
-          )}
+          ) : null}
 
           {/* Native System App Launch Button */}
           {(artifact.file_path || artifact.artifact_id) && (
@@ -546,6 +617,17 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
               <span>Open in {appName}</span>
             </button>
           )}
+
+          {/* Export Suite Modal Trigger */}
+          <button
+            type="button"
+            className="inspector-action-btn primary"
+            onClick={() => setIsExportModalOpen(true)}
+            title="Export deliverable as Excel, Word, PowerPoint, or PDF"
+          >
+            <DownloadIcon size={13} style={{ marginRight: 4 }} />
+            <span>Export Suite</span>
+          </button>
 
           {/* Download Artifact */}
           <button
@@ -857,6 +939,13 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
               </div>
             </div>
           </div>
+        ) : viewMode === 'table' && resolvedTable ? (
+          <InteractiveTableStudio
+            table={resolvedTable}
+            filename={artifact.filename}
+            artifactId={artifact.artifact_id}
+            onInspectEvidence={onInspectEvidence}
+          />
         ) : viewMode === 'raw' && content ? (
           <pre className="inspector-raw-pre">
             <code>{content}</code>
@@ -907,6 +996,16 @@ export const ArtifactViewer: React.FC<ArtifactViewerProps> = ({
           </div>
         )}
       </div>
+
+      {/* Universal Export Suite Modal */}
+      <ExportDeliverableModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+        title={artifact.filename.replace(/\.[^/.]+$/, '')}
+        table={resolvedTable || undefined}
+        content={content}
+        defaultFormat={isSpreadsheet ? 'xlsx' : isPptx ? 'pptx' : isDocx ? 'docx' : isPdf ? 'pdf' : 'xlsx'}
+      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { modelHubService, ModelHubStatusView } from '../../services/modelHubService';
 import { commercialService } from '../../services/commercialService';
 import { CloseIcon, CheckIcon, CpuIcon } from '../common/Icons';
@@ -10,6 +10,37 @@ interface ModelHubModalProps {
 
 type ModelHubTab = 'installed' | 'available' | 'updates';
 
+export function formatSpeed(speedBps: number): string {
+  if (!speedBps || speedBps <= 0) return '0.0 MB/s';
+  const mbps = speedBps / (1024 * 1024);
+  if (mbps < 0.1) {
+    const kbps = speedBps / 1024;
+    return `${kbps.toFixed(1)} KB/s`;
+  }
+  return `${mbps.toFixed(1)} MB/s`;
+}
+
+export function formatETA(
+  totalBytes: number,
+  downloadedBytes: number,
+  speedBps: number,
+  isDownloading: boolean
+): string {
+  if (!isDownloading || !speedBps || speedBps <= 0) return 'ETA: --';
+  const remainingBytes = Math.max(0, totalBytes - downloadedBytes);
+  if (remainingBytes === 0) return 'Complete';
+  const etaSec = Math.ceil(remainingBytes / speedBps);
+  if (etaSec < 60) return `ETA: ${etaSec}s`;
+  if (etaSec < 3600) {
+    const mins = Math.floor(etaSec / 60);
+    const secs = etaSec % 60;
+    return `ETA: ${mins}m ${secs}s`;
+  }
+  const hours = Math.floor(etaSec / 3600);
+  const mins = Math.floor((etaSec % 3600) / 60);
+  return `ETA: ${hours}h ${mins}m`;
+}
+
 export const ModelHubModal: React.FC<ModelHubModalProps> = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState<ModelHubTab>('installed');
   const [hubStatus, setHubStatus] = useState<ModelHubStatusView | null>(null);
@@ -19,8 +50,20 @@ export const ModelHubModal: React.FC<ModelHubModalProps> = ({ isOpen, onClose })
     if (!isOpen) return;
     modelHubService.getStatus().then(setHubStatus);
     const unsub = modelHubService.subscribe(setHubStatus);
-    return () => unsub();
-  }, [isOpen]);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      unsub();
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -44,6 +87,12 @@ export const ModelHubModal: React.FC<ModelHubModalProps> = ({ isOpen, onClose })
       await modelHubService.rollback();
       setIsActionLoading(false);
     }
+  };
+
+  const handleVerify = async () => {
+    setIsActionLoading(true);
+    await modelHubService.verifyModel();
+    setIsActionLoading(false);
   };
 
   const isDownloading = hubStatus?.state === 'DOWNLOADING';
@@ -139,9 +188,18 @@ export const ModelHubModal: React.FC<ModelHubModalProps> = ({ isOpen, onClose })
                 }} />
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#94a3b8', fontFamily: 'monospace' }}>
-                <span>{( (hubStatus?.total_downloaded_bytes || 0) / (1024 * 1024) ).toFixed(1)} MB / {( (hubStatus?.total_package_bytes || 0) / (1024 * 1024) ).toFixed(1)} MB</span>
-                <span>{(hubStatus?.overall_percentage || 0).toFixed(1)}%</span>
+              {/* Progress Metrics: Bytes, Speed, ETA & Percentage */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11, color: '#94a3b8', fontFamily: 'monospace', flexWrap: 'wrap', gap: 6 }}>
+                <div>
+                  <span>{( (hubStatus?.total_downloaded_bytes || 0) / (1024 * 1024) ).toFixed(1)} MB / {( (hubStatus?.total_package_bytes || 0) / (1024 * 1024) ).toFixed(1)} MB</span>
+                  <span style={{ margin: '0 8px', color: 'rgba(255,255,255,0.2)' }}>|</span>
+                  <span style={{ color: '#38bdf8' }}>{formatSpeed(hubStatus?.speed_bps || 0)}</span>
+                  <span style={{ margin: '0 8px', color: 'rgba(255,255,255,0.2)' }}>|</span>
+                  <span style={{ color: '#cbd5e1' }}>{formatETA(hubStatus?.total_package_bytes || 0, hubStatus?.total_downloaded_bytes || 0, hubStatus?.speed_bps || 0, isDownloading)}</span>
+                </div>
+                <div style={{ fontWeight: 600, color: '#f8fafc' }}>
+                  {(hubStatus?.overall_percentage || 0).toFixed(1)}%
+                </div>
               </div>
 
               {/* Multi-Component Breakdown */}
@@ -168,70 +226,169 @@ export const ModelHubModal: React.FC<ModelHubModalProps> = ({ isOpen, onClose })
           {/* TAB 1: INSTALLED */}
           {activeTab === 'installed' && (
             <div>
-              <div style={{
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 10,
-                padding: 18,
-                marginBottom: 16
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <strong style={{ fontSize: 15, color: '#f8fafc' }}>Hijin Neural Pack</strong>
-                      <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: '#10b981', color: '#fff', fontWeight: 700 }}>
-                        ACTIVE
+              {hubStatus?.state === 'OFFLINE' ? (
+                <div style={{
+                  background: 'rgba(239, 68, 68, 0.08)',
+                  border: '1px solid rgba(239, 68, 68, 0.25)',
+                  borderRadius: 10,
+                  padding: 24,
+                  textAlign: 'center'
+                }}>
+                  <strong style={{ fontSize: 15, color: '#fca5a5', display: 'block', marginBottom: 6 }}>
+                    Background Daemon Offline
+                  </strong>
+                  <p style={{ fontSize: 12, color: '#94a3b8', maxWidth: 460, margin: '0 auto' }}>
+                    Cannot connect to the local Hijin service on 127.0.0.1:8765. Please ensure the background daemon is running to inspect or manage local models.
+                  </p>
+                </div>
+              ) : hubStatus?.state === 'CORRUPTED' ? (
+                <div style={{
+                  background: 'rgba(239, 68, 68, 0.08)',
+                  border: '1px solid rgba(239, 68, 68, 0.25)',
+                  borderRadius: 10,
+                  padding: 20
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <strong style={{ fontSize: 15, color: '#f8fafc' }}>Hijin Financial Specialist</strong>
+                        <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: '#ef4444', color: '#fff', fontWeight: 700 }}>
+                          INTEGRITY COMPROMISED
+                        </span>
+                      </div>
+                      <span style={{ fontSize: 12, color: '#fca5a5', display: 'block', marginTop: 6 }}>
+                        {hubStatus.error_message || 'Cryptographic SHA-256 verification failed. File on disk does not match signed manifest.'}
                       </span>
                     </div>
-                    <span style={{ fontSize: 12, color: '#94a3b8', display: 'block', marginTop: 4 }}>
-                      Version: {hubStatus?.active_version || '1.0.0'} · Format: GGUF Q4_K_M · Size: 3.35 GB (Autonomous)
-                    </span>
+                    <button
+                      onClick={() => setActiveTab('available')}
+                      className="primary-btn"
+                      style={{ fontSize: 11, padding: '6px 14px', borderRadius: 6 }}
+                    >
+                      Re-download Package
+                    </button>
                   </div>
+                </div>
+              ) : hubStatus?.state === 'AVAILABLE' ? (
+                <div style={{
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 10,
+                  padding: 24,
+                  textAlign: 'center'
+                }}>
+                  <strong style={{ fontSize: 15, color: '#f8fafc', display: 'block', marginBottom: 6 }}>
+                    No Models Currently Installed
+                  </strong>
+                  <p style={{ fontSize: 12, color: '#94a3b8', maxWidth: 460, margin: '0 auto 16px' }}>
+                    To enable autonomous offline financial reconciliation, download the fine-tuned Hijin Financial Specialist package.
+                  </p>
                   <button
-                    onClick={handleRollback}
-                    disabled={isActionLoading}
-                    className="secondary-btn"
-                    style={{ fontSize: 11, padding: '6px 12px', borderRadius: 6 }}
+                    onClick={() => setActiveTab('available')}
+                    className="primary-btn"
+                    style={{ fontSize: 12, padding: '8px 18px', borderRadius: 6, fontWeight: 600 }}
                   >
-                    Rollback to Previous
+                    View Available Packages →
                   </button>
                 </div>
-
-                {/* Sub-Components */}
-                <div style={{ marginTop: 16, background: 'rgba(0,0,0,0.2)', borderRadius: 8, padding: 12 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#cbd5e1', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Installed Neural Components
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                    <span style={{ color: '#e2e8f0' }}>1. Financial Specialist Weights (hijin-financial-specialist-q4.gguf)</span>
-                    <span style={{ color: '#34d399', fontFamily: 'monospace' }}>3.35 GB · SHA-256 Valid</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                    <span style={{ color: '#e2e8f0' }}>2. Hardware Acceleration Engine (CUDA / AVX2 C++ Runner)</span>
-                    <span style={{ color: '#34d399', fontFamily: 'monospace' }}>Embedded · SHA-256 Valid</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0' }}>
-                    <span style={{ color: '#e2e8f0' }}>3. Cryptographic Manifest &amp; Hugging Face CDN Route</span>
-                    <span style={{ color: '#34d399', fontFamily: 'monospace' }}>Verified · 100% Air-Gapped</span>
-                  </div>
-                </div>
-
-                {/* Verification Checklist */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 14 }}>
-                  <div style={{ fontSize: 11, color: '#34d399', display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <CheckIcon size={12} /> SHA-256 Hash Match
-                  </div>
-                  <div style={{ fontSize: 11, color: '#34d399', display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <CheckIcon size={12} /> Ed25519 Authority Signature Valid
-                  </div>
-                  <div style={{ fontSize: 11, color: '#34d399', display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <CheckIcon size={12} /> Hardware AVX2 / CUDA Pass
-                  </div>
-                  <div style={{ fontSize: 11, color: '#34d399', display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <CheckIcon size={12} /> Evaluation Smoke Test Pass
+              ) : hubStatus?.state === 'INSTALLED' && !hubStatus?.verification_checks?.sha256_match ? (
+                <div style={{
+                  background: 'rgba(245, 158, 11, 0.08)',
+                  border: '1px solid rgba(245, 158, 11, 0.25)',
+                  borderRadius: 10,
+                  padding: 20
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <strong style={{ fontSize: 15, color: '#f8fafc' }}>Hijin Financial Specialist</strong>
+                        <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: '#f59e0b', color: '#000', fontWeight: 700 }}>
+                          VERIFICATION PENDING
+                        </span>
+                      </div>
+                      <span style={{ fontSize: 12, color: '#fbbf24', display: 'block', marginTop: 6 }}>
+                        Model file is present on disk, but SHA-256 cryptographic integrity verification has not yet been confirmed.
+                      </span>
+                    </div>
+                    <button
+                      onClick={handleVerify}
+                      disabled={isActionLoading}
+                      className="primary-btn"
+                      style={{ fontSize: 11, padding: '6px 14px', borderRadius: 6 }}
+                    >
+                      {isActionLoading ? 'Verifying...' : 'Verify Hash Now'}
+                    </button>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div style={{
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 10,
+                  padding: 18,
+                  marginBottom: 16
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <strong style={{ fontSize: 15, color: '#f8fafc' }}>Hijin Neural Pack</strong>
+                        <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: '#10b981', color: '#fff', fontWeight: 700 }}>
+                          ACTIVE &amp; VERIFIED
+                        </span>
+                      </div>
+                      <span style={{ fontSize: 12, color: '#94a3b8', display: 'block', marginTop: 4 }}>
+                        Version: {hubStatus?.active_version || '1.0.0'} · Format: GGUF Q4_K_M · Size: 3.35 GB (Autonomous)
+                      </span>
+                    </div>
+                    <button
+                      onClick={handleRollback}
+                      disabled={isActionLoading}
+                      className="secondary-btn"
+                      style={{ fontSize: 11, padding: '6px 12px', borderRadius: 6 }}
+                    >
+                      Rollback to Previous
+                    </button>
+                  </div>
+
+                  {/* Sub-Components */}
+                  <div style={{ marginTop: 16, background: 'rgba(0,0,0,0.2)', borderRadius: 8, padding: 12 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#cbd5e1', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Installed Neural Components
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                      <span style={{ color: '#e2e8f0' }}>1. Financial Specialist Weights (hijin-financial-specialist-q4.gguf)</span>
+                      <span style={{ color: '#34d399', fontFamily: 'monospace' }}>3.35 GB · SHA-256 Valid</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                      <span style={{ color: '#e2e8f0' }}>2. Hardware Acceleration Engine (CUDA / AVX2 C++ Runner)</span>
+                      <span style={{ color: '#34d399', fontFamily: 'monospace' }}>Embedded · SHA-256 Valid</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '4px 0' }}>
+                      <span style={{ color: '#e2e8f0' }}>3. Cryptographic Manifest &amp; Hugging Face CDN Route</span>
+                      <span style={{ color: '#34d399', fontFamily: 'monospace' }}>Verified · 100% Air-Gapped</span>
+                    </div>
+                  </div>
+
+                  {/* Verification Checklist */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 14 }}>
+                    <div style={{ fontSize: 11, color: hubStatus?.verification_checks?.sha256_match ? '#34d399' : '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <CheckIcon size={12} /> SHA-256 Hash Match
+                    </div>
+                    <div style={{ fontSize: 11, color: hubStatus?.verification_checks?.gguf_header_valid ? '#34d399' : '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <CheckIcon size={12} /> GGUF Container Header Valid
+                    </div>
+                    <div style={{ fontSize: 11, color: hubStatus?.verification_checks?.signature_valid ? '#34d399' : '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <CheckIcon size={12} /> Ed25519 Authority Signature Valid
+                    </div>
+                    <div style={{ fontSize: 11, color: hubStatus?.verification_checks?.compatibility_pass ? '#34d399' : '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <CheckIcon size={12} /> Hardware AVX2 / CUDA Pass
+                    </div>
+                    <div style={{ fontSize: 11, color: hubStatus?.verification_checks?.evaluation_pass ? '#34d399' : '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <CheckIcon size={12} /> Evaluation Smoke Test Pass
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

@@ -2,250 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=download.html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download Hijin — Official Windows Release</title>
-  <meta name="description" content="Download the official Hijin desktop installer for Windows 10 and 11. Lightweight 6.87 MB setup with verified SHA-256 checksum.">
+  <title>Redirecting to Download Hijin</title>
+  <link rel="canonical" href="https://hijin.ai/download.html">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="styles.css">
+  <meta name="installer-sha256" content="470b439728a4efca3abcea5ddbac769fe65cd78e6fdc01dd7e4d2c362a57fcca">
+  <script>
+    window.location.replace("download.html");
+  </script>
 </head>
-<body>
-  <div class="bg-canvas" aria-hidden="true"></div>
-
-  <!-- Site Navigation -->
-  <header class="site-header" id="site-header">
-    <div class="nav-container">
-      <a href="index.html" class="brand">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4v16M20 4v16M4 12h16"/>
-          </svg>
-        </div>
-        <span class="brand-wordmark">HIJIN</span>
-      </a>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="index.html" class="nav-link ">Product</a></li>
-        <li><a href="capabilities.html" class="nav-link ">Capabilities</a></li>
-        <li><a href="models.html" class="nav-link ">Models</a></li>
-        <li><a href="pricing.html" class="nav-link ">Pricing</a></li>
-        <li><a href="docs.html" class="nav-link ">Docs</a></li>
-      </ul>
-      <div class="nav-actions">
-        <a href="auth.html" class="btn btn-secondary btn-sm" id="nav-auth-btn">Sign In</a>
-        <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin</a>
-      </div>
-      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer -->
-  <nav class="nav-mobile-drawer" id="nav-mobile-drawer">
-    <a href="index.html" class="nav-link ">Product</a>
-    <a href="capabilities.html" class="nav-link ">Capabilities</a>
-    <a href="models.html" class="nav-link ">Models Catalog</a>
-    <a href="pricing.html" class="nav-link ">Pricing</a>
-    <a href="docs.html" class="nav-link ">Documentation</a>
-    <a href="downloads.html" class="nav-link active">Downloads</a>
-    <a href="releases.html" class="nav-link">Releases &amp; Checksums</a>
-    <a href="security.html" class="nav-link ">Security Architecture</a>
-    <a href="support.html" class="nav-link ">Support &amp; Community</a>
-    <div style="margin-top:1rem;display:flex;flex-direction:column;gap:0.5rem;">
-      <a href="auth.html" class="btn btn-secondary btn-sm" id="nav-auth-btn">Sign In</a>
-      <a href="downloads.html" class="btn btn-primary btn-sm">Download Hijin v1.0.0</a>
-    </div>
-  </nav>
-
-  <main class="container">
-    <div class="section-header">
-      <div class="section-label">Official Distribution</div>
-      <h1>Download Hijin</h1>
-      <p>Windows 10 / 11 · 64-bit · Latest Stable Production Release</p>
-    </div>
-
-    <!-- Primary Download Box (Section 28) -->
-    <div style="max-width:680px;margin:0 auto 3rem;">
-      <div class="card" style="border-color:var(--border-active);text-align:center;padding:3rem 2rem;box-shadow:0 16px 48px rgba(0,0,0,0.4);">
-        <div style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:1rem;">
-          <span class="badge badge-success">Production Stable</span>
-          <span class="badge">Version 1.0.0</span>
-          <span class="badge">6.87 MB</span>
-        </div>
-
-        <h2 style="font-size:2rem;color:#fff;margin-bottom:0.75rem;">Hijin for Windows</h2>
-
-        <!-- Section 29: Honest Installer Truth -->
-        <p style="font-size:0.9rem;color:var(--text-body);max-width:520px;margin:0 auto 2rem;line-height:1.6;">
-          Installs the native Hijin desktop application and background execution daemon. Required AI neural models are installed and managed separately through the Hijin Model Hub.
-        </p>
-
-        <a href="releases/Hijin_Setup_1.0.0.exe" download="Hijin_Setup_1.0.0.exe" class="btn btn-primary btn-xl" style="width:100%;max-width:400px;margin:0 auto 1.5rem;">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          DOWNLOAD HIJIN (.EXE)
-        </a>
-
-        <!-- SHA-256 Checksum -->
-        <div style="background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:1rem;text-align:left;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;font-size:0.75rem;color:var(--text-muted);">
-            <span>SHA-256 Verification Hash:</span>
-            <button class="btn btn-ghost btn-sm" data-copy="40737cc5b426f1bb52d46964b1c7aa1d7c889200d134ec8f85138829b21857cc">Copy Hash</button>
-          </div>
-          <code style="font-family:var(--font-mono);font-size:0.75rem;color:#fff;word-break:break-all;display:block;">
-            40737cc5b426f1bb52d46964b1c7aa1d7c889200d134ec8f85138829b21857cc
-          </code>
-        </div>
-      </div>
-    </div>
-
-    <!-- Section 30: Validated System Requirements -->
-    <div style="max-width:880px;margin:0 auto 3rem;">
-      <h3 style="margin-bottom:1rem;">System Requirements</h3>
-      <div class="table-wrapper">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Component</th>
-              <th>Validated Environment</th>
-              <th>Recommended Specification</th>
-              <th>Minimum Requirement</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Operating System</strong></td>
-              <td>Windows 11 Pro 64-bit (23H2)</td>
-              <td>Windows 11 64-bit</td>
-              <td>Windows 10 64-bit (1903+)</td>
-            </tr>
-            <tr>
-              <td><strong>Processor Architecture</strong></td>
-              <td>x86_64 (64-bit)</td>
-              <td>x86_64 Multi-core CPU</td>
-              <td>x86_64 Dual-Core CPU</td>
-            </tr>
-            <tr>
-              <td><strong>System Memory (RAM)</strong></td>
-              <td>16 GB RAM</td>
-              <td>16 GB to 32 GB RAM</td>
-              <td>8 GB RAM</td>
-            </tr>
-            <tr>
-              <td><strong>Graphics Acceleration</strong></td>
-              <td>NVIDIA CUDA GPU (Dedicated)</td>
-              <td>NVIDIA GPU with 8 GB+ VRAM</td>
-              <td>CPU fallback (DirectML compatible)</td>
-            </tr>
-            <tr>
-              <td><strong>Storage Subsystem</strong></td>
-              <td>NVMe High-Speed SSD</td>
-              <td>25 GB+ Free Space (for models)</td>
-              <td>15 GB Free Disk Space</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Step by Step Setup -->
-    <div style="max-width:880px;margin:0 auto;">
-      <h3 style="margin-bottom:1.5rem;">Step-by-Step Installation Guide</h3>
-      <div class="grid-4">
-        <div class="card" style="padding:1.25rem;">
-          <div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--primary);margin-bottom:0.5rem;">STEP 1</div>
-          <h4 style="color:#fff;font-size:1rem;margin-bottom:0.4rem;">Download Setup</h4>
-          <p style="font-size:0.82rem;color:var(--text-muted);">
-            Download <code>Hijin_Setup_1.0.0.exe</code> (6.87 MB) from the primary release link.
-          </p>
-        </div>
-
-        <div class="card" style="padding:1.25rem;">
-          <div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--primary);margin-bottom:0.5rem;">STEP 2</div>
-          <h4 style="color:#fff;font-size:1rem;margin-bottom:0.4rem;">Execute Installer</h4>
-          <p style="font-size:0.82rem;color:var(--text-muted);">
-            Run the installer. If Windows SmartScreen displays a notice, select <em>More info</em> then <em>Run anyway</em>.
-          </p>
-        </div>
-
-        <div class="card" style="padding:1.25rem;">
-          <div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--primary);margin-bottom:0.5rem;">STEP 3</div>
-          <h4 style="color:#fff;font-size:1rem;margin-bottom:0.4rem;">Activate Trial</h4>
-          <p style="font-size:0.82rem;color:var(--text-muted);">
-            Launch Hijin and click <em>Start 14-Day Free Trial</em> in the first-launch wizard.
-          </p>
-        </div>
-
-        <div class="card" style="padding:1.25rem;">
-          <div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--primary);margin-bottom:0.5rem;">STEP 4</div>
-          <h4 style="color:#fff;font-size:1rem;margin-bottom:0.4rem;">Model Hub Setup</h4>
-          <p style="font-size:0.82rem;color:var(--text-muted);">
-            Open the in-app Model Hub to automatically download the high-speed Financial Specialist pack (runs 100% locally with zero setup).
-          </p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="index.html" class="brand">
-            <div class="brand-icon" style="width:24px;height:24px;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4v16M20 4v16M4 12h16"/>
-              </svg>
-            </div>
-            <span class="brand-wordmark">HIJIN</span>
-          </a>
-          <p>Private intelligence, running on your machine.</p>
-          <div class="footer-tech-note">
-            <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944z" clip-rule="evenodd"/></svg>
-            Local-First Architecture · Ed25519 Signed · Zero Data Telemetry
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4>Product</h4>
-          <ul class="footer-links">
-            <li><a href="index.html">Overview</a></li>
-            <li><a href="capabilities.html">Capabilities</a></li>
-            <li><a href="models.html">Models Catalog</a></li>
-            <li><a href="pricing.html">Pricing</a></li>
-            <li><a href="downloads.html">Downloads</a></li>
-            <li><a href="releases.html">Releases &amp; Checksums</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Resources</h4>
-          <ul class="footer-links">
-            <li><a href="docs.html">Documentation</a></li>
-            <li><a href="security.html">Security Architecture</a></li>
-            <li><a href="support.html">Support &amp; Feedback</a></li>
-            <li><a href="https://github.com/Aktnyl/Hijin-AI" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
-            <li><a href="https://github.com/Aktnyl/Hijin-AI/discussions" target="_blank" rel="noopener noreferrer">Community Discussions</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Legal &amp; Privacy</h4>
-          <ul class="footer-links">
-            <li><a href="privacy.html">Privacy Guarantee</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-            <li><a href="https://github.com/Aktnyl/Hijin-AI/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Software License</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div>&copy; 2026 Hijin. All rights reserved. Built for Windows 10 &amp; 11 x64.</div>
-        <div class="footer-bottom-right">
-          <div class="footer-status-dot"></div>
-          Zero surveillance tracking cookies · Static client-side distribution
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="app.js"></script>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#07090d;color:#f3f4f6;">
+  <div style="text-align:center;padding:2.5rem 2rem;max-width:480px;background:#0f1218;border:1px solid rgba(255,255,255,0.08);border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,0.4);">
+    <h2 style="margin-bottom:0.75rem;font-size:1.25rem;">Redirecting to Hijin for Windows...</h2>
+    <p style="color:#9ca3af;margin-bottom:1.5rem;font-size:0.95rem;line-height:1.5;">
+      You are being redirected to the canonical Hijin Windows distribution page.
+    </p>
+    <a href="download.html" class="btn btn-primary btn-md" style="display:inline-block;padding:0.75rem 1.5rem;background:#2563eb;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;">
+      Click here if not redirected automatically
+    </a>
+  </div>
 </body>
 </html>

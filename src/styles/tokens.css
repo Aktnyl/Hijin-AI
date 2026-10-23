@@ -1,0 +1,310 @@
+/* =========================================================================
+   HIJIN WORKSTATION — OBSIDIAN CORE DESIGN TOKENS (DS-P1-01)
+   Specification: Authoritative Stage 8.7 Master Implementation Roadmap
+   Accessibility Standard: WCAG 2.2 AA Formally Locked
+   ========================================================================= */
+
+:root {
+  /* =========================================================================
+     1. OBSIDIAN CANVASES & SURFACES
+     ========================================================================= */
+  --bg-canvas: #0B0F17;            /* Pitch-black canvas background */
+  --bg-surface: #0F1218;           /* Primary surface layer */
+  --bg-surface-elevated: #141721;  /* Elevated cards, modals & drawers */
+  --bg-surface-hover: #191D2A;     /* Hover state on surface elements */
+  --bg-composer: rgba(18, 21, 30, 0.88); /* Floating composer dock */
+
+  /* Borders & Dividers */
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-hover: rgba(255, 255, 255, 0.16);
+  --border-focus: #3B82F6;
+
+  /* =========================================================================
+     2. ACCESSIBLE TYPOGRAPHY TOKENS (WCAG 2.2 SC 1.4.3 >= 4.5:1)
+     ========================================================================= */
+  /* Normal text: Contrast >= 4.5:1 against #0B0F17 (Measured: 18.35:1) */
+  --text-primary: #F9FAFB;
+  /* Secondary text: Contrast >= 4.5:1 against #0B0F17 (Measured: 7.55:1) */
+  --text-secondary: #9CA3AF;
+  /* Muted metadata: Contrast >= 4.5:1 against #0B0F17 (Measured: 7.48:1) */
+  --text-muted: #94A3B8;
+  /* Headings: Crisp maximum contrast (Measured: 19.18:1) */
+  --text-heading: #FFFFFF;
+
+  /* =========================================================================
+     3. PRIMARY ACTION & ENERGY (WCAG 2.2 SC 1.4.3 >= 4.5:1)
+     ========================================================================= */
+  /* Electric Blue: Contrast ratio with white #FFFFFF text is 5.17:1 (exceeds 4.5:1) */
+  --accent-primary: #2563EB;
+  --accent-primary-hover: #1D4ED8;
+  --accent-primary-active: #1E40AF;
+  --accent-glow: rgba(37, 99, 235, 0.28);
+  --accent-cyan: #06B6D4;
+
+  /* =========================================================================
+     4. FOCUS VISIBILITY & APPEARANCE (WCAG 2.2 SC 2.4.11 & 2.4.13)
+     ========================================================================= */
+  /* Focus indicator: 2px solid #3B82F6 with 2px offset; contrast ratio 5.21:1 against canvas (>= 3.0:1) */
+  --focus-ring-width: 2px;
+  --focus-ring-style: solid;
+  --focus-ring-color: #3B82F6;
+  --focus-ring-offset: 2px;
+  --focus-ring: 2px solid #3B82F6;
+  --focus-ring-shadow: 0 0 0 2px var(--bg-canvas), 0 0 0 4px #3B82F6;
+
+  /* =========================================================================
+     5. MINIMUM TARGET SIZES (WCAG 2.2 SC 2.5.8)
+     ========================================================================= */
+  --target-size-min-desktop: 24px;  /* Minimum 24x24px clickable target on desktop */
+  --target-size-min-touch: 44px;    /* Minimum 44x44px target on touch surfaces */
+
+  /* =========================================================================
+     6. SEMANTIC STATUS BADGES & DISCREPANCY HIGHLIGHTS
+     ========================================================================= */
+  /* Reconciled / Verified Match (Emerald) */
+  --semantic-success: #10B981;
+  --semantic-success-bg: rgba(16, 185, 129, 0.12);
+  --semantic-success-border: rgba(16, 185, 129, 0.28);
+
+  /* Warning / Review Required (Amber) */
+  --semantic-warning: #F59E0B;
+  --semantic-warning-bg: rgba(245, 158, 11, 0.12);
+  --semantic-warning-border: rgba(245, 158, 11, 0.28);
+
+  /* Discrepancy / Math Error (Coral / Red) */
+  --semantic-error: #EF4444;
+  --semantic-error-bg: rgba(239, 68, 68, 0.12);
+  --semantic-error-border: rgba(239, 68, 68, 0.28);
+
+  /* Informational / Grounded Evidence (Blue) */
+  --semantic-info: #3B82F6;
+  --semantic-info-bg: rgba(59, 130, 246, 0.12);
+  --semantic-info-border: rgba(59, 130, 246, 0.28);
+
+  /* =========================================================================
+     7. HIGH-DENSITY TYPOGRAPHY & TABULAR NUMERICS (DS-P1-02)
+     ========================================================================= */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
+
+  /* Tabular Figures for Financial Alignment */
+  --font-tabular: 'JetBrains Mono', monospace;
+  --tabular-numerics: 'tnum' 1, 'zero' 1;
+
+  /* =========================================================================
+     8. SHADOWS & ELEVATION
+     ========================================================================= */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.60);
+  --shadow-modal: 0 24px 64px -8px rgba(0, 0, 0, 0.75), 0 0 0 1px var(--border-default);
+
+  /* Border Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Animation Timings */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================================================================
+   UTILITY CLASSES FOR HIGH-DENSITY & TABULAR NUMERICS
+   ========================================================================= */
+.tabular-nums {
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: 'tnum' 1 !important;
+}
+
+.financial-figure {
+  font-family: var(--font-mono) !important;
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: 'tnum' 1 !important;
+  letter-spacing: -0.01em;
+}
+
+/* Accessible Focus Ring Utility */
+.focus-ring-accessible:focus-visible {
+  outline: none !important;
+  box-shadow: var(--focus-ring-shadow) !important;
+}
+
+/* Minimum Click Target Utility */
+.min-target-desktop {
+  min-width: var(--target-size-min-desktop);
+  min-height: var(--target-size-min-desktop);
+}
+
+/* =========================================================================
+   ACCESSIBLE BUTTON STYLES (DS-P1-02)
+   ========================================================================= */
+.hijin-btn-primary {
+  background-color: var(--accent-primary, #2563EB) !important;
+  color: #FFFFFF !important;
+  border: 1px solid transparent !important;
+}
+.hijin-btn-primary:hover:not(:disabled) {
+  background-color: var(--accent-primary-hover, #1D4ED8) !important;
+}
+.hijin-btn-primary:active:not(:disabled) {
+  background-color: var(--accent-primary-active, #1E40AF) !important;
+}
+
+.hijin-btn-secondary {
+  background-color: var(--bg-surface-elevated, #141721) !important;
+  color: var(--text-primary, #F9FAFB) !important;
+  border: 1px solid var(--border-default) !important;
+}
+.hijin-btn-secondary:hover:not(:disabled) {
+  background-color: var(--bg-surface-hover, #191D2A) !important;
+  border-color: var(--border-hover) !important;
+}
+
+.hijin-btn-outline {
+  background-color: transparent !important;
+  color: var(--text-primary, #F9FAFB) !important;
+  border: 1px solid var(--border-default) !important;
+}
+.hijin-btn-outline:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: var(--border-hover) !important;
+}
+
+.hijin-btn-ghost {
+  background-color: transparent !important;
+  color: var(--text-secondary, #9CA3AF) !important;
+  border: 1px solid transparent !important;
+}
+.hijin-btn-ghost:hover:not(:disabled) {
+  color: var(--text-primary, #F9FAFB) !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.hijin-btn-danger {
+  background-color: var(--semantic-error, #EF4444) !important;
+  color: #FFFFFF !important;
+  border: 1px solid transparent !important;
+}
+.hijin-btn-danger:hover:not(:disabled) {
+  background-color: #DC2626 !important;
+}
+
+/* Button Sizes (Enforcing Minimum 24x24 Desktop Click Target) */
+.hijin-btn-sm {
+  min-height: 28px;
+  min-width: 28px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+.hijin-btn-md {
+  min-height: 36px;
+  min-width: 36px;
+  padding: 6px 14px;
+  font-size: 13px;
+}
+.hijin-btn-lg {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.hijin-btn:focus-visible {
+  outline: none !important;
+  box-shadow: var(--focus-ring-shadow) !important;
+}
+
+/* =========================================================================
+   ACCESSIBLE BADGE STYLES (DS-P1-02)
+   ========================================================================= */
+.hijin-badge-sm {
+  padding: 2px 7px;
+  font-size: 10px;
+}
+.hijin-badge-md {
+  padding: 3px 9px;
+  font-size: 11px;
+}
+
+.hijin-badge-success {
+  color: var(--semantic-success, #10B981) !important;
+  background-color: var(--semantic-success-bg, rgba(16, 185, 129, 0.12)) !important;
+  border: 1px solid var(--semantic-success-border, rgba(16, 185, 129, 0.28)) !important;
+}
+
+.hijin-badge-warning {
+  color: var(--semantic-warning, #F59E0B) !important;
+  background-color: var(--semantic-warning-bg, rgba(245, 158, 11, 0.12)) !important;
+  border: 1px solid var(--semantic-warning-border, rgba(245, 158, 11, 0.28)) !important;
+}
+
+.hijin-badge-error {
+  color: var(--semantic-error, #EF4444) !important;
+  background-color: var(--semantic-error-bg, rgba(239, 68, 68, 0.12)) !important;
+  border: 1px solid var(--semantic-error-border, rgba(239, 68, 68, 0.28)) !important;
+}
+
+.hijin-badge-info {
+  color: var(--semantic-info, #3B82F6) !important;
+  background-color: var(--semantic-info-bg, rgba(59, 130, 246, 0.12)) !important;
+  border: 1px solid var(--semantic-info-border, rgba(59, 130, 246, 0.28)) !important;
+}
+
+.hijin-badge-neutral {
+  color: var(--text-secondary, #9CA3AF) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--border-default) !important;
+}
+
+/* =========================================================================
+   INTERACTIVE EVIDENCE CITATION PILLS (UX-P1-02)
+   ========================================================================= */
+.evidence-inline-citation {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1px 6px !important;
+  margin: 0 3px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  font-family: var(--font-mono) !important;
+  color: var(--semantic-info, #3B82F6) !important;
+  background-color: var(--semantic-info-bg, rgba(59, 130, 246, 0.12)) !important;
+  border: 1px solid var(--semantic-info-border, rgba(59, 130, 246, 0.28)) !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.15s ease !important;
+  vertical-align: baseline !important;
+  line-height: 1.4 !important;
+}
+
+.evidence-inline-citation:hover {
+  background-color: rgba(59, 130, 246, 0.25) !important;
+  border-color: var(--semantic-info, #3B82F6) !important;
+  transform: translateY(-1px);
+}
+
+.evidence-inline-citation:focus-visible {
+  outline: none !important;
+  box-shadow: var(--focus-ring-shadow) !important;
+}
+
+/* =========================================================================
+   3-COLUMN RESPONSIVE COLLAPSE (UX-P1-01)
+   ========================================================================= */
+@media (max-width: 1100px) {
+  .panels-split-container:not(.theater-mode-active) .panel-left-wrapper:not(.collapsed) {
+    width: 220px !important;
+  }
+  .panels-split-container:not(.theater-mode-active) .panel-right-wrapper:not(.maximized) {
+    width: 340px !important;
+  }
+}
+
+

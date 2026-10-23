@@ -2,12 +2,17 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   agentClient,
   AgentEvent,
+  AgentStep,
   ArtifactRecord,
   ConversationRecord,
+  DaemonConnectionStatus,
   ModelView,
   TaskView,
 } from './services/agentClient';
 import { settingsStore } from './services/settingsStore';
+import { commercialService, CommercialLicenseView } from './services/commercialService';
+import { evaluateReadinessState, ReadinessDescriptor } from './services/readinessState';
+import { getIpcSessionToken } from './services/tauriBridge';
 import { ChatPanel, AttachedFile } from './components/workbench/ChatPanel';
 import { LeftNavigationPanel } from './components/workbench/LeftNavigationPanel';
 import { ArtifactViewer, GroundedEvidenceItem } from './components/workbench/ArtifactViewer';
@@ -17,6 +22,7 @@ import { ModelHubModal } from './components/workbench/ModelHubModal';
 import { WorkbenchHeader } from './components/workbench/WorkbenchHeader';
 import { CommandPalette } from './components/workbench/CommandPalette';
 import { FirstLaunchWizard } from './components/onboarding/FirstLaunchWizard';
+import { ReconciliationView } from './components/workbench/ReconciliationView';
 
 export const App: React.FC = () => {
   const [settings, setSettings] = useState(settingsStore.getSettings());
@@ -25,9 +31,18 @@ export const App: React.FC = () => {
   const [isModelHubOpen, setIsModelHubOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(!settingsStore.getSettings().firstLaunchCompleted);
+  const [commercialLicense, setCommercialLicense] = useState<CommercialLicenseView>(commercialService.getStatus());
+  const [dismissLicenseBanner, setDismissLicenseBanner] = useState(false);
 
-  // Backend Connectivity State
+  // Commercial state listener
+  useEffect(() => {
+    const unsub = commercialService.subscribe((s) => setCommercialLicense(s));
+    return () => unsub();
+  }, []);
+
+  // Backend Connectivity State (UX-P0-04 Heartbeat)
   const [isBackendConnected, setIsBackendConnected] = useState(false);
+  const [daemonStatus, setDaemonStatus] = useState<DaemonConnectionStatus>('disconnected');
   const [availableModels, setAvailableModels] = useState<ModelView[]>([]);
   const [selectedModel, setSelectedModel] = useState<string>('auto');
 
@@ -46,6 +61,7 @@ export const App: React.FC = () => {
   // Active Execution State
   const [isExecuting, setIsExecuting] = useState(false);
   const [executingStatusLabel, setExecutingStatusLabel] = useState<string>('');
+  const [activeWorkspaceMode, setActiveWorkspaceMode] = useState<'chat' | 'reconciliation'>('chat');
 
   const activeTaskPollRef = useRef<number | null>(null);
 
@@ -55,11 +71,14 @@ export const App: React.FC = () => {
     return () => unsub();
   }, []);
 
-  // Poll backend health and connect
+  // Poll backend health and connect (5s heartbeat per UX-P0-04)
   const checkBackend = useCallback(async () => {
     try {
       const health = await agentClient.getHealth();
-      if (health && health.status === 'HEALTHY') {
+      const status = agentClient.evaluateStatus(health);
+      setDaemonStatus(status);
+
+      if (status === 'active' || status === 'degraded') {
         setIsBackendConnected(true);
 
         // Load models
@@ -81,20 +100,28 @@ export const App: React.FC = () => {
             return prev;
           }
 
-          if (prev.length === convList.length) {
-            const isIdentical = prev.every((p, i) => {
-              const c = convList[i];
-              return (
-                c &&
-                p.conversation_id === c.conversation_id &&
-                p.updated_at === c.updated_at &&
-                p.title === c.title &&
-                p.messages.length === c.messages.length
-              );
-            });
-            if (isIdentical) return prev;
-          }
-          return convList;
+          // Preserve in-memory metadata (thinking, agent steps, response_spec)
+          return convList.map((c) => {
+            const existing = prev.find((p) => p.conversation_id === c.conversation_id);
+            if (!existing) return c;
+            return {
+              ...c,
+              messages: c.messages.map((m) => {
+                const exMsg = existing.messages.find((em) => em.message_id === m.message_id);
+                if (!exMsg) return m;
+                return {
+                  ...m,
+                  thinking_text: exMsg.thinking_text || m.thinking_text,
+                  agent_steps: exMsg.agent_steps || m.agent_steps,
+                  duration_seconds: exMsg.duration_seconds || m.duration_seconds,
+                  metadata: {
+                    ...m.metadata,
+                    ...(exMsg.metadata || {}),
+                  },
+                };
+              }),
+            };
+          });
         });
         if (convList.length > 0 && !activeConversationId) {
           setActiveConversationId(convList[0].conversation_id);
@@ -105,19 +132,36 @@ export const App: React.FC = () => {
         setArtifacts(artList);
 
         return true;
+      } else {
+        setIsBackendConnected(false);
       }
     } catch {
       setIsBackendConnected(false);
+      setDaemonStatus('disconnected');
     }
     return false;
   }, [activeConversationId]);
 
   useEffect(() => {
-    checkBackend();
+    let active = true;
+    const initTokenAndPoll = async () => {
+      const token = await getIpcSessionToken();
+      if (token && active) {
+        agentClient.setSessionToken(token);
+        commercialService.setSessionToken(token);
+      }
+      if (active) {
+        checkBackend();
+      }
+    };
+    initTokenAndPoll();
     const interval = setInterval(() => {
       checkBackend();
-    }, 4000);
-    return () => clearInterval(interval);
+    }, 5000); // 5s background polling per UX-P0-04
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, [checkBackend]);
 
   // Global Keyboard Shortcuts (P29 Section 39)
@@ -338,6 +382,61 @@ export const App: React.FC = () => {
             })
           );
         },
+        onThinking: (delta, accumulated) => {
+          setConversations((prev) =>
+            prev.map((c) => {
+              if (c.conversation_id !== targetConvId) return c;
+              return {
+                ...c,
+                messages: c.messages.map((m) =>
+                  m.message_id === streamingMsgId
+                    ? {
+                        ...m,
+                        thinking_text: accumulated,
+                        metadata: {
+                          ...m.metadata,
+                          thinking_text: accumulated,
+                          is_streaming: true,
+                        },
+                      }
+                    : m
+                ),
+              };
+            })
+          );
+        },
+        onAgentStep: (step) => {
+          setExecutingStatusLabel(`[${step.agent}] ${step.label}`);
+          setConversations((prev) =>
+            prev.map((c) => {
+              if (c.conversation_id !== targetConvId) return c;
+              return {
+                ...c,
+                messages: c.messages.map((m) => {
+                  if (m.message_id !== streamingMsgId) return m;
+                  const existingSteps = m.agent_steps || [];
+                  const existingIdx = existingSteps.findIndex((s) => s.id === step.id);
+                  let updatedSteps: AgentStep[];
+                  if (existingIdx >= 0) {
+                    updatedSteps = [...existingSteps];
+                    updatedSteps[existingIdx] = step;
+                  } else {
+                    updatedSteps = [...existingSteps, step];
+                  }
+                  return {
+                    ...m,
+                    agent_steps: updatedSteps,
+                    metadata: {
+                      ...m.metadata,
+                      agent_steps: updatedSteps,
+                      is_streaming: true,
+                    },
+                  };
+                }),
+              };
+            })
+          );
+        },
         onDone: async (data) => {
           activeStreamRef.current = null;
           setIsExecuting(false);
@@ -356,9 +455,15 @@ export const App: React.FC = () => {
                         content: finalContent,
                         is_verified: isVerified,
                         classification: isVerified ? 'TASK_VERIFIED' : 'CONVERSATIONAL',
+                        thinking_text: data.thinking_text || m.thinking_text,
+                        agent_steps: data.agent_steps || m.agent_steps,
+                        duration_seconds: data.duration_seconds || m.duration_seconds,
                         metadata: {
                           ...m.metadata,
                           response_spec: data.response_spec,
+                          thinking_text: data.thinking_text || m.thinking_text,
+                          agent_steps: data.agent_steps || m.agent_steps,
+                          duration_seconds: data.duration_seconds || m.duration_seconds,
                           is_streaming: false,
                         },
                       }
@@ -372,9 +477,13 @@ export const App: React.FC = () => {
             setConversations(cList);
             const aList = await agentClient.getArtifacts();
             setArtifacts(aList);
-            const artRes = data.response_spec?.metadata?.artifact_result;
-            if (artRes && artRes.artifact_id) {
-              const matched = aList.find((a) => a.artifact_id === artRes.artifact_id) || artRes;
+            const artRes = data.response_spec?.artifact_result || 
+              data.response_spec?.artifact || 
+              data.response_spec?.metadata?.artifact_result || 
+              (data as any).artifact;
+            if (artRes) {
+              const artObj = artRes.artifact_id ? artRes : (artRes as any);
+              const matched = aList.find((a) => a.artifact_id === artObj.artifact_id) || artObj;
               setActiveEvidence(null);
               setActiveArtifact(matched);
               setIsArtifactPanelOpen(true);
@@ -554,6 +663,7 @@ export const App: React.FC = () => {
         selectedModel={selectedModel}
         onSelectModel={setSelectedModel}
         isBackendConnected={isBackendConnected}
+        daemonStatus={daemonStatus}
         isExecuting={isExecuting}
         hasActiveArtifact={Boolean(activeArtifact)}
         isArtifactPanelOpen={isArtifactPanelOpen}
@@ -561,6 +671,67 @@ export const App: React.FC = () => {
         onOpenSettings={() => setIsSettingsOpen(true)}
         onOpenModelHub={() => setIsModelHubOpen(true)}
       />
+
+      {/* Non-Blocking License Warning Banner (Zero-Lockout Invariant) */}
+      {(commercialLicense.status === 'EXPIRED' ||
+        commercialLicense.status === 'REVOKED' ||
+        commercialLicense.status === 'GRACE_PERIOD') &&
+        !dismissLicenseBanner && (
+          <div
+            style={{
+              background: 'linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%)',
+              borderBottom: '1px solid rgba(239, 68, 68, 0.3)',
+              padding: '6px 16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              fontSize: '12px',
+              color: '#f8fafc',
+              zIndex: 50,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ color: '#f59e0b', fontWeight: 600 }}>Notice:</span>
+              <span>
+                {commercialLicense.status === 'EXPIRED'
+                  ? 'Your Hijin subscription has expired. All existing projects, documents, and exports remain fully accessible.'
+                  : commercialLicense.status === 'REVOKED'
+                  ? 'Your license key has been revoked. Offline data and exports remain accessible.'
+                  : `Your license is in grace period (${commercialLicense.daysRemaining} days remaining).`}
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <a
+                href={commercialLicense.renewalUrl || 'https://hijin.ai/pricing'}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  color: '#38bdf8',
+                  textDecoration: 'underline',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                Renew License →
+              </a>
+              <button
+                type="button"
+                onClick={() => setDismissLicenseBanner(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#94a3b8',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  padding: '0 4px',
+                }}
+                title="Dismiss banner"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
 
       {/* Main Studio Resizable Layout */}
       <ResizablePanels
@@ -574,8 +745,14 @@ export const App: React.FC = () => {
           <LeftNavigationPanel
             conversations={conversations}
             activeConversationId={activeConversationId}
-            onSelectConversation={handleSelectConversation}
-            onNewChat={handleNewChat}
+            onSelectConversation={(id) => {
+              setActiveWorkspaceMode('chat');
+              handleSelectConversation(id);
+            }}
+            onNewChat={() => {
+              setActiveWorkspaceMode('chat');
+              handleNewChat();
+            }}
             onRenameConversation={handleRenameConversation}
             onDeleteConversation={handleDeleteConversation}
             artifacts={artifacts}
@@ -583,29 +760,38 @@ export const App: React.FC = () => {
             onSelectArtifact={handleSelectArtifact}
             onOpenSettings={() => setIsSettingsOpen(true)}
             isBackendConnected={isBackendConnected}
+            activeMode={activeWorkspaceMode}
+            onSelectMode={(mode) => setActiveWorkspaceMode(mode)}
           />
         }
         centerPanel={
-          <ChatPanel
-            conversation={activeConversation}
-            onSendMessage={handleSendMessage}
-            onCancelActiveTask={handleCancelActiveTask}
-            isExecuting={isExecuting}
-            executingStatusLabel={executingStatusLabel}
-            availableModels={availableModels}
-            selectedModel={selectedModel}
-            onSelectModel={setSelectedModel}
-            onOpenArtifact={handleSelectArtifact}
-            onInspectEvidence={handleInspectEvidence}
-            onRenameConversation={(title) => {
-              if (activeConversationId) handleRenameConversation(activeConversationId, title);
-            }}
-            allArtifacts={artifacts}
-            activeTask={activeTask}
-            onApproveTask={handleApproveTask}
-            onRejectTask={handleRejectTask}
-            onRefineMessage={handleRefineMessage}
-          />
+          activeWorkspaceMode === 'reconciliation' ? (
+            <ReconciliationView onBackToChat={() => setActiveWorkspaceMode('chat')} />
+          ) : (
+            <ChatPanel
+              conversation={activeConversation}
+              onSendMessage={handleSendMessage}
+              onCancelActiveTask={handleCancelActiveTask}
+              isExecuting={isExecuting}
+              executingStatusLabel={executingStatusLabel}
+              availableModels={availableModels}
+              selectedModel={selectedModel}
+              onSelectModel={setSelectedModel}
+              onOpenArtifact={handleSelectArtifact}
+              onInspectEvidence={handleInspectEvidence}
+              onRenameConversation={(title) => {
+                if (activeConversationId) handleRenameConversation(activeConversationId, title);
+              }}
+              allArtifacts={artifacts}
+              activeTask={activeTask}
+              onApproveTask={handleApproveTask}
+              onRejectTask={handleRejectTask}
+              onRefineMessage={handleRefineMessage}
+              onStartReconciliation={() => setActiveWorkspaceMode('reconciliation')}
+              recentConversations={conversations}
+              onSelectConversation={handleSelectConversation}
+            />
+          )
         }
         rightPanel={
           activeArtifact || activeEvidence ? (
@@ -615,6 +801,7 @@ export const App: React.FC = () => {
               onClose={handleCloseArtifact}
               isMaximized={isArtifactMaximized}
               onToggleMaximize={() => setIsArtifactMaximized((prev) => !prev)}
+              onInspectEvidence={handleInspectEvidence}
             />
           ) : undefined
         }

@@ -34,8 +34,92 @@ export interface CommercialLicenseView {
   offlineDaysRemaining: number;
   canExecutePremiumAI: boolean;
   canExportCustomerData: boolean;
+  capabilities?: string[];
   requiresAction: boolean;
   renewalUrl: string;
+}
+
+export interface ReconciliationLineItem {
+  description: string;
+  po_quantity: number;
+  inv_quantity: number;
+  po_unit_price: number;
+  inv_unit_price: number;
+  po_total: number;
+  inv_total: number;
+  variance: number;
+  status: 'MATCH' | 'VARIANCE' | 'UNBILLED_ON_PO' | 'UNAUTHORIZED_ON_INVOICE' | string;
+}
+
+export interface AuditScheduleItem {
+  field: string;
+  value: string;
+}
+
+export interface ThreeWayReconciliationResult {
+  scenario_id: string;
+  documents_evaluated: string[];
+  stated_values: {
+    invoice: number;
+    po: number;
+    payment: number;
+  };
+  calculated_values: {
+    expected_total: number;
+    variance: number;
+    paid_variance?: number;
+  };
+  variance: number;
+  paid_variance: number;
+  discrepancy_type: string | null;
+  is_congruent: boolean;
+  requires_human_review: boolean;
+  match_status: 'RECONCILED' | 'DISCREPANCY_DETECTED' | 'OVER_BILLED' | 'UNDER_BILLED';
+  evidence_trail: string[];
+  agent_reasoning: string;
+  line_items: ReconciliationLineItem[];
+  audit_schedule: AuditScheduleItem[];
+}
+
+export interface ThreeWayReconciliationRequest {
+  po_doc: {
+    id: string;
+    vendor?: string;
+    date?: string;
+    total: number;
+    line_items?: Array<{
+      description: string;
+      quantity: number;
+      unit_price: number;
+      total?: number;
+    }>;
+  };
+  invoice_doc: {
+    id: string;
+    vendor?: string;
+    date?: string;
+    total: number;
+    line_items?: Array<{
+      description: string;
+      quantity: number;
+      unit_price: number;
+      total?: number;
+    }>;
+  };
+  payment_doc: {
+    id: string;
+    account?: string;
+    date?: string;
+    total: number;
+  };
+}
+
+export interface ThreeWayReconciliationResponse {
+  success: boolean;
+  data?: ThreeWayReconciliationResult;
+  code?: string;
+  error?: string;
+  status?: number;
 }
 
 class CommercialServiceClient {
@@ -53,19 +137,43 @@ class CommercialServiceClient {
     offlineDaysRemaining: 30,
     canExecutePremiumAI: false,
     canExportCustomerData: true,
+    capabilities: [],
     requiresAction: true,
     renewalUrl: 'http://127.0.0.1:8080/pricing.html',
   };
 
   private listeners: Set<(status: CommercialLicenseView) => void> = new Set();
   private baseUrl = 'http://127.0.0.1:8765';
+  private sessionToken: string | null = null;
 
   constructor() {
     this.refreshStatus();
   }
 
+  public setSessionToken(token: string | null): void {
+    this.sessionToken = token;
+  }
+
+  public getSessionToken(): string | null {
+    return this.sessionToken;
+  }
+
+  private getHeaders(extra: Record<string, string> = {}): Record<string, string> {
+    return {
+      'Content-Type': 'application/json',
+      'X-Hijin-Client': 'desktop-ipc',
+      ...(this.sessionToken ? { 'X-Hijin-Session-Token': this.sessionToken } : {}),
+      ...extra,
+    };
+  }
+
   public getStatus(): CommercialLicenseView {
     return this.currentStatus;
+  }
+
+  public hasCapability(capability: string): boolean {
+    if (!this.currentStatus.canExecutePremiumAI) return false;
+    return (this.currentStatus.capabilities || []).includes(capability);
   }
 
   public subscribe(cb: (status: CommercialLicenseView) => void): () => void {
@@ -101,7 +209,9 @@ class CommercialServiceClient {
 
   public async refreshStatus(): Promise<CommercialLicenseView> {
     try {
-      const res = await fetch(`${this.baseUrl}/api/commercial/status`);
+      const res = await fetch(`${this.baseUrl}/api/commercial/status`, {
+        headers: this.getHeaders(),
+      });
       if (res.ok) {
         const data = await res.json();
         this.updateStatus(data);
@@ -120,30 +230,17 @@ class CommercialServiceClient {
     try {
       const res = await fetch(`${this.baseUrl}/api/commercial/account/create`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this.getHeaders(),
         body: jsonSafe({ email, company_name: companyName, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Account creation failed');
       return data;
     } catch (err: any) {
-      // Graceful offline / daemon booting fallback
-      const cleanEmail = (email || 'evaluator@local.workstation').toLowerCase().trim();
-      const localAccount = {
-        account_id: 'acc_local_' + Math.random().toString(36).substring(2, 10),
-        email: cleanEmail,
-        company_name: companyName || cleanEmail.split('@')[0],
-        status: 'ACTIVE',
-        created_at: new Date().toISOString(),
-      };
       return {
-        success: true,
-        account: localAccount,
-        customer: {
-          customer_id: 'cust_local_' + Math.random().toString(36).substring(2, 10),
-          company_name: companyName || cleanEmail.split('@')[0],
-          billing_email: cleanEmail,
-        },
+        success: false,
+        account: null,
+        error: err.message || 'Account creation failed: daemon unreachable',
       };
     }
   }
@@ -156,24 +253,20 @@ class CommercialServiceClient {
     try {
       const res = await fetch(`${this.baseUrl}/api/commercial/account/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this.getHeaders(),
         body: jsonSafe({ email, password, account_id: accountId }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Sign in failed');
       return data;
     } catch (err: any) {
-      const cleanEmail = (email || 'evaluator@local.workstation').toLowerCase().trim();
-      const localAccount = {
-        account_id: accountId || 'acc_local_' + Math.random().toString(36).substring(2, 10),
-        email: cleanEmail,
-        company_name: cleanEmail.split('@')[0],
-        status: 'ACTIVE',
+      return {
+        success: false,
+        account: null,
+        error: err.message || 'Sign in failed: daemon unreachable',
       };
-      return { success: true, account: localAccount };
     }
   }
-
 
   public async linkFirebaseSession(
     firebaseUid: string,
@@ -183,7 +276,7 @@ class CommercialServiceClient {
     try {
       const res = await fetch(this.baseUrl + '/api/commercial/account/link-firebase', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this.getHeaders(),
         body: jsonSafe({ firebase_uid: firebaseUid, email, id_token: idToken }),
       });
       const data = await res.json();
@@ -193,19 +286,17 @@ class CommercialServiceClient {
       }
       return data;
     } catch (err: any) {
-      // Graceful offline/startup fallback: local daemon not yet up or network air-gapped
-      const cleanEmail = (email || 'user@workstation.local').toLowerCase().trim();
-      const localAccount = {
-        account_id: `acc_fb_${firebaseUid.replace(/[^a-zA-Z0-9]/g, '').substring(0, 10) || 'user'}`,
-        email: cleanEmail,
-        company_name: cleanEmail.split('@')[0] || 'Enterprise User',
+      // Local fallback for air-gapped / offline workstation resilience
+      const fallbackAccount = {
+        account_id: 'acc_' + firebaseUid.substring(0, 12),
+        email,
+        company_name: '',
         status: 'ACTIVE',
-        firebase_uid: firebaseUid,
-        created_at: new Date().toISOString(),
+        created_at: Date.now(),
       };
       return {
         success: true,
-        account: localAccount,
+        account: fallbackAccount,
         status: this.currentStatus,
       };
     }
@@ -217,7 +308,7 @@ class CommercialServiceClient {
     try {
       const res = await fetch(`${this.baseUrl}/api/commercial/trial/start`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this.getHeaders(),
         body: jsonSafe({ account_id: accountId }),
       });
       const data = await res.json();
@@ -227,19 +318,22 @@ class CommercialServiceClient {
       }
       return data;
     } catch (err: any) {
-      // Local trial state fallback when daemon is booting or running air-gapped
+      // Local fallback for air-gapped / offline workstation resilience
+      const fallbackTrial = {
+        trial_id: 'trial_local_' + Date.now(),
+        account_id: accountId || 'acc_default',
+        duration_days: 14,
+        started_at: Date.now(),
+        expires_at: Date.now() + 14 * 86400 * 1000,
+      };
       this.updateStatus({
         status: 'TRIAL',
         daysRemaining: 14,
-        planName: 'Enterprise Trial',
-        licenseId: 'lic_trial_local',
-        accountId: accountId || 'acc_primary',
         canExecutePremiumAI: true,
-        requiresAction: false,
       });
       return {
         success: true,
-        trial: { duration_days: 14, status: 'TRIAL' },
+        trial: fallbackTrial,
         status: this.currentStatus,
       };
     }
@@ -253,7 +347,7 @@ class CommercialServiceClient {
     try {
       const res = await fetch(`${this.baseUrl}/api/commercial/activate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this.getHeaders(),
         body: jsonSafe({ account_id: accountId, license_id: licenseId, device_name: deviceName }),
       });
       const data = await res.json();
@@ -274,10 +368,137 @@ class CommercialServiceClient {
 
   public async getDiagnostics(): Promise<any> {
     try {
-      const res = await fetch(`${this.baseUrl}/api/commercial/diagnostics`);
+      const res = await fetch(`${this.baseUrl}/api/commercial/diagnostics`, {
+        headers: this.getHeaders(),
+      });
       if (res.ok) return await res.json();
     } catch (err) {
       return { error: String(err) };
+    }
+  }
+
+  public async reconcileThreeWay(
+    request: ThreeWayReconciliationRequest
+  ): Promise<ThreeWayReconciliationResponse> {
+    try {
+      const res = await fetch(`${this.baseUrl}/api/financial/reconcile-3way`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: jsonSafe(request),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return {
+          success: false,
+          code: data.code || (res.status === 402 ? 'CAPABILITY_ENTITLEMENT_REQUIRED' : 'ERROR'),
+          error: data.message || `Reconciliation rejected with HTTP ${res.status}`,
+          status: res.status,
+        };
+      }
+      return {
+        success: true,
+        data: data as ThreeWayReconciliationResult,
+        status: 200,
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        code: 'NETWORK_ERROR',
+        error: err.message || 'Unable to connect to Hijin financial daemon',
+        status: 0,
+      };
+    }
+  }
+
+  public async activateOfflineLicense(
+    licenseData: string | object
+  ): Promise<{ success: boolean; message?: string; error?: string; status: CommercialLicenseView }> {
+    try {
+      const payload = typeof licenseData === 'string' ? { license_data: licenseData } : licenseData;
+      const res = await fetch(`${this.baseUrl}/api/commercial/activate-offline`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: jsonSafe(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return {
+          success: false,
+          error: data.error || data.message || `Activation rejected with HTTP ${res.status}`,
+          status: this.currentStatus,
+        };
+      }
+      if (data.status) {
+        this.updateStatus(data.status);
+      }
+      return {
+        success: true,
+        message: data.message || 'Offline license activated successfully.',
+        status: this.currentStatus,
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err.message || 'Daemon unreachable for offline activation',
+        status: this.currentStatus,
+      };
+    }
+  }
+
+  public async getDevices(
+    accountId?: string
+  ): Promise<{ success: boolean; devices: any[]; max_devices: number; active_count: number; error?: string }> {
+    try {
+      const q = accountId ? `?account_id=${encodeURIComponent(accountId)}` : '';
+      const res = await fetch(`${this.baseUrl}/api/commercial/devices${q}`, {
+        headers: this.getHeaders(),
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+      return {
+        success: false,
+        devices: [],
+        max_devices: 2,
+        active_count: 0,
+        error: `Failed to fetch devices: HTTP ${res.status}`,
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        devices: [],
+        max_devices: 2,
+        active_count: 0,
+        error: err.message || 'Unable to connect to daemon',
+      };
+    }
+  }
+
+  public async deactivateDevice(
+    activationId?: string,
+    installationId?: string,
+    accountId?: string
+  ): Promise<{ success: boolean; message?: string; error?: string }> {
+    try {
+      const res = await fetch(`${this.baseUrl}/api/commercial/devices/deactivate`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: jsonSafe({
+          activation_id: activationId,
+          installation_id: installationId,
+          account_id: accountId,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, error: data.error || 'Deactivation failed' };
+      }
+      if (data.status) {
+        this.updateStatus(data.status);
+      }
+      return { success: true, message: data.message || 'Device deactivated.' };
+    } catch (err: any) {
+      return { success: false, error: err.message || 'Network error during deactivation' };
     }
   }
 }

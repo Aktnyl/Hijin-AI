@@ -6,6 +6,8 @@ import {
   TextRun,
 } from 'docx';
 
+export * from './financialSynthesisEngine';
+
 export interface ExportData {
   documentTitle: string;
   generationTime: string;

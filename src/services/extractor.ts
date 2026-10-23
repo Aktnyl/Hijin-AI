@@ -228,3 +228,19 @@ export async function extractPdf(
     sections,
   };
 }
+
+
+// Re-export Multi-Format Offline Ingestion Engine
+export {
+  extractCsv,
+  extractSpreadsheet,
+  extractImageReceipt,
+  ingestMultiFormatFile,
+  parseCleanNumber,
+  parseCsvRows,
+  registerIngestedDocument,
+  getIngestedDocument,
+  getAllIngestedDocuments,
+  clearIngestedDocuments,
+} from './multiFormatIngestion';
+export type { IngestedDocumentRecord, SupportedFileType, IngestedDocumentSummary } from './multiFormatIngestion';

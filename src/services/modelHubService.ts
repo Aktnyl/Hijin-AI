@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Model Hub Service for Tauri Desktop Frontend (Phase B - Section B7).
  *
  * Interfaces with local desktop daemon (http://127.0.0.1:8765/api/model-hub/*)
@@ -33,7 +33,8 @@ export interface ModelHubStatusView {
     | 'INCOMPATIBLE'
     | 'FAILED'
     | 'CORRUPTED'
-    | 'ROLLED_BACK';
+    | 'ROLLED_BACK'
+    | 'OFFLINE';
   current_component: string | null;
   total_downloaded_bytes: number;
   total_package_bytes: number;
@@ -44,10 +45,12 @@ export interface ModelHubStatusView {
     signature_valid: boolean;
     compatibility_pass: boolean;
     evaluation_pass: boolean;
+    gguf_header_valid?: boolean;
   };
   components_progress: Record<string, ComponentProgressView>;
   error_message: string | null;
   last_updated: number;
+  quarantine_count?: number;
 }
 
 const BASE_URL = 'http://127.0.0.1:8765';
@@ -74,46 +77,65 @@ export class ModelHubService {
       this.notify(data);
       return data;
     } catch {
-      // Fallback default state if daemon is offline or endpoint not yet loaded
-      const fallback: ModelHubStatusView = {
-        package_id: 'hijin-neural-pack',
-        active_version: '1.0.0',
+      // Truthful fallback state when daemon is offline or endpoint not reachable
+      const offlineStatus: ModelHubStatusView = {
+        package_id: 'hijin-financial-specialist',
+        active_version: null,
         available_version: '1.0.0',
-        state: 'INSTALLED',
+        state: 'OFFLINE',
         current_component: null,
-        total_downloaded_bytes: 8589934591,
-        total_package_bytes: 8589934591,
-        overall_percentage: 100.0,
+        total_downloaded_bytes: 0,
+        total_package_bytes: 3353169408,
+        overall_percentage: 0.0,
         speed_bps: 0,
         verification_checks: {
-          sha256_match: true,
-          signature_valid: true,
-          compatibility_pass: true,
-          evaluation_pass: true,
+          sha256_match: false,
+          signature_valid: false,
+          compatibility_pass: false,
+          evaluation_pass: false,
+          gguf_header_valid: false,
         },
+        quarantine_count: 0,
         components_progress: {
-          'gemma-3-4b': {
-            component_id: 'gemma-3-4b',
-            name: 'General Foundation Model (Gemma 3 4B)',
-            downloaded_bytes: 2576980377,
-            total_bytes: 2576980377,
-            percentage: 100,
-            status: 'VERIFIED',
-          },
-          'hijin-specialist': {
-            component_id: 'hijin-specialist',
-            name: 'Hijin Financial Specialist Weights',
-            downloaded_bytes: 6012954214,
-            total_bytes: 6012954214,
-            percentage: 100,
-            status: 'VERIFIED',
+          'hijin-specialist-q4': {
+            component_id: 'hijin-specialist-q4',
+            name: 'Hijin Financial Specialist (Autonomous Q4_K_M GGUF)',
+            downloaded_bytes: 0,
+            total_bytes: 3353169408,
+            percentage: 0,
+            status: 'PENDING',
           },
         },
-        error_message: null,
+        error_message: 'Hijin background daemon is offline (127.0.0.1:8765)',
         last_updated: Date.now() / 1000,
       };
-      this.currentStatus = fallback;
-      return fallback;
+      this.currentStatus = offlineStatus;
+      this.notify(offlineStatus);
+      return offlineStatus;
+    }
+  }
+
+  public async verifyModel(): Promise<boolean> {
+    try {
+      const res = await fetch(`${BASE_URL}/api/model-hub/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Hijin-Client': 'desktop-ipc',
+        },
+        body: JSON.stringify({}),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.status) {
+          this.currentStatus = data.status;
+          this.notify(data.status);
+        }
+        return !!data.success;
+      }
+      return false;
+    } catch {
+      return false;
     }
   }
 
@@ -121,7 +143,10 @@ export class ModelHubService {
     try {
       const res = await fetch(`${BASE_URL}/api/model-hub/download`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Hijin-Client': 'desktop-ipc',
+        },
         body: JSON.stringify({}),
       });
       return res.ok;
@@ -132,7 +157,13 @@ export class ModelHubService {
 
   public async pauseDownload(): Promise<boolean> {
     try {
-      const res = await fetch(`${BASE_URL}/api/model-hub/pause`, { method: 'POST' });
+      const res = await fetch(`${BASE_URL}/api/model-hub/pause`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Hijin-Client': 'desktop-ipc',
+        },
+      });
       return res.ok;
     } catch {
       return false;
@@ -141,7 +172,13 @@ export class ModelHubService {
 
   public async resumeDownload(): Promise<boolean> {
     try {
-      const res = await fetch(`${BASE_URL}/api/model-hub/resume`, { method: 'POST' });
+      const res = await fetch(`${BASE_URL}/api/model-hub/resume`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Hijin-Client': 'desktop-ipc',
+        },
+      });
       return res.ok;
     } catch {
       return false;
@@ -150,7 +187,13 @@ export class ModelHubService {
 
   public async rollback(): Promise<boolean> {
     try {
-      const res = await fetch(`${BASE_URL}/api/model-hub/rollback`, { method: 'POST' });
+      const res = await fetch(`${BASE_URL}/api/model-hub/rollback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Hijin-Client': 'desktop-ipc',
+        },
+      });
       return res.ok;
     } catch {
       return false;

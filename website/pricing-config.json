@@ -8,6 +8,7 @@
       "price": 0,
       "period": "14 days",
       "badge": "No Credit Card",
+      "popular": false,
       "description": "Evaluate Hijin on your own accounting documents before purchasing. 100% local, instant evaluation.",
       "features": [
         "Local AI inference on your machine",
@@ -18,51 +19,73 @@
         "Model Hub access with preview capabilities"
       ],
       "cta_text": "Start 14-Day Free Trial",
-      "cta_url": "downloads.html",
+      "cta_url": "download.html",
       "cta_style": "btn-secondary"
     },
     {
       "id": "specialist_monthly",
       "name": "Professional Subscription",
-      "price": 99,
+      "price": 79,
       "period": "/ month",
-      "badge": "Most Flexible \u00b7 All Models",
-      "popular": true,
-      "description": "Full continuous workstation access with all future model releases and priority support included.",
+      "badge": "Flexible Monthly · 2 Workstations",
+      "popular": false,
+      "description": "Full continuous workstation access with all standard models, updates, and priority support included.",
       "features": [
         "Full local AI desktop workstation (Windows 10/11)",
         "Continuous priority customer support while subscribed",
         "All software updates and runtime performance enhancements",
-        "Access to ALL trained models in the Model Store (Financial, Tax, Legal)",
+        "Standard trained models in the Model Store (Financial, Tax, Legal)",
         "Deterministic financial reconciliation & multi-document cross-matching",
         "Interactive tables with 1-click 'Copy TSV for Excel'",
         "Single-user license for up to 2 workstations",
-        "30-day offline grace period between license renewals"
+        "30-day offline validity window with 5-day grace period",
+        "Zero-Lockout: Perpetual local read, search, and export if subscription ends"
       ],
-      "cta_text": "Subscribe Monthly ($99/mo)",
-      "cta_url": "https://checkout.blinkpay.com/pay/hijin_specialist_monthly",
+      "cta_text": "Subscribe Monthly ($79/mo)",
+      "cta_url": "pricing.html",
       "cta_style": "btn-primary"
     },
     {
-      "id": "standalone_lifetime",
-      "name": "Standalone Model License",
-      "price": 349,
-      "period": "one-time",
-      "badge": "Perpetual License \u00b7 1 Yr Support",
-      "description": "Complete standalone workstation setup with 1 specialized model, perpetual offline license, and 1 full year of support.",
+      "id": "forensic_annual",
+      "name": "Forensic Analyst Subscription",
+      "price": 790,
+      "period": "/ year",
+      "badge": "Specialist & Forensic · Recommended",
+      "popular": true,
+      "description": "Complete forensic workstation access including three-way forensic reconciliation and general ledger variance detection.",
       "features": [
-        "Complete standalone desktop workstation setup",
-        "Perpetual offline lifetime license (no recurring monthly fees)",
-        "Includes Financial Specialist V2 model (.gguf weights & LoRA adapter access)",
-        "1 Full Year of software updates and maintenance support",
+        "Everything in Professional Subscription",
+        "Three-Way Forensic Reconciliation (PO vs. Invoice vs. GL)",
+        "Automated General Ledger Variance Engine",
         "Deterministic PDF/DOCX/PPTX executive deliverable compilers",
-        "Single-model focus (extra models in Store available \u00e0 la carte)",
-        "100% air-gapped; never phones home or locks out",
-        "Direct developer onboarding assistance"
+        "Audit schedule Excel / TSV report export",
+        "Single-user license for up to 2 workstations",
+        "30-day offline validity window with 5-day grace period",
+        "Zero-Lockout: Perpetual local read, search, and export guaranteed"
       ],
-      "cta_text": "Get Lifetime License ($349)",
-      "cta_url": "https://checkout.blinkpay.com/pay/hijin_standalone_lifetime",
-      "cta_style": "btn-accent"
+      "cta_text": "Subscribe Forensic ($790/yr)",
+      "cta_url": "pricing.html",
+      "cta_style": "btn-primary"
+    },
+    {
+      "id": "institutional_annual",
+      "name": "Institutional Annual",
+      "price": 1990,
+      "period": "/ year",
+      "badge": "Enterprise & Multi-Seat",
+      "popular": false,
+      "description": "Multi-seat workstation deployment for financial institutions, accounting firms, and compliance teams.",
+      "features": [
+        "Full local AI desktop workstation (Windows 10/11)",
+        "Unlimited document volume & deterministic reconciliation",
+        "Dedicated account manager & priority SLA",
+        "Custom compliance & audit trail export",
+        "Centralized license activation management",
+        "Air-gapped deployment support & cryptographic certificate licensing"
+      ],
+      "cta_text": "Subscribe Institutional ($1,990/yr)",
+      "cta_url": "pricing.html",
+      "cta_style": "btn-secondary"
     }
   ]
 }

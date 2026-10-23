@@ -490,3 +490,131 @@ async function postLocalOllama(
     };
   }
 }
+
+/**
+ * Fast availability probe for local Ollama instance (<= 800ms timeout)
+ */
+export async function isOllamaAvailable(endpoint: string = DEFAULT_OLLAMA_ENDPOINT): Promise<boolean> {
+  const validation = validateLocalEndpoint(endpoint);
+  if (!validation.valid || !validation.normalized) {
+    return false;
+  }
+  const targetUrl = getApiUrl(validation.normalized, '/api/tags');
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 800);
+    const response = await fetch(targetUrl, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Real-time streaming generation from local Ollama daemon
+ */
+export async function streamOllamaChat(params: {
+  endpoint?: string;
+  model?: string;
+  prompt: string;
+  systemInstruction?: string;
+  onToken?: (delta: string, accumulated: string) => void;
+  signal?: AbortSignal;
+}): Promise<{
+  fullText: string;
+  model: string;
+  done: boolean;
+}> {
+  const endpoint = params.endpoint || DEFAULT_OLLAMA_ENDPOINT;
+  const validation = validateLocalEndpoint(endpoint);
+  if (!validation.valid || !validation.normalized) {
+    throw new Error(validation.error || 'Invalid local Ollama endpoint.');
+  }
+
+  const modelName = params.model || DEFAULT_MODEL_NAME;
+  const targetUrl = getApiUrl(validation.normalized, '/api/generate');
+
+  const requestBody = {
+    model: modelName,
+    prompt: params.prompt,
+    system: params.systemInstruction || EXACT_SYSTEM_INSTRUCTION,
+    stream: true,
+    options: {
+      temperature: 0.1,
+      num_ctx: 8192,
+    },
+  };
+
+  const response = await fetch(targetUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+    signal: params.signal,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Ollama stream error: HTTP ${response.status} ${response.statusText}`);
+  }
+
+  if (!response.body || typeof response.body.getReader !== 'function') {
+    throw new Error('ReadableStream not supported by environment.');
+  }
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder('utf-8');
+  let accumulated = '';
+  let buffer = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split(/\r?\n/);
+    buffer = lines.pop() || '';
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (parsed.response) {
+          accumulated += parsed.response;
+          params.onToken?.(parsed.response, accumulated);
+        }
+        if (parsed.done) {
+          return {
+            fullText: accumulated,
+            model: modelName,
+            done: true,
+          };
+        }
+      } catch {
+        // partial chunk ignore
+      }
+    }
+  }
+
+  if (buffer.trim()) {
+    try {
+      const parsed = JSON.parse(buffer.trim());
+      if (parsed.response) {
+        accumulated += parsed.response;
+        params.onToken?.(parsed.response, accumulated);
+      }
+    } catch {}
+  }
+
+  return {
+    fullText: accumulated,
+    model: modelName,
+    done: true,
+  };
+}

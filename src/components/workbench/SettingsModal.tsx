@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { agentClient, ModelView } from '../../services/agentClient';
 import { PRODUCT_IDENTITY } from '../../services/productIdentity';
 import { commercialService } from '../../services/commercialService';
+import { LicenseModal } from './LicenseModal';
 import {
   AccentColor,
   AnimationLevel,
   AppSettingsV1,
+  AIProvider,
   FontSize,
   ReasoningDepth,
   settingsStore,
@@ -13,6 +15,11 @@ import {
   UiDensity,
   WorkspaceMode,
 } from '../../services/settingsStore';
+import {
+  testOllamaConnection,
+  validateLocalEndpoint,
+  DEFAULT_OLLAMA_ENDPOINT,
+} from '../../services/ollama';
 import {
   SettingsIcon,
   CloseIcon,
@@ -37,11 +44,66 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, a
   const [settings, setSettings] = useState<AppSettingsV1>(settingsStore.getSettings());
   const [hardwareInfo, setHardwareInfo] = useState<any>(null);
   const [loadingHw, setLoadingHw] = useState(false);
+  const [testingOllama, setTestingOllama] = useState(false);
+  const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
+  const [ollamaStatus, setOllamaStatus] = useState<{
+    tested: boolean;
+    connected: boolean;
+    models: string[];
+    message: string;
+  }>({
+    tested: false,
+    connected: false,
+    models: [],
+    message: '',
+  });
+
+  const handleTestOllama = async () => {
+    const endpoint = settings.ollamaEndpoint || DEFAULT_OLLAMA_ENDPOINT;
+    const validation = validateLocalEndpoint(endpoint);
+    if (!validation.valid) {
+      setOllamaStatus({
+        tested: true,
+        connected: false,
+        models: [],
+        message: validation.error || 'Invalid local endpoint.',
+      });
+      return;
+    }
+    setTestingOllama(true);
+    try {
+      const res = await testOllamaConnection(endpoint);
+      setOllamaStatus({
+        tested: true,
+        connected: res.success,
+        models: res.models || [],
+        message: res.message,
+      });
+      if (res.success && res.models && res.models.length > 0 && !res.models.includes(settings.ollamaModel)) {
+        update({ ollamaModel: res.models[0] });
+      }
+    } catch {
+      setOllamaStatus({
+        tested: true,
+        connected: false,
+        models: [],
+        message: 'Could not connect to local Ollama daemon.',
+      });
+    } finally {
+      setTestingOllama(false);
+    }
+  };
 
   useEffect(() => {
     const unsub = settingsStore.subscribe((s) => setSettings(s));
     return () => unsub();
   }, []);
+
+  useEffect(() => {
+    if (isOpen && (activeTab === 'chat' || activeTab === 'models') && !ollamaStatus.tested) {
+      handleTestOllama();
+    }
+  }, [isOpen, activeTab]);
 
   useEffect(() => {
     if (isOpen && activeTab === 'hardware') {
@@ -338,15 +400,25 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, a
                         Status: <strong style={{ color: '#38bdf8' }}>{commercialService.getStatus().displayLabel}</strong> · Tier: {commercialService.getStatus().planName}
                       </span>
                     </div>
-                    <a
-                      href={commercialService.getStatus().renewalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="primary-btn"
-                      style={{ fontSize: 12, padding: '6px 14px', textDecoration: 'none', borderRadius: 6, fontWeight: 600 }}
-                    >
-                      {commercialService.getStatus().status === 'ACTIVE' ? 'Manage Subscription' : 'Renew / Buy License on Website'}
-                    </a>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                      <button
+                        type="button"
+                        onClick={() => setIsLicenseModalOpen(true)}
+                        className="secondary-btn"
+                        style={{ fontSize: 12, padding: '6px 14px', borderRadius: 6, fontWeight: 600, background: 'rgba(56, 189, 248, 0.12)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.3)', cursor: 'pointer' }}
+                      >
+                        Offline License (.lic)
+                      </button>
+                      <a
+                        href={commercialService.getStatus().renewalUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="primary-btn"
+                        style={{ fontSize: 12, padding: '6px 14px', textDecoration: 'none', borderRadius: 6, fontWeight: 600 }}
+                      >
+                        {commercialService.getStatus().status === 'ACTIVE' ? 'Manage Subscription' : 'Renew / Buy License on Website'}
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -444,7 +516,198 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, a
             {/* 3. Chat & Models */}
             {activeTab === 'chat' && (
               <div className="settings-section">
-                <h3>Chat & Inference Controls</h3>
+                <h3>Multi-Provider AI Architecture (AI-P1-01)</h3>
+                <p className="section-desc">
+                  Select between the embedded autonomous financial specialist and the local Ollama daemon bridge.
+                </p>
+
+                {/* Provider Selector */}
+                <div className="setting-row" style={{ alignItems: 'flex-start' }}>
+                  <div className="setting-info" style={{ maxWidth: '45%' }}>
+                    <label>Active AI Provider</label>
+                    <span>
+                      Choose cognitive router, air-gapped embedded engine, or local Ollama bridge.
+                    </span>
+                  </div>
+                  <div className="options-pill-group" style={{ flexWrap: 'wrap', gap: 6 }}>
+                    {[
+                      { id: 'auto', label: 'Auto (Cognitive Router)', icon: '⚡' },
+                      { id: 'embedded', label: 'Embedded Engine', icon: '🔒' },
+                      { id: 'ollama', label: 'Local Ollama Bridge', icon: '🦙' },
+                    ].map((p) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        className={`pill-option-btn ${settings.aiProvider === p.id ? 'selected' : ''}`}
+                        onClick={() => update({ aiProvider: p.id as AIProvider })}
+                        title={`Select ${p.label}`}
+                      >
+                        <span className="pill-icon">{p.icon}</span>
+                        <span>{p.label}</span>
+                        {settings.aiProvider === p.id && <span className="pill-check">✓</span>}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Local Ollama Bridge Configuration Card */}
+                {(settings.aiProvider === 'ollama' || settings.aiProvider === 'auto') && (
+                  <div
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.02)',
+                      border: '1px solid var(--border-subtle, rgba(255, 255, 255, 0.08))',
+                      borderRadius: 10,
+                      padding: '16px',
+                      margin: '12px 0 18px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <strong style={{ fontSize: 13, color: '#f0f4ff' }}>Local Ollama Bridge Configuration</strong>
+                        <span style={{ fontSize: 10, padding: '2px 6px', borderRadius: 4, background: 'rgba(99, 102, 241, 0.15)', color: '#818cf8', fontWeight: 600 }}>
+                          PORT 11434
+                        </span>
+                      </div>
+
+                      {/* Connection Status Pill */}
+                      {ollamaStatus.tested ? (
+                        ollamaStatus.connected ? (
+                          <span
+                            style={{
+                              fontSize: 11,
+                              fontWeight: 600,
+                              padding: '3px 10px',
+                              borderRadius: 12,
+                              background: 'rgba(16, 185, 129, 0.15)',
+                              color: '#34d399',
+                              border: '1px solid rgba(16, 185, 129, 0.3)',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 6,
+                            }}
+                          >
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399' }} />
+                            Connected ({ollamaStatus.models.length} model{ollamaStatus.models.length === 1 ? '' : 's'})
+                          </span>
+                        ) : (
+                          <span
+                            style={{
+                              fontSize: 11,
+                              fontWeight: 600,
+                              padding: '3px 10px',
+                              borderRadius: 12,
+                              background: 'rgba(245, 158, 11, 0.15)',
+                              color: '#fbbf24',
+                              border: '1px solid rgba(245, 158, 11, 0.3)',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 6,
+                            }}
+                          >
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fbbf24' }} />
+                            Offline (Fallback to Embedded Engine Active)
+                          </span>
+                        )
+                      ) : (
+                        <span
+                          style={{
+                            fontSize: 11,
+                            fontWeight: 500,
+                            padding: '3px 10px',
+                            borderRadius: 12,
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            color: '#94a3b8',
+                          }}
+                        >
+                          Unverified
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Endpoint Input & Test Connection */}
+                    <div style={{ marginBottom: 12 }}>
+                      <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 6 }}>
+                        Ollama Loopback Endpoint
+                      </label>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <input
+                          type="text"
+                          value={settings.ollamaEndpoint}
+                          onChange={(e) => update({ ollamaEndpoint: e.target.value })}
+                          placeholder="http://127.0.0.1:11434"
+                          style={{
+                            flex: 1,
+                            background: 'var(--surface)',
+                            border: `1px solid ${
+                              validateLocalEndpoint(settings.ollamaEndpoint).valid
+                                ? 'var(--border-default)'
+                                : '#ef4444'
+                            }`,
+                            borderRadius: 'var(--radius-sm, 6px)',
+                            padding: '8px 12px',
+                            color: 'var(--text-primary)',
+                            fontSize: 12,
+                            fontFamily: 'var(--font-mono, monospace)',
+                          }}
+                        />
+                        <button
+                          type="button"
+                          className="secondary-btn"
+                          onClick={handleTestOllama}
+                          disabled={testingOllama || !validateLocalEndpoint(settings.ollamaEndpoint).valid}
+                          style={{
+                            whiteSpace: 'nowrap',
+                            fontSize: 12,
+                            padding: '8px 14px',
+                            borderRadius: 'var(--radius-sm, 6px)',
+                          }}
+                        >
+                          {testingOllama ? 'Testing...' : 'Test Connection'}
+                        </button>
+                      </div>
+                      {!validateLocalEndpoint(settings.ollamaEndpoint).valid && (
+                        <span style={{ fontSize: 11, color: '#f87171', marginTop: 4, display: 'block' }}>
+                          ⚠️ Security policy strictly limits endpoints to local loopback (http://127.0.0.1 or http://localhost).
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Model Dropdown */}
+                    <div>
+                      <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 6 }}>
+                        Ollama Model Name
+                      </label>
+                      <select
+                        className="settings-select"
+                        value={settings.ollamaModel}
+                        onChange={(e) => update({ ollamaModel: e.target.value })}
+                        style={{ width: '100%', fontSize: 12 }}
+                      >
+                        {Array.from(
+                          new Set([
+                            settings.ollamaModel,
+                            ...ollamaStatus.models,
+                            'gemma3:latest',
+                            'llama3:latest',
+                            'mistral:latest',
+                            'qwen2.5:latest',
+                          ])
+                        ).map((modelName) => (
+                          <option key={modelName} value={modelName}>
+                            {modelName} {ollamaStatus.models.includes(modelName) ? '(Available on local daemon)' : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Explanatory note */}
+                    <div style={{ marginTop: 10, fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                      💡 When Ollama is offline or unreachable, queries automatically fall back to the Autonomous Embedded Financial Specialist with zero downtime.
+                    </div>
+                  </div>
+                )}
+
+                <h3 style={{ marginTop: 20 }}>Chat &amp; Inference Controls</h3>
                 <p className="section-desc">Configure default models, streaming options, and citation displays.</p>
 
                 <div className="setting-row">
@@ -673,6 +936,12 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, a
           </button>
         </div>
       </div>
+
+      {/* Air-Gapped License Modal (UX-P2-03) */}
+      <LicenseModal
+        isOpen={isLicenseModalOpen}
+        onClose={() => setIsLicenseModalOpen(false)}
+      />
     </div>
   );
 };

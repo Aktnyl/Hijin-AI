@@ -5,9 +5,14 @@ import {
   ConversationRecord,
   ModelView,
   TaskView,
+  TableSpecData,
 } from '../../services/agentClient';
+import { ingestMultiFormatFile } from '../../services/multiFormatIngestion';
+import { parseMarkdownTable } from '../../services/embeddedFinancialEngine';
 import { MarkdownRenderer } from '../common/MarkdownRenderer';
 import { ArtifactCard } from './ArtifactCard';
+import { ThinkingDisclosure } from './ThinkingDisclosure';
+import { ExportDeliverableModal } from './ExportDeliverableModal';
 import {
   BrandIcon,
   AttachFileIcon,
@@ -16,6 +21,7 @@ import {
   StopIcon,
   CopyIcon,
   CheckIcon,
+  DownloadIcon,
   VerifiedIcon,
   WarningIcon,
   CloseIcon,
@@ -33,6 +39,13 @@ export interface AttachedFile {
   type: string;
   base64: string;
   isImage?: boolean;
+  fileCategory?: 'pdf' | 'xlsx' | 'csv' | 'image' | 'doc' | 'text';
+  rowCount?: number;
+  colCount?: number;
+  pageCount?: number;
+  dimensions?: { width: number; height: number };
+  ocrStatus?: string;
+  previewSummary?: string;
 }
 
 interface ChatPanelProps {
@@ -52,13 +65,9 @@ interface ChatPanelProps {
   onApproveTask?: (taskId: string, stepId?: string, nonce?: string) => void;
   onRejectTask?: (taskId: string, stepId?: string, nonce?: string) => void;
   onRefineMessage?: (action: string, instruction?: string) => void;
-}
-
-interface TableSpecData {
-  title?: string;
-  columns: string[];
-  rows: (string | number)[][];
-  alignment?: ('left' | 'center' | 'right')[];
+  onStartReconciliation?: () => void;
+  recentConversations?: ConversationRecord[];
+  onSelectConversation?: (id: string) => void;
 }
 
 const StructuredTableRenderer: React.FC<{ tables: TableSpecData[] }> = ({ tables }) => {
@@ -305,11 +314,34 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
   onApproveTask,
   onRejectTask,
   onRefineMessage,
+  onStartReconciliation,
+  recentConversations,
+  onSelectConversation,
 }) => {
   const [inputText, setInputText] = useState('');
   const [attachments, setAttachments] = useState<AttachedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [copiedMsgId, setCopiedMsgId] = useState<string | null>(null);
+  const [exportModalData, setExportModalData] = useState<{
+    isOpen: boolean;
+    title: string;
+    content: string;
+    table?: TableSpecData;
+  }>({
+    isOpen: false,
+    title: '',
+    content: '',
+  });
+
+  const handleExportMessage = (msg: ConversationMessage) => {
+    const parsedTable = parseMarkdownTable(msg.content);
+    setExportModalData({
+      isOpen: true,
+      title: conversation?.title || 'Financial Reconciliation Report',
+      content: msg.content,
+      table: parsedTable || undefined,
+    });
+  };
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -379,6 +411,16 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
     }
   };
 
+  const resolveFileCategory = (name: string, isImg?: boolean): 'pdf' | 'xlsx' | 'csv' | 'image' | 'doc' | 'text' => {
+    const ext = name.split('.').pop()?.toLowerCase() || '';
+    if (ext === 'pdf') return 'pdf';
+    if (['xlsx', 'xlsm', 'xls'].includes(ext)) return 'xlsx';
+    if (['csv', 'tsv'].includes(ext)) return 'csv';
+    if (['png', 'jpg', 'jpeg', 'webp', 'bmp'].includes(ext) || isImg) return 'image';
+    if (['docx', 'doc'].includes(ext)) return 'doc';
+    return 'text';
+  };
+
   const processFiles = (fileList: FileList) => {
     Array.from(fileList).forEach((file) => {
       const reader = new FileReader();
@@ -387,18 +429,46 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
         const b64 = result.split(',')[1] || '';
         const ext = file.name.split('.').pop()?.toLowerCase() || '';
         const isImg = ['png', 'jpg', 'jpeg', 'webp', 'bmp'].includes(ext);
+        const cat = resolveFileCategory(file.name, isImg);
+        const attId = `att_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
 
-        setAttachments((prev) => [
-          ...prev,
-          {
-            id: `att_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-            name: file.name,
-            size: file.size,
-            type: file.type || 'application/octet-stream',
-            base64: b64,
-            isImage: isImg,
-          },
-        ]);
+        const newAtt: AttachedFile = {
+          id: attId,
+          name: file.name,
+          size: file.size,
+          type: file.type || 'application/octet-stream',
+          base64: b64,
+          isImage: isImg,
+          fileCategory: cat,
+        };
+
+        setAttachments((prev) => [...prev, newAtt]);
+
+        // Asynchronously extract metadata & preview via offline multi-format engine
+        ingestMultiFormatFile({
+          fileName: file.name,
+          base64: b64,
+          mimeType: file.type,
+          sizeBytes: file.size,
+        })
+          .then((ingested) => {
+            setAttachments((current) =>
+              current.map((a) =>
+                a.id === attId
+                  ? {
+                      ...a,
+                      rowCount: ingested.summary.rowCount,
+                      colCount: ingested.summary.colCount,
+                      pageCount: ingested.summary.pageCount,
+                      dimensions: ingested.summary.dimensions,
+                      ocrStatus: ingested.summary.ocrStatus,
+                      previewSummary: ingested.previewText,
+                    }
+                  : a
+              )
+            );
+          })
+          .catch((err) => console.warn('Offline parsing background warning:', err));
       };
       reader.readAsDataURL(file);
     });
@@ -433,17 +503,46 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
             const fname = p.split(/[\\/]/).pop() || 'document';
             const ext = fname.split('.').pop()?.toLowerCase() || '';
             const mime = ext === 'pdf' ? 'application/pdf' : ext === 'csv' ? 'text/csv' : 'application/octet-stream';
-            setAttachments((prev) => [
-              ...prev,
-              {
-                id: `att_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-                name: fname,
-                size: bytes.length,
-                type: mime,
-                base64: b64,
-                isImage: ['png', 'jpg', 'jpeg'].includes(ext),
-              },
-            ]);
+            const isImg = ['png', 'jpg', 'jpeg'].includes(ext);
+            const cat = resolveFileCategory(fname, isImg);
+            const attId = `att_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+
+            const newAtt: AttachedFile = {
+              id: attId,
+              name: fname,
+              size: bytes.length,
+              type: mime,
+              base64: b64,
+              isImage: isImg,
+              fileCategory: cat,
+            };
+
+            setAttachments((prev) => [...prev, newAtt]);
+
+            ingestMultiFormatFile({
+              fileName: fname,
+              base64: b64,
+              mimeType: mime,
+              sizeBytes: bytes.length,
+            })
+              .then((ingested) => {
+                setAttachments((current) =>
+                  current.map((a) =>
+                    a.id === attId
+                      ? {
+                          ...a,
+                          rowCount: ingested.summary.rowCount,
+                          colCount: ingested.summary.colCount,
+                          pageCount: ingested.summary.pageCount,
+                          dimensions: ingested.summary.dimensions,
+                          ocrStatus: ingested.summary.ocrStatus,
+                          previewSummary: ingested.previewText,
+                        }
+                      : a
+                  )
+                );
+              })
+              .catch((err) => console.warn('Offline parsing background warning:', err));
           } catch {
             fileInputRef.current?.click();
           }
@@ -469,30 +568,58 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
     return new Date(ts * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const promptStarters = [
+  const recentTitle = recentConversations && recentConversations.length > 0 && recentConversations[0].title
+    ? `Resume: ${recentConversations[0].title}`
+    : 'New audit thread';
+
+  const actionCards = [
     {
-      title: 'Analyze a document',
-      desc: 'Inspect an invoice, PDF contract, or dataset with verified page citations.',
-      prompt: 'Analyze the attached document and provide key findings with evidence citations.',
-      icon: <FileCheckIcon size={20} />,
-    },
-    {
-      title: 'Reconcile financial data',
-      desc: 'Verify expected total vs stated total with mathematical variance breakdown.',
-      prompt: 'Reconcile the following accounts payable figures:\nSubtotal: $1,250.00\nTax: $125.00\nStated Total: $1,425.00',
+      title: 'Start Reconciliation',
+      desc: 'Match purchase orders, vendor invoices, and settlement records with automated variance analysis.',
       icon: <ActivityIcon size={20} />,
+      onClick: () => {
+        if (onStartReconciliation) {
+          onStartReconciliation();
+        } else {
+          setInputText('Reconcile the following accounts payable figures:\nPO-2026-8819 vs INV-2026-9042');
+          textareaRef.current?.focus();
+        }
+      },
     },
     {
-      title: 'Create an executive report',
-      desc: 'Compile an audited business deliverable in verified DOCX, PDF, or PPTX format.',
-      prompt: 'Create an executive vendor reconciliation report in PDF format.',
+      title: 'Import Documents',
+      desc: 'Select or drop invoices, GL reports, or bank statements (PDF, XLSX, CSV) for local OCR indexing.',
+      icon: <FileCheckIcon size={20} />,
+      onClick: () => {
+        fileInputRef.current?.click();
+      },
+    },
+    {
+      title: 'Continue Recent Work',
+      desc: recentConversations && recentConversations.length > 0
+        ? recentTitle
+        : 'Start an evidence-backed financial analysis with verified citations.',
       icon: <ArtifactsIcon size={20} />,
+      onClick: () => {
+        if (recentConversations && recentConversations.length > 0 && onSelectConversation) {
+          onSelectConversation(recentConversations[0].conversation_id);
+        } else {
+          textareaRef.current?.focus();
+        }
+      },
     },
     {
-      title: 'Advisory inquiry',
-      desc: 'Inquire on accounting standards, ASC 606 revenue recognition, or GAAP compliance.',
-      prompt: 'Explain how variable consideration and contract modifications are treated under ASC 606.',
-      icon: <ChartIcon size={20} />,
+      title: 'Review Exceptions',
+      desc: 'Analyze flagged line-item variances, price deviations, duplicate billing, and tax discrepancies.',
+      icon: <VerifiedIcon size={20} />,
+      onClick: () => {
+        if (onStartReconciliation) {
+          onStartReconciliation();
+        } else {
+          setInputText('Scan uploaded financial records for exceptions, price deviations, and reconciliation flags.');
+          textareaRef.current?.focus();
+        }
+      },
     },
   ];
 
@@ -523,13 +650,28 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
         onChange={handleFileSelect}
       />
 
-      {/* Drag & Drop Full Canvas Overlay */}
+      {/* Drag & Drop Full Canvas Overlay (Claude Style) */}
       {isDragging && (
-        <div className="canvas-drag-overlay">
+        <div className="canvas-drag-overlay" role="dialog" aria-label="Drop files to ingest">
           <div className="canvas-drag-card">
-            <AttachFileIcon size={32} style={{ color: 'var(--accent)', marginBottom: 12 }} />
-            <h3>Drop Documents Here to Ingest</h3>
-            <p>PDF, XLSX, CSV, PNG, JPG (Supported up to 25 MB per file)</p>
+            <div className="canvas-drag-pulse-ring">
+              <AttachFileIcon size={38} className="canvas-drag-icon" />
+            </div>
+            <h3 className="canvas-drag-title">Drop Financial Documents to Ingest Offline</h3>
+            <p className="canvas-drag-subtitle">
+              Instant multi-format parsing for PDF, Excel (.xlsx), CSV, and Receipt Images
+            </p>
+            <div className="canvas-drag-format-tags">
+              <span className="format-tag tag-pdf">PDF</span>
+              <span className="format-tag tag-xlsx">XLSX</span>
+              <span className="format-tag tag-csv">CSV</span>
+              <span className="format-tag tag-image">PNG / JPG</span>
+              <span className="format-tag tag-doc">DOCX</span>
+            </div>
+            <div className="canvas-drag-security-footer">
+              <VerifiedIcon size={14} style={{ color: 'var(--emerald)', marginRight: 6 }} />
+              <span>100% On-Device · Deterministic 28-Digit Math · Zero Cloud Egress</span>
+            </div>
           </div>
         </div>
       )}
@@ -538,7 +680,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
       <div className="canvas-scroll-feed" ref={scrollContainerRef} onScroll={handleScroll}>
         <div className="canvas-content-column">
           {!hasMessages ? (
-            /* Welcome / Zero-State Experience */
+            /* Welcome / Action-Oriented Hero Experience */
             <div className="canvas-welcome-hero">
               <div className="welcome-brand-badge">
                 <div className="welcome-hero-avatar-ring">
@@ -551,31 +693,28 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
 
                 <div className="welcome-feature-pills">
                   <span className="feat-pill">
-                    <SparklesIcon size={12} style={{ color: 'var(--accent)', marginRight: 5 }} />
-                    Gemma 3 + Financial Specialist
-                  </span>
-                  <span className="feat-pill">
                     <VerifiedIcon size={12} style={{ color: 'var(--success)', marginRight: 5 }} />
-                    100% Offline Airgap
+                    100% Private & Air-Gapped
                   </span>
                   <span className="feat-pill">
                     <FileCheckIcon size={12} style={{ color: 'var(--accent-cyan)', marginRight: 5 }} />
-                    Deterministic Math Guards
+                    Deterministic Math Verification
+                  </span>
+                  <span className="feat-pill">
+                    <SparklesIcon size={12} style={{ color: 'var(--accent)', marginRight: 5 }} />
+                    Automated Three-Way Matching
                   </span>
                 </div>
               </div>
 
-              {/* Starter Prompt Cards (2x2 Grid) */}
+              {/* Action-Oriented Cards (Prioritized Customer Workflows) */}
               <div className="welcome-prompt-cards-grid">
-                {promptStarters.map((item, idx) => (
+                {actionCards.map((item, idx) => (
                   <button
                     key={idx}
                     type="button"
                     className="starter-card"
-                    onClick={() => {
-                      setInputText(item.prompt);
-                      textareaRef.current?.focus();
-                    }}
+                    onClick={item.onClick}
                   >
                     <span className="starter-card-icon">{item.icon}</span>
                     <div className="starter-card-text">
@@ -594,8 +733,14 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
                 const isUser = msg.role === 'user';
                 const metaArt = (
                   msg.metadata?.artifact_result ||
+                  msg.metadata?.artifact ||
+                  msg.metadata?.response_spec?.artifact_result ||
+                  msg.metadata?.response_spec?.artifact ||
                   msg.metadata?.response_spec?.metadata?.artifact_result ||
-                  allArtifacts.find((a) => a.artifact_id === msg.metadata?.response_spec?.metadata?.artifact_id)
+                  allArtifacts.find((a) => a.artifact_id === msg.metadata?.response_spec?.metadata?.artifact_id) ||
+                  allArtifacts.find((a) => a.artifact_id === msg.metadata?.response_spec?.artifact?.artifact_id) ||
+                  allArtifacts.find((a) => a.task_id === msg.metadata?.response_spec?.task_id) ||
+                  allArtifacts[allArtifacts.length - 1]
                 ) as ArtifactRecord | undefined;
                 const taskMatching = msg.task_id
                   ? allArtifacts.filter((a) => a.task_id === msg.task_id)
@@ -639,21 +784,68 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
                             {(((msg as any).attachments) || msg.metadata?.attachments) && (
                               <div className="msg-attachments-chips">
                                 {(((msg as any).attachments) || msg.metadata?.attachments).map(
-                                  (att: any, i: number) => (
-                                    <span key={i} className="msg-attachment-badge">
-                                      <AttachFileIcon size={12} style={{ marginRight: 4 }} />
-                                      {att.name || att.original_filename || 'Attachment'}
-                                    </span>
-                                  )
+                                  (att: any, i: number) => {
+                                    const fname = att.name || att.original_filename || 'Attachment';
+                                    const cat = resolveFileCategory(fname, att.isImage);
+                                    return (
+                                      <span key={i} className={`msg-attachment-badge msg-badge-${cat}`}>
+                                        {cat === 'image' ? (
+                                          <AttachImageIcon size={12} style={{ marginRight: 5 }} />
+                                        ) : cat === 'xlsx' || cat === 'csv' ? (
+                                          <ChartIcon size={12} style={{ marginRight: 5 }} />
+                                        ) : (
+                                          <AttachFileIcon size={12} style={{ marginRight: 5 }} />
+                                        )}
+                                        <span className={`msg-badge-type-tag tag-${cat}`}>{cat.toUpperCase()}</span>
+                                        <span className="msg-badge-filename">{fname}</span>
+                                      </span>
+                                    );
+                                  }
                                 )}
                               </div>
                             )}
                           </>
                         ) : (
                           <>
+                            {/* Claude-like Collapsible Offline Agent Network & Thinking Trace */}
+                            <ThinkingDisclosure
+                              thinkingText={msg.thinking_text || msg.metadata?.thinking_text}
+                              agentSteps={msg.agent_steps || msg.metadata?.agent_steps}
+                              durationSeconds={msg.duration_seconds || msg.metadata?.duration_seconds}
+                              isStreaming={msg.metadata?.is_streaming}
+                              executingStatusLabel={executingStatusLabel}
+                            />
+
                             {msg.content ? (
                               <div className="agent-markdown-wrap">
-                                <MarkdownRenderer content={msg.content} />
+                                <MarkdownRenderer
+                                  content={msg.content}
+                                  onCitationClick={(citationId) => {
+                                    if (!onInspectEvidence) return;
+                                    const existingCitations = msg.metadata?.response_spec?.citations || [];
+                                    const matched = existingCitations.find(
+                                      (c: any) =>
+                                        (c.label && c.label.toLowerCase() === citationId.toLowerCase()) ||
+                                        (c.citation_id && c.citation_id.toLowerCase() === citationId.toLowerCase())
+                                    );
+                                    if (matched) {
+                                      onInspectEvidence({
+                                        citation_id: matched.citation_id || citationId,
+                                        label: matched.label || citationId,
+                                        source_document: matched.source_document || 'Referenced Document',
+                                        page_number: matched.page_number,
+                                        excerpt: matched.excerpt || `Citation ${citationId}`,
+                                      });
+                                    } else {
+                                      onInspectEvidence({
+                                        citation_id: citationId,
+                                        label: citationId,
+                                        source_document: 'Referenced Document',
+                                        excerpt: `Grounded citation [${citationId}] referenced in analysis.`,
+                                      });
+                                    }
+                                  }}
+                                />
                                 {msg.metadata?.is_streaming && (
                                   <span className="streaming-cursor">▋</span>
                                 )}
@@ -766,6 +958,15 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
                                   ) : (
                                     <CopyIcon size={12} />
                                   )}
+                                </button>
+
+                                <button
+                                  type="button"
+                                  className="msg-action-copy-btn"
+                                  onClick={() => handleExportMessage(msg)}
+                                  title="Export synthesis deliverable (Excel, Word, PowerPoint, PDF)"
+                                >
+                                  <DownloadIcon size={12} />
                                 </button>
                               </div>
                             )}
@@ -944,29 +1145,62 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
           </div>
 
           <div className="composer-floating-card">
-          {/* Attachment Preview Chips */}
+          {/* Attachment Preview Chips (Claude-Style Badges) */}
           {attachments.length > 0 && (
             <div className="composer-attachments-bar">
-              {attachments.map((att) => (
-                <div key={att.id} className="composer-att-chip">
-                  <span className="att-chip-icon">
-                    {att.isImage ? <AttachImageIcon size={13} /> : <AttachFileIcon size={13} />}
-                  </span>
-                  <span className="att-chip-name" title={att.name}>
-                    {att.name}
-                  </span>
-                  <span className="att-chip-size">
-                    {Math.round(att.size / 1024)} KB
-                  </span>
-                  <button
-                    className="att-chip-remove"
-                    onClick={() => removeAttachment(att.id)}
-                    title="Remove attachment"
+              {attachments.map((att) => {
+                const cat = att.fileCategory || resolveFileCategory(att.name, att.isImage);
+                return (
+                  <div
+                    key={att.id}
+                    className={`composer-att-chip att-chip-${cat}`}
+                    title={att.previewSummary || att.name}
                   >
-                    <CloseIcon size={12} />
-                  </button>
-                </div>
-              ))}
+                    <span className={`att-chip-icon att-chip-icon-${cat}`}>
+                      {cat === 'image' ? (
+                        <AttachImageIcon size={13} />
+                      ) : cat === 'xlsx' || cat === 'csv' ? (
+                        <ChartIcon size={13} />
+                      ) : (
+                        <AttachFileIcon size={13} />
+                      )}
+                    </span>
+                    <span className={`att-chip-type-tag tag-${cat}`}>
+                      {cat.toUpperCase()}
+                    </span>
+                    <span className="att-chip-name" title={att.name}>
+                      {att.name}
+                    </span>
+                    {att.rowCount !== undefined && (
+                      <span className="att-chip-meta-pill">
+                        {att.rowCount} rows
+                      </span>
+                    )}
+                    {att.pageCount !== undefined && att.pageCount > 1 && (
+                      <span className="att-chip-meta-pill">
+                        {att.pageCount} pages
+                      </span>
+                    )}
+                    {att.ocrStatus && (
+                      <span className="att-chip-meta-pill ocr-pill" title={att.ocrStatus}>
+                        OCR
+                      </span>
+                    )}
+                    <span className="att-chip-size">
+                      {Math.round(att.size / 1024)} KB
+                    </span>
+                    <button
+                      type="button"
+                      className="att-chip-remove"
+                      onClick={() => removeAttachment(att.id)}
+                      title={`Remove ${att.name}`}
+                      aria-label={`Remove ${att.name}`}
+                    >
+                      <CloseIcon size={12} />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           )}
 
@@ -1033,6 +1267,16 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({
         </div>
         </div>
       </div>
+
+      {/* Universal Export Deliverable Modal */}
+      <ExportDeliverableModal
+        isOpen={exportModalData.isOpen}
+        onClose={() => setExportModalData((prev) => ({ ...prev, isOpen: false }))}
+        title={exportModalData.title}
+        content={exportModalData.content}
+        table={exportModalData.table}
+        defaultFormat={exportModalData.table ? 'xlsx' : 'docx'}
+      />
     </div>
   );
 };

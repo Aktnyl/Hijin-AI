@@ -11,6 +11,13 @@ import {
   DEFAULT_OLLAMA_ENDPOINT,
   EXACT_INSUFFICIENT_EVIDENCE_MESSAGE,
 } from './ollama';
+import {
+  saveChunksSqlite,
+  searchChunksFts5Sqlite,
+  saveHistorySqlite,
+  getHistorySqlite,
+  deleteHistorySqlite,
+} from './tauriBridge';
 
 /**
  * Standard BM25 text ranker for local SQLite FTS5 search
@@ -244,6 +251,8 @@ class LocalBriefDatabase {
 
   async saveChunks(workspaceId: string, chunks: ChunkRecord[]): Promise<void> {
     this.chunks.set(workspaceId, chunks);
+    // Persist to native SQLite FTS5 tables via Tauri
+    await saveChunksSqlite(workspaceId, chunks);
     this.saveToLocalStorage();
   }
 
@@ -256,6 +265,13 @@ class LocalBriefDatabase {
     query: string,
     limit = 8
   ): Promise<SearchResultChunk[]> {
+    // 1. Try native SQLite FTS5 BM25 search via Tauri
+    const sqliteResults = await searchChunksFts5Sqlite(workspaceId, query, limit);
+    if (sqliteResults !== null) {
+      return sqliteResults;
+    }
+
+    // 2. In-memory / web fallback with BM25 ranker
     const chunks = this.chunks.get(workspaceId) || [];
     return bm25RankChunks(chunks, query, limit);
   }
@@ -270,11 +286,16 @@ class LocalBriefDatabase {
       created_at: Date.now(),
     };
     this.history.unshift(newEntry);
+    await saveHistorySqlite(newEntry);
     this.saveToLocalStorage();
     return newEntry;
   }
 
   async getHistory(workspaceId?: string): Promise<HistoryRecord[]> {
+    const sqliteHistory = await getHistorySqlite(workspaceId);
+    if (sqliteHistory !== null && sqliteHistory.length > 0) {
+      return sqliteHistory;
+    }
     if (workspaceId) {
       return this.history.filter((h) => h.workspace_id === workspaceId);
     }
@@ -283,6 +304,7 @@ class LocalBriefDatabase {
 
   async deleteHistory(id: string): Promise<void> {
     this.history = this.history.filter((h) => h.id !== id);
+    await deleteHistorySqlite(id);
     this.saveToLocalStorage();
   }
 

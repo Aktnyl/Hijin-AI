@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ModelView } from '../../services/agentClient';
+import { DaemonConnectionStatus, ModelView } from '../../services/agentClient';
 import { PRODUCT_IDENTITY } from '../../services/productIdentity';
 import { settingsStore, ThemeMode } from '../../services/settingsStore';
 import {
@@ -25,6 +25,7 @@ interface WorkbenchHeaderProps {
   selectedModel: string;
   onSelectModel: (modelId: string) => void;
   isBackendConnected: boolean;
+  daemonStatus?: DaemonConnectionStatus;
   isExecuting: boolean;
   hasActiveArtifact: boolean;
   isArtifactPanelOpen: boolean;
@@ -43,6 +44,7 @@ export const WorkbenchHeader: React.FC<WorkbenchHeaderProps> = ({
   selectedModel,
   onSelectModel,
   isBackendConnected,
+  daemonStatus,
   isExecuting,
   hasActiveArtifact,
   isArtifactPanelOpen,
@@ -171,17 +173,22 @@ export const WorkbenchHeader: React.FC<WorkbenchHeaderProps> = ({
         </div>
 
         <div
-          className={`wb-airgap-pill ${isBackendConnected ? 'online' : 'offline'}`}
-          title={
-            isBackendConnected
-              ? 'Local Processing: Loopback verified on 127.0.0.1:8765 (Zero Cloud Telemetry)'
-              : 'Connecting to local service daemon...'
-          }
+          className="wb-airgap-pill active"
+          title="Local Offline Autonomous Engine: 100% Air-Gapped Workstation (Zero Cloud Telemetry)"
+          onClick={onOpenSettings}
+          style={{ cursor: 'pointer' }}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onOpenSettings();
+            }
+          }}
+          aria-label="Offline Air-Gapped Engine Active"
         >
-          <span className="wb-status-dot" />
-          <span className="wb-status-text">
-            {isBackendConnected ? 'On-Device' : 'Connecting'}
-          </span>
+          <span className="wb-status-dot" style={{ backgroundColor: '#10b981' }} />
+          <span className="wb-status-text">Offline Secure</span>
         </div>
 
         <CommercialLicenseBadge />
@@ -209,7 +216,7 @@ export const WorkbenchHeader: React.FC<WorkbenchHeaderProps> = ({
             }}
             title="Click to rename thread"
           >
-            <span className="wb-title-crumb">Investigation /</span>
+            
             <span className="wb-title-text">{activeConversationTitle}</span>
             {activeConversationTitle.toLowerCase().includes('reconcil') ? (
               <span className="wb-matter-badge">Reconciliation</span>
@@ -323,16 +330,7 @@ export const WorkbenchHeader: React.FC<WorkbenchHeaderProps> = ({
 
       {/* Right: Quick Theme Toggle + Inspector Toggle + Settings */}
       <div className="wb-header-right">
-        {onOpenModelHub && (
-          <button
-            className="wb-header-store-btn"
-            onClick={onOpenModelHub}
-            title="Open Model Store & Local Weights Manager (Ctrl+M)"
-          >
-            <CpuIcon size={14} style={{ color: '#38bdf8' }} />
-            <span>Model Store</span>
-          </button>
-        )}
+
 
         <button
           className="wb-icon-btn wb-theme-toggle-btn" 

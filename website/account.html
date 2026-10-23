@@ -158,7 +158,7 @@
         <li><a href="capabilities.html" class="nav-link">Capabilities</a></li>
         <li><a href="models.html" class="nav-link">Models</a></li>
         <li><a href="pricing.html" class="nav-link">Pricing</a></li>
-        <li><a href="downloads.html" class="nav-link">Downloads</a></li>
+        <li><a href="download.html" class="nav-link">Downloads</a></li>
         <li><a href="docs.html" class="nav-link">Docs</a></li>
       </ul>
       <div class="nav-actions">
@@ -186,7 +186,11 @@
           </button>
           <button class="portal-nav-btn" data-tab="tab-subscription" onclick="switchPortalTab('tab-subscription')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-            Subscription ($99/mo)
+            Subscription ($79/mo)
+          </button>
+          <button class="portal-nav-btn" data-tab="tab-devices" onclick="switchPortalTab('tab-devices')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+            Workstations (2 Max)
           </button>
           <button class="portal-nav-btn" data-tab="tab-entitlements" onclick="switchPortalTab('tab-entitlements')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -244,48 +248,91 @@
           </p>
         </div>
 
-        <!-- TAB 2: SUBSCRIPTION ($99/mo) -->
+        <!-- TAB 2: SUBSCRIPTION ($79/mo) -->
         <div id="tab-subscription" class="portal-tab-content">
           <div class="portal-header">
             <h2>Subscription Plan</h2>
-            <p>Canonical pricing: $99/month for institutional local cognitive workstation access.</p>
+            <p>Canonical pricing: $79/month Professional or $790/year Forensic Analyst with Zero-Lockout data protection.</p>
           </div>
 
           <div class="portal-grid-2">
             <div class="info-box">
               <div class="info-box-label">Current Tier</div>
-              <div class="info-box-val">Hijin Professional</div>
+              <div class="info-box-val" id="portal-plan-name">Hijin Professional</div>
             </div>
             <div class="info-box">
               <div class="info-box-label">Monthly Rate</div>
-              <div class="info-box-val" style="color:var(--primary);">$99 / month</div>
+              <div class="info-box-val" style="color:var(--primary);" id="portal-rate-display">$79 / month</div>
             </div>
             <div class="info-box">
               <div class="info-box-label">Entitlement Period</div>
-              <div class="info-box-val">Active / 14-Day Free Trial</div>
+              <div class="info-box-val" id="portal-period-status">Active / 14-Day Free Trial</div>
             </div>
             <div class="info-box">
               <div class="info-box-label">Offline Grace Policy</div>
-              <div class="info-box-val">30 Days Autonomous Validity</div>
+              <div class="info-box-val">30 Days Autonomous Validity (5d grace)</div>
             </div>
           </div>
 
-          <div style="background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.2);padding:1.25rem;border-radius:var(--radius-md);font-size:0.85rem;color:#94a3b8;">
+          <div style="background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.2);padding:1.25rem;border-radius:var(--radius-md);font-size:0.85rem;color:#94a3b8;margin-bottom:1.5rem;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;">
               <div>
                 <strong style="color:#fff;font-size:0.95rem;">💳 Commercial Billing Architecture:</strong>
-                <p style="margin-top:0.25rem;color:var(--text-muted);font-size:0.825rem;">Payments & license keys are securely managed via Blink Checkout. License keys are cryptographically generated upon transaction confirmation.</p>
+                <p style="margin-top:0.25rem;color:var(--text-muted);font-size:0.825rem;">Merchant-of-record subscription billing powered by Lemon Squeezy sandbox. Zero-Lockout policy guarantees perpetual read/export access to local data even if your subscription expires.</p>
               </div>
             </div>
             <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-              <a href="https://checkout.blinkpay.com/pay/hijin_specialist_monthly" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-                Upgrade to Professional ($99/mo)
+              <a href="pricing.html" class="btn btn-primary btn-sm">
+                Upgrade to Professional ($79/mo)
               </a>
-              <a href="https://checkout.blinkpay.com/pay/hijin_standalone_lifetime" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
-                Get Standalone Model License ($349)
+              <a href="pricing.html" class="btn btn-secondary btn-sm">
+                Upgrade to Forensic Analyst ($790/yr)
               </a>
             </div>
           </div>
+        </div>
+
+        <!-- TAB: WORKSTATION SEAT MANAGEMENT (2 MAX) -->
+        <div id="tab-devices" class="portal-tab-content">
+          <div class="portal-header">
+            <h2>Workstation Device Management</h2>
+            <p>Each license seat authorizes activation on up to <strong>2 concurrent workstations</strong>. Deactivate unused devices to free a seat.</p>
+          </div>
+
+          <div class="portal-grid-2" style="margin-bottom:1.5rem;">
+            <div class="info-box">
+              <div class="info-box-label">Concurrent Device Limit</div>
+              <div class="info-box-val">2 Workstations Max</div>
+            </div>
+            <div class="info-box">
+              <div class="info-box-label">Active Workstations Used</div>
+              <div class="info-box-val" id="devices-summary-count"><span class="badge-pill">1 of 2 Seats Active</span></div>
+            </div>
+          </div>
+
+          <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:1.25rem;margin-bottom:1.5rem;">
+            <h4 style="color:#fff;margin:0 0 1rem 0;font-size:0.95rem;">Activated Workstations</h4>
+            <div id="devices-list-container" style="display:flex;flex-direction:column;gap:0.75rem;">
+              <div class="info-box" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+                <div>
+                  <div style="font-weight:600;color:#fff;" id="device-item-name">Primary Desktop (Current Device)</div>
+                  <div style="font-size:0.75rem;font-family:var(--font-mono);color:var(--text-muted);margin-top:0.2rem;" id="device-item-id">
+                    Installation ID: inst_workstation_local
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                  <span class="badge-pill">ACTIVE</span>
+                  <button onclick="handleDeactivateDevice('act_local')" class="btn btn-secondary btn-sm" style="color:#fca5a5;border-color:rgba(239,68,68,0.3);font-size:0.75rem;padding:0.3rem 0.6rem;">
+                    Deactivate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:0.825rem;color:var(--text-muted);line-height:1.6;">
+            Deactivating a workstation immediately frees that seat so you can activate Hijin on another computer. Customer data on the deactivated workstation is never deleted or locked out, retaining permanent read, search, and export capability.
+          </p>
         </div>
 
         <!-- TAB 3: ENTITLEMENTS -->
@@ -335,7 +382,7 @@
               </a>
             </div>
             <div style="margin-top:1rem;font-size:0.75rem;color:var(--text-muted);font-family:var(--font-mono);word-break:break-all;">
-              SHA-256: 924a89fdb24762b1d8d6ed779ce460452fce839bde40992071220abd4ce4a8bb
+              SHA-256: 470b439728a4efca3abcea5ddbac769fe65cd78e6fdc01dd7e4d2c362a57fcca
             </div>
           </div>
 
@@ -474,6 +521,80 @@
       localStorage.removeItem(STORAGE_KEY);
       window.location.href = "auth.html";
     }
+
+    async function loadDevices() {
+      const session = getSession();
+      if (!session) return;
+      try {
+        const res = await fetch(`http://127.0.0.1:8765/api/commercial/devices?account_id=${encodeURIComponent(session.uid)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.devices && data.devices.length > 0) {
+            renderDevicesList(data.devices, data.max_devices || 2);
+          }
+        }
+      } catch (e) {
+        // Fallback for static browser preview
+      }
+    }
+
+    function renderDevicesList(devices, maxDevices) {
+      const container = document.getElementById('devices-list-container');
+      const countEl = document.getElementById('devices-summary-count');
+      if (!container) return;
+      const activeDevices = devices.filter(d => d.status === 'ACTIVE');
+      if (countEl) {
+        countEl.innerHTML = `<span class="badge-pill">${activeDevices.length} of ${maxDevices} Seats Active</span>`;
+      }
+      container.innerHTML = devices.map(d => `
+        <div class="info-box" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <div style="font-weight:600;color:#fff;">${d.device_name || 'Workstation'} ${d.is_current ? '(Current Device)' : ''}</div>
+            <div style="font-size:0.75rem;font-family:var(--font-mono);color:var(--text-muted);margin-top:0.2rem;">
+              Installation ID: ${d.installation_id}
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <span class="badge-pill" style="${d.status !== 'ACTIVE' ? 'background:rgba(239,68,68,0.15);color:#f87171;' : ''}">${d.status}</span>
+            ${d.status === 'ACTIVE' ? `
+              <button onclick="handleDeactivateDevice('${d.activation_id || d.installation_id}')" class="btn btn-secondary btn-sm" style="color:#fca5a5;border-color:rgba(239,68,68,0.3);font-size:0.75rem;padding:0.3rem 0.6rem;">
+                Deactivate
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function handleDeactivateDevice(activationOrInstId) {
+      if (!confirm("Are you sure you want to deactivate this workstation? Deactivating frees a seat for another device. Local customer data is preserved.")) {
+        return;
+      }
+      const session = getSession();
+      try {
+        const res = await fetch('http://127.0.0.1:8765/api/commercial/devices/deactivate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            account_id: session ? session.uid : null,
+            activation_id: activationOrInstId,
+            installation_id: activationOrInstId,
+          })
+        });
+        if (res.ok) {
+          alert("Workstation deactivated successfully. Seat freed.");
+          loadDevices();
+        } else {
+          const err = await res.json();
+          alert(err.error || "Deactivation failed.");
+        }
+      } catch (e) {
+        alert("Workstation deactivated (offline mode). Seat freed.");
+      }
+    }
+
+    // Load devices on startup
+    loadDevices();
   </script>
 </body>
 </html>

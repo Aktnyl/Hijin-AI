@@ -29,7 +29,13 @@ export const ArtifactCard: React.FC<ArtifactCardProps> = ({ artifact, onOpen }) 
   let iconColor = '#2563eb'; // Deep Word Blue
   let bgGradient = 'rgba(37, 99, 235, 0.08)';
 
-  if (rawType.includes('PDF') || artifact.filename.toLowerCase().endsWith('.pdf')) {
+  if (rawType.includes('SPREADSHEET') || rawType.includes('XLS') || artifact.filename.toLowerCase().endsWith('.xlsx') || artifact.filename.toLowerCase().endsWith('.xls')) {
+    typeLabel = 'XLSX';
+    appName = 'Excel Spreadsheet';
+    badgeClass = 'badge-xlsx';
+    iconColor = '#107c41'; // Official Excel Green
+    bgGradient = 'rgba(16, 124, 65, 0.08)';
+  } else if (rawType.includes('PDF') || artifact.filename.toLowerCase().endsWith('.pdf')) {
     typeLabel = 'PDF';
     appName = 'Adobe Acrobat';
     badgeClass = 'badge-pdf';

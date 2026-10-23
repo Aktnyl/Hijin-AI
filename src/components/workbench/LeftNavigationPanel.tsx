@@ -31,6 +31,8 @@ interface LeftNavigationPanelProps {
   onOpenSettings: () => void;
   onOpenModelHub?: () => void;
   isBackendConnected: boolean;
+  activeMode?: 'chat' | 'reconciliation' | string;
+  onSelectMode?: (mode: 'chat' | 'reconciliation') => void;
 }
 
 export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
@@ -46,8 +48,12 @@ export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
   onOpenSettings,
   onOpenModelHub,
   isBackendConnected,
+  activeMode,
+  onSelectMode,
 }) => {
-  const [activeTab, setActiveTab] = useState<'threads' | 'artifacts'>('threads');
+  const [activeTab, setActiveTab] = useState<'threads' | 'artifacts' | 'reconciliation'>(
+    activeMode === 'reconciliation' ? 'reconciliation' : 'threads'
+  );
   const [searchQuery, setSearchQuery] = useState('');
   const [networkDetail, setNetworkDetail] = useState<NetworkActivityDetail>(networkStateService.getDetail());
   const [showNetworkInfo, setShowNetworkInfo] = useState(false);
@@ -140,10 +146,10 @@ export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
     <aside className="left-nav-sidebar">
       {/* Top Action: New Engagement Button */}
       <div className="left-nav-top-action">
-        <button className="new-thread-btn" onClick={onNewChat} title="Start New Engagement (Ctrl+N)">
+        <button className="new-thread-btn" onClick={onNewChat} title="Start New Chat (Ctrl+N)">
           <PlusIcon size={16} style={{ marginRight: 8 }} />
-          <span>New Engagement</span>
-          <span className="shortcut-hint">Ctrl N</span>
+          <span>New chat</span>
+          
         </button>
       </div>
 
@@ -153,7 +159,7 @@ export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
         <input
           type="text"
           className="search-input-field"
-          placeholder="Search engagements & files..."
+          placeholder="Search chats..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -164,29 +170,46 @@ export const LeftNavigationPanel: React.FC<LeftNavigationPanelProps> = ({
         )}
       </div>
 
-      {/* Tabs Switcher: Engagements vs Artifacts */}
+      {/* Tabs Switcher: Engagements vs 3-Way Match vs Deliverables */}
       <div className="left-nav-tab-switcher">
         <button
           className={`nav-tab-btn ${activeTab === 'threads' ? 'active' : ''}`}
-          onClick={() => setActiveTab('threads')}
+          onClick={() => {
+            setActiveTab('threads');
+            onSelectMode?.('chat');
+          }}
         >
           <ChatIcon size={13} style={{ marginRight: 6 }} />
-          <span>Engagements</span>
+          <span>Chats</span>
           <span className="tab-count-badge">{conversations.length}</span>
         </button>
+
         <button
           className={`nav-tab-btn ${activeTab === 'artifacts' ? 'active' : ''}`}
-          onClick={() => setActiveTab('artifacts')}
+          onClick={() => {
+            setActiveTab('artifacts');
+            onSelectMode?.('chat');
+          }}
         >
           <ArtifactsIcon size={13} style={{ marginRight: 6 }} />
-          <span>Deliverables</span>
+          <span>Artifacts</span>
           <span className="tab-count-badge">{artifacts.length}</span>
         </button>
       </div>
 
       {/* Main List Container */}
       <div className="left-nav-scroll-list">
-        {activeTab === 'threads' ? (
+        {activeTab === 'reconciliation' ? (
+          <div className="nav-empty-state" style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <SpreadsheetIcon size={24} style={{ color: 'var(--accent-primary, #2563EB)', marginBottom: '8px' }} />
+            <div style={{ fontWeight: 600, fontSize: '13px', color: 'var(--text-primary, #F9FAFB)', marginBottom: '4px' }}>
+              Forensic 3-Way Match
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--text-secondary, #94A3B8)', textAlign: 'center', lineHeight: 1.4 }}>
+              Active in center workspace. Cross-reconcile PO, Invoice, and GL files to detect variances.
+            </div>
+          </div>
+        ) : activeTab === 'threads' ? (
           filteredConversations.length === 0 ? (
             <div className="nav-empty-state">
               <span>No engagements found</span>

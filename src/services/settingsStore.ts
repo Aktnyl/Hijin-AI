@@ -10,8 +10,9 @@ export type AccentColor = 'blue' | 'emerald' | 'indigo' | 'amber' | 'slate';
 export type FontSize = 'sm' | 'md' | 'lg';
 export type UiDensity = 'compact' | 'comfortable';
 export type AnimationLevel = 'reduced' | 'standard';
-export type WorkspaceMode = 'chat' | 'artifact' | 'document' | 'data' | 'task' | 'focus';
+export type WorkspaceMode = 'chat' | 'artifact' | 'document' | 'data' | 'task' | 'focus' | 'reconciliation';
 export type ReasoningDepth = 'FAST' | 'BALANCED' | 'DEEP';
+export type AIProvider = 'auto' | 'embedded' | 'ollama';
 
 export interface AppSettingsV1 {
   schemaVersion: 1;
@@ -32,7 +33,10 @@ export interface AppSettingsV1 {
   defaultMode: WorkspaceMode;
   activeMode: WorkspaceMode;
 
-  // Chat & Models
+  // Chat & Models (Multi-Provider AI Architecture AI-P1-01)
+  aiProvider: AIProvider;
+  ollamaEndpoint: string;
+  ollamaModel: string;
   defaultModelId: string;
   autoModelSelection: boolean;
   streaming: boolean;
@@ -57,6 +61,15 @@ export interface AppSettingsV1 {
 
   // Commercial & Onboarding
   firstLaunchCompleted: boolean;
+
+  // Workspace & Preferences (Zero-Friction Startup)
+  workspaceDirectory: string;
+  defaultCurrency: string;
+  dateFormat: string;
+  cachedLicenseState?: Record<string, any>;
+  windowState?: { width: number; height: number; x?: number; y?: number; isMaximized?: boolean };
+  recentProjectHistory: string[];
+  backupCreatedOnCorruption?: boolean;
 
   // Privacy & Air-Gap (Strictly Local)
   readonly localProcessingOnly: true;
@@ -83,7 +96,10 @@ export const DEFAULT_SETTINGS: AppSettingsV1 = {
   defaultMode: 'chat',
   activeMode: 'chat',
 
-  // Chat & Models
+  // Chat & Models (Multi-Provider AI Architecture AI-P1-01)
+  aiProvider: 'auto',
+  ollamaEndpoint: 'http://127.0.0.1:11434',
+  ollamaModel: 'gemma3:latest',
   defaultModelId: 'auto',
   autoModelSelection: true,
   streaming: true,
@@ -108,6 +124,13 @@ export const DEFAULT_SETTINGS: AppSettingsV1 = {
 
   // Commercial & Onboarding
   firstLaunchCompleted: false,
+
+  // Workspace & Preferences (Zero-Friction Startup)
+  workspaceDirectory: '',
+  defaultCurrency: 'USD',
+  dateFormat: 'YYYY-MM-DD',
+  recentProjectHistory: [],
+  backupCreatedOnCorruption: false,
 
   // Privacy & Air-Gap (Mandatory Security Invariant)
   localProcessingOnly: true,
@@ -236,8 +259,19 @@ export class SettingsStore {
         telemetryEnabled: false,
       };
     } catch (err) {
-      console.warn('Failed to parse saved settings, falling back safely to defaults:', err);
-      return { ...DEFAULT_SETTINGS };
+      console.warn('Failed to parse saved settings, creating backup and falling back safely to defaults:', err);
+      try {
+        const raw = window.localStorage.getItem(SETTINGS_STORAGE_KEY) || window.localStorage.getItem(LEGACY_SETTINGS_STORAGE_KEY);
+        if (raw) {
+          window.localStorage.setItem(SETTINGS_STORAGE_KEY + '.bak', raw);
+        }
+      } catch (bakErr) {
+        // Safe ignore
+      }
+      return {
+        ...DEFAULT_SETTINGS,
+        backupCreatedOnCorruption: true,
+      };
     }
   }
 

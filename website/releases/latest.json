@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
   "notes": "Hijin Production Release v1.0.0. Local-first cognitive AI workstation, Firebase Auth cross-platform identity, verified Ed25519 licensing, deterministic financial reconciliation, and multi-format deliverable compiler.",
-  "pub_date": "2026-10-01T12:30:54Z",
+  "pub_date": "2026-10-16T10:48:51Z",
   "platforms": {
     "windows-x86_64": {
       "signature": "auth-key-ed25519-v1-verified",
       "url": "https://releases.hijin.ai/Hijin_Setup_1.0.0.exe",
-      "size_bytes": 6869642,
-      "sha256": "924a89fdb24762b1d8d6ed779ce460452fce839bde40992071220abd4ce4a8bb"
+      "size_bytes": 63414992,
+      "sha256": "470b439728a4efca3abcea5ddbac769fe65cd78e6fdc01dd7e4d2c362a57fcca"
     }
   }
 }

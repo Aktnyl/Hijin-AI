@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { commercialService, CommercialLicenseView } from '../../services/commercialService';
+import { LicenseModal } from './LicenseModal';
 
 export const CommercialLicenseBadge: React.FC = () => {
   const [license, setLicense] = useState<CommercialLicenseView>(commercialService.getStatus());
   const [showDiagnostics, setShowDiagnostics] = useState(false);
+  const [showLicenseModal, setShowLicenseModal] = useState(false);
 
   useEffect(() => {
     const unsub = commercialService.subscribe((l) => setLicense(l));
@@ -155,7 +157,25 @@ export const CommercialLicenseBadge: React.FC = () => {
               <span style={{ color: '#10b981' }}>✅ 100% Preserved (Exports Allowed)</span>
             </div>
 
-            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end', gap: '10px', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => {
+                  setShowDiagnostics(false);
+                  setShowLicenseModal(true);
+                }}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  background: 'rgba(56, 189, 248, 0.15)',
+                  color: '#38bdf8',
+                  border: '1px solid rgba(56, 189, 248, 0.3)',
+                  fontSize: '13px',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                }}
+              >
+                Offline / Air-Gapped License
+              </button>
               {license.status !== 'ACTIVE' && (
                 <a
                   href={license.renewalUrl}
@@ -192,6 +212,12 @@ export const CommercialLicenseBadge: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Air-Gapped & Offline License Modal (UX-P2-03) */}
+      <LicenseModal
+        isOpen={showLicenseModal}
+        onClose={() => setShowLicenseModal(false)}
+      />
     </>
   );
 };
