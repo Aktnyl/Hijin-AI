@@ -3,10 +3,27 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%2F%2011%20x64-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Aktnyl/Hijin-AI)
 [![Download Installer](https://img.shields.io/badge/Download_Installer-v1.0.0_(6.58_MB)-10B981?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Aktnyl/Hijin-AI/releases/download/v1.0.0/Hijin_Setup_1.0.0.exe)
 [![Official Website](https://img.shields.io/badge/Official_Website-aktnyl.github.io%2FHijin--AI-6366F1?style=for-the-badge&logo=google-chrome&logoColor=white)](https://aktnyl.github.io/Hijin-AI/)
-[![Community](https://img.shields.io/badge/GitHub-Discussions-orange?style=for-the-badge&logo=github)](https://github.com/Aktnyl/Hijin-AI/discussions)
+[![Model Downloads](https://img.shields.io/badge/HuggingFace-340%2B_Downloads_%2F_10_Days-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co/Aktnyl/hijin-financial-specialist)
+[![Acquisition](https://img.shields.io/badge/IP_Acquisition-Available_(Turnkey)-F59E0B?style=for-the-badge&logo=shield)](https://www.sideprojectors.com)
 
 > **Hijin** is an enterprise-grade, local-first cognitive AI desktop workstation engineered specifically for **corporate controllers, CPAs, auditors, and financial analysts**.  
 > It performs deterministic general ledger reconciliation, audit variance detection, and financial statement verification **100% locally on your machine with zero cloud data transmission**.
+
+---
+
+> [!NOTE]
+> ### 💼 Commercial Acquisition & Full Intellectual Property Transfer Available
+> **Turnkey Financial AI Software Asset | Complete IP Transfer | $5,500 (Negotiable)**  
+> The complete commercial intellectual property for **Hijin AI** is available for turnkey acquisition as the author transitions back to full-time academic physics research.
+> 
+> • **Verifiable Community Traction:** 340+ organic GGUF model downloads in its first 10 days on [Hugging Face](https://huggingface.co/Aktnyl/hijin-financial-specialist) (~34 daily downloads, $0 ad spend).  
+> • **Engineering Rigor:** 3,850+ passing automated unit & integration tests across 29 completed engineering milestones.  
+> • **Included Assets:** Master Git codebase (Rust/Tauri + Python), fine-tuned 4.3B GGUF weights, full LoRA training pipelines, synthetic data generators, pre-compiled Windows installer (`.exe`), brand assets, and architecture manuals.  
+> • **Zero Operating Overhead:** $0.00/month server burn rate (100% on-device workstation execution).  
+> • **Safe Settlement:** Secure settlement via **Escrow.com** with 7-day technical transition support.  
+> 
+> 📑 **Verified Marketplace Listing:** [SideProjectors Listing #102500](https://www.sideprojectors.com)  
+> 📩 **Acquisition Inquiries:** Open an inquiry on SideProjectors or contact the repository owner.
 
 ---
 
