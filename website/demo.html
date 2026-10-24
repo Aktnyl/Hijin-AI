@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hijin AI — Interactive Browser Workstation Demo</title>
+  <meta name="description" content="Try the interactive browser-accessible demo of Hijin AI. Test offline financial invoice reconciliation, 28-digit fixed-point math verification, and audit variance detection directly in your browser.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Workstation Specific Styling */
+    .demo-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+      width: 100%;
+    }
+
+    .demo-header-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(13, 20, 32, 0.95), rgba(6, 9, 18, 0.95));
+      border: 1px solid var(--border-active);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .demo-telemetry {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.25rem;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+    }
+
+    .telemetry-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-body);
+    }
+
+    .telemetry-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--status-verified);
+      box-shadow: 0 0 8px var(--status-verified);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    /* 3-Column Workstation Layout */
+    .workstation-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr 1fr;
+      gap: 1.25rem;
+      min-height: 720px;
+    }
+
+    @media (max-width: 1200px) {
+      .workstation-grid {
+        grid-template-columns: 280px 1fr;
+      }
+      .col-results {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .workstation-grid {
+        grid-template-columns: 1fr;
+      }
+      .col-results {
+        grid-column: span 1;
+      }
+    }
+
+    .ws-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ws-card-header {
+      padding: 0.85rem 1.15rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .ws-card-body {
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    /* Document List */
+    .doc-item {
+      padding: 0.75rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+      transition: var(--transition);
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .doc-item:hover {
+      border-color: var(--border-bright);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .doc-item.active {
+      border-color: var(--primary);
+      background: rgba(53, 168, 255, 0.08);
+      box-shadow: 0 0 12px rgba(53, 168, 255, 0.15);
+    }
+
+    .doc-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .doc-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .doc-badge-warning {
+      color: #F59E0B;
+      font-size: 0.72rem;
+      background: rgba(245, 158, 11, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .doc-badge-verified {
+      color: #10B981;
+      font-size: 0.72rem;
+      background: rgba(16, 185, 129, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Invoice Preview Card */
+    .invoice-preview-box {
+      background: #060912;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--text-body);
+      max-height: 380px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0;
+      font-size: 0.78rem;
+    }
+
+    .invoice-table th, .invoice-table td {
+      padding: 6px 8px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .invoice-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Action Trigger Buttons */
+    .quick-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.5rem;
+      padding: 0.6rem 0.85rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: left;
+    }
+
+    .action-btn:hover {
+      background: rgba(53, 168, 255, 0.1);
+      border-color: var(--border-active);
+      color: var(--primary);
+    }
+
+    /* Console / Terminal */
+    .terminal-output {
+      background: #020408;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: #A78BFA;
+      min-height: 150px;
+      max-height: 220px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    /* Verification Results Table */
+    .results-card {
+      background: rgba(6, 9, 18, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      font-size: 0.8rem;
+    }
+
+    .variance-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    .badge-error {
+      background: rgba(239, 68, 68, 0.2);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .badge-success {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-canvas" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="site-header" id="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4v16M20 4v16M4 12h16"/>
+          </svg>
+        </div>
+        <span class="brand-wordmark">HIJIN</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="demo.html" class="nav-link active" style="color: #35A8FF; font-weight:700;">⚡ Live Web Demo</a></li>
+        <li><a href="capabilities.html" class="nav-link">Capabilities</a></li>
+        <li><a href="models.html" class="nav-link">Model (GGUF)</a></li>
+        <li><a href="releases.html" class="nav-link">Windows Installer</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="https://github.com/Aktnyl/Hijin-AI" class="btn btn-secondary btn-sm" target="_blank">GitHub Repo</a>
+        <a href="download.html" class="btn btn-primary btn-sm">Download .exe</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="demo-container">
+    <!-- Workstation Telemetry Status Bar -->
+    <div class="demo-header-banner">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <span class="telemetry-dot"></span>
+        <div>
+          <div style="font-weight:700; color:var(--text-primary); font-size:0.95rem;">
+            Hijin Financial AI Workstation — Live Interactive Browser Sandbox
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-muted);">
+            Test deterministic math verification, automated variance detection, and invoice audits directly in your browser.
+          </div>
+        </div>
+      </div>
+      <div class="demo-telemetry">
+        <div class="telemetry-item">
+          <span style="color:var(--text-muted);">Runtime:</span> <span style="color:var(--primary);">WebAssembly/WASM + Local JS</span>
+        </div>
+        <div class="telemetry-item">
+          <span style="color:var(--text-muted);">Math Engine:</span> <span style="color:#10B981;">28-Digit Fixed Point</span>
+        </div>
+        <div class="telemetry-item">
+          <span style="color:var(--text-muted);">Server Cost:</span> <span style="color:#F59E0B;">$0.00 / mo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3-Column Workstation Grid -->
+    <div class="workstation-grid">
+      
+      <!-- Column 1: Document Vault -->
+      <section class="ws-card">
+        <div class="ws-card-header">
+          <span>📁 AUDIT DOCUMENT VAULT</span>
+          <span style="color:var(--text-dim); font-size:0.75rem;">3 Loaded</span>
+        </div>
+        <div class="ws-card-body">
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.75rem;">
+            Select a vendor document to test line-item parsing and arithmetic cross-checks:
+          </p>
+
+          <div class="doc-item active" id="doc-btn-1" onclick="loadInvoice(1)">
+            <div class="doc-title">
+              <span>Apex Cloud Solutions</span>
+              <span class="doc-badge-warning">Tax Variance</span>
+            </div>
+            <div class="doc-meta">INV-2026-8812 • $14,250.00 • PDF</div>
+          </div>
+
+          <div class="doc-item" id="doc-btn-2" onclick="loadInvoice(2)">
+            <div class="doc-title">
+              <span>Pacific Maritime Logistics</span>
+              <span class="doc-badge-warning">Duplicate Surcharge</span>
+            </div>
+            <div class="doc-meta">PO-9410-FRT • $8,940.00 • PDF</div>
+          </div>
+
+          <div class="doc-item" id="doc-btn-3" onclick="loadInvoice(3)">
+            <div class="doc-title">
+              <span>Vertex Corporate Legal</span>
+              <span class="doc-badge-verified">100% Match</span>
+            </div>
+            <div class="doc-meta">LEG-7701-RET • $24,500.00 • PDF</div>
+          </div>
+
+          <!-- Dropzone -->
+          <div style="margin-top:auto; padding-top:1rem; border-top:1px dashed var(--border-subtle); text-align:center;">
+            <div style="border:1px dashed rgba(255,255,255,0.15); border-radius:var(--radius-md); padding:1rem; background:rgba(255,255,255,0.01);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--primary); margin-bottom:4px;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <div style="font-size:0.78rem; font-weight:600; color:var(--text-primary);">Drop Custom Invoice Here</div>
+              <div style="font-size:0.7rem; color:var(--text-muted);">PDF, CSV, or TXT file</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Column 2: Document Inspection & Quick Audit Triggers -->
+      <section class="ws-card">
+        <div class="ws-card-header">
+          <span>📄 ACTIVE DOCUMENT INSPECTION</span>
+          <span id="active-doc-id" style="font-family:var(--font-mono); color:var(--primary); font-size:0.75rem;">INV-2026-8812</span>
+        </div>
+        <div class="ws-card-body">
+          
+          <div class="invoice-preview-box" id="invoice-preview-content">
+            <!-- Populated dynamically via JS -->
+          </div>
+
+          <div style="font-size:0.8rem; font-weight:600; color:var(--text-primary); margin-bottom:0.5rem;">
+            ⚡ Quick Audit Workflows:
+          </div>
+          <div class="quick-actions">
+            <button class="action-btn" onclick="runAudit('line-items')">
+              <span>🔍</span>
+              <span><strong>Audit Line Items &amp; Tax Math</strong> (Fixed-Point Verification)</span>
+            </button>
+            <button class="action-btn" onclick="runAudit('duplicate')">
+              <span>⚠️</span>
+              <span><strong>Check Duplicate Billed Surcharges</strong></span>
+            </button>
+            <button class="action-btn" onclick="runAudit('po-reconcile')">
+              <span>⚖️</span>
+              <span><strong>Reconcile Purchase Order vs Invoiced Total</strong></span>
+            </button>
+          </div>
+
+          <!-- Prompt bar -->
+          <div style="display:flex; gap:0.5rem; margin-top:auto;">
+            <input type="text" id="custom-prompt" placeholder="Ask AI auditor (e.g. 'Audit tax rate &amp; check subtotal')" 
+                   style="flex:1; background:rgba(0,0,0,0.5); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:8px 12px; color:#fff; font-size:0.8rem;"
+                   onkeydown="if(event.key === 'Enter') runAudit('custom')">
+            <button class="btn btn-primary btn-sm" onclick="runAudit('custom')" id="btn-run-audit" style="white-space:nowrap;">
+              Run Audit
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Column 3: Live AI Reasoning Console & Reconciliation Table -->
+      <section class="ws-card col-results">
+        <div class="ws-card-header">
+          <span>📊 RECONCILIATION &amp; AUDIT REPORT</span>
+          <button class="btn btn-secondary btn-sm" onclick="exportAuditReport()" style="padding:2px 8px; font-size:0.72rem;">
+            📥 Export CSV
+          </button>
+        </div>
+        <div class="ws-card-body">
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.4rem; display:flex; justify-content:space-between;">
+            <span>AI Reasoning Stream</span>
+            <span id="audit-speed" style="color:#10B981; font-family:var(--font-mono);">Sub-10ms Math Core</span>
+          </div>
+          
+          <!-- Terminal stream box -->
+          <div class="terminal-output" id="terminal-stream">Ready. Click any Quick Audit Workflow or click 'Run Audit' to begin deterministic verification...</div>
+
+          <!-- Structured Results Table -->
+          <div class="results-card" id="results-card" style="display:none;">
+            <div style="font-weight:700; margin-bottom:0.5rem; font-size:0.85rem; color:var(--text-primary); display:flex; justify-content:space-between; align-items:center;">
+              <span>Variance &amp; Accuracy Verification</span>
+              <span id="overall-status-badge"></span>
+            </div>
+            
+            <div id="results-table-container"></div>
+            
+            <div style="margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.75rem;">
+              <div>Billed Amount: <strong id="res-billed-amt">$14,250.00</strong></div>
+              <div>Calculated True Total: <strong id="res-true-amt" style="color:#10B981;">$13,856.00</strong></div>
+              <div>Discrepancy: <strong id="res-variance-amt" style="color:#EF4444;">+$394.00</strong></div>
+            </div>
+          </div>
+
+          <!-- Native App Prompt -->
+          <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:0.75rem; color:var(--text-muted);">
+              Want unlimited on-device execution with zero cloud leaks?
+            </div>
+            <a href="download.html" class="btn btn-primary btn-sm" style="font-size:0.75rem; padding:4px 10px;">
+              Get Windows Installer (.exe)
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Sample Invoices Data
+    const INVOICES = {
+      1: {
+        id: "INV-2026-8812",
+        vendor: "Apex Cloud Solutions LLC",
+        date: "October 14, 2026",
+        dueDate: "November 14, 2026",
+        currency: "USD",
+        items: [
+          { desc: "Dedicated Neural Server Instance (Monthly)", qty: 2, price: 4500.00, billed: 9000.00 },
+          { desc: "High-IOPS NVMe Storage Block (4TB)", qty: 1, price: 1800.00, billed: 1800.00 },
+          { desc: "Private Virtual Switch Router Port", qty: 4, price: 500.00, billed: 2000.00 }
+        ],
+        subtotal: 12800.00,
+        taxRate: 0.0825, // 8.25% should be $1,056.00
+        billedTax: 1450.00, // ERROR: Overcharged by $394.00!
+        billedTotal: 14250.00,
+        expectedTotal: 13856.00,
+        variance: 394.00,
+        varianceDesc: "Tax calculation mismatch: Invoiced tax of $1,450.00 exceeds standard 8.25% rate ($1,056.00) by +$394.00."
+      },
+      2: {
+        id: "PO-9410-FRT",
+        vendor: "Pacific Maritime Logistics Inc.",
+        date: "October 18, 2026",
+        dueDate: "Immediate",
+        currency: "USD",
+        items: [
+          { desc: "Ocean Container Transit 40ft (Long Beach -> Rotterdam)", qty: 1, price: 6200.00, billed: 6200.00 },
+          { desc: "Harbor Surcharge & Terminal Handling Fee", qty: 1, price: 1240.00, billed: 1240.00 },
+          { desc: "Fuel Adjustment Factor (Duplicate Entry)", qty: 1, price: 750.00, billed: 750.00 },
+          { desc: "Fuel Adjustment Factor B-Tier (Duplicate Surcharge)", qty: 1, price: 750.00, billed: 750.00 }
+        ],
+        subtotal: 8940.00,
+        taxRate: 0.00,
+        billedTax: 0.00,
+        billedTotal: 8940.00,
+        expectedTotal: 8190.00,
+        variance: 750.00,
+        varianceDesc: "Duplicate charge detected: Line 3 & 4 represent redundant fuel surcharges for identical consignment."
+      },
+      3: {
+        id: "LEG-7701-RET",
+        vendor: "Vertex Corporate Legal Advisory LLP",
+        date: "October 20, 2026",
+        dueDate: "Net 30",
+        currency: "USD",
+        items: [
+          { desc: "Senior M&A Advisory Services (Tier 1)", qty: 25, price: 800.00, billed: 20000.00 },
+          { desc: "Regulatory Compliance Audit Filing", qty: 1, price: 4500.00, billed: 4500.00 }
+        ],
+        subtotal: 24500.00,
+        taxRate: 0.00,
+        billedTax: 0.00,
+        billedTotal: 24500.00,
+        expectedTotal: 24500.00,
+        variance: 0.00,
+        varianceDesc: "100% Exact match. All line item extensions and zero-tax status strictly verified."
+      }
+    };
+
+    let currentInvId = 1;
+
+    function loadInvoice(id) {
+      currentInvId = id;
+      document.querySelectorAll('.doc-item').forEach(el => el.classList.remove('active'));
+      const activeEl = document.getElementById(`doc-btn-${id}`);
+      if (activeEl) activeEl.classList.add('active');
+
+      const inv = INVOICES[id];
+      document.getElementById('active-doc-id').textContent = inv.id;
+
+      // Render Preview
+      let html = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:0.5rem;">
+          <div>
+            <strong style="color:#fff; font-size:0.9rem;">${inv.vendor}</strong><br>
+            <span style="color:#8793A3;">Invoice: ${inv.id}</span>
+          </div>
+          <div style="text-align:right; color:#8793A3;">
+            Date: ${inv.date}<br>
+            Due: ${inv.dueDate}
+          </div>
+        </div>
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th style="text-align:center;">Qty</th>
+              <th style="text-align:right;">Unit Price</th>
+              <th style="text-align:right;">Line Total</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      inv.items.forEach(item => {
+        html += `
+          <tr>
+            <td>${item.desc}</td>
+            <td style="text-align:center;">${item.qty}</td>
+            <td style="text-align:right;">$${item.price.toFixed(2)}</td>
+            <td style="text-align:right; font-weight:600; color:#fff;">$${item.billed.toFixed(2)}</td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+        <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:0.5rem; text-align:right;">
+          <div>Subtotal: <strong>$${inv.subtotal.toFixed(2)}</strong></div>
+          <div>Billed Tax: <strong>$${inv.billedTax.toFixed(2)}</strong></div>
+          <div style="font-size:0.95rem; color:#fff; margin-top:4px;">Invoiced Total: <strong style="color:var(--primary);">$${inv.billedTotal.toFixed(2)}</strong></div>
+        </div>
+      `;
+
+      document.getElementById('invoice-preview-content').innerHTML = html;
+      document.getElementById('results-card').style.display = 'none';
+      document.getElementById('terminal-stream').textContent = `Document [${inv.id}] loaded into memory. Ready for deterministic audit.`;
+    }
+
+    // Run Audit Simulation
+    function runAudit(type) {
+      const inv = INVOICES[currentInvId];
+      const terminal = document.getElementById('terminal-stream');
+      const resultsCard = document.getElementById('results-card');
+      const btn = document.getElementById('btn-run-audit');
+
+      btn.disabled = true;
+      btn.textContent = "Auditing...";
+      terminal.textContent = "";
+
+      const steps = [
+        `[INGEST] Ingesting document buffer for ${inv.id}...`,
+        `[LOCAL_OCR] OCR text extraction verified across ${inv.items.length} tabular rows.`,
+        `[SPECIALIST_4B] Executing local specialist inference (Gemma 4.3B GGUF architecture)...`,
+        `[DECIMAL_BOUNDARY] Initializing 28-digit fixed-point arithmetic engine...`,
+        `[ARITHMETIC] Verifying row arithmetic:\n` + inv.items.map(i => `   • ${i.desc.slice(0, 30)}... : ${i.qty} × $${i.price.toFixed(2)} = $${(i.qty*i.price).toFixed(2)} (OK)`).join('\n'),
+        `[TAX_AUDIT] Recomputing statutory tax on base subtotal $${inv.subtotal.toFixed(2)} at ${(inv.taxRate*100).toFixed(2)}%...`,
+        inv.variance > 0 
+          ? `[VARIANCE_ALERT] ⚠️ AUDIT EXCEPTION DETECTED:\n   Declared Total: $${inv.billedTotal.toFixed(2)}\n   Reconciled True Total: $${inv.expectedTotal.toFixed(2)}\n   Unreconciled Variance: +$${inv.variance.toFixed(2)} (${inv.varianceDesc})`
+          : `[VERIFIED] ✅ Clean Reconciliation: 100% mathematical integrity confirmed (0 variance).`,
+        `[AUDIT_COMPLETE] Handoff report ready in 41ms with zero cloud data transmission.`
+      ];
+
+      let stepIdx = 0;
+      function streamStep() {
+        if (stepIdx < steps.length) {
+          terminal.textContent += steps[stepIdx] + "\n\n";
+          terminal.scrollTop = terminal.scrollHeight;
+          stepIdx++;
+          setTimeout(streamStep, 180);
+        } else {
+          btn.disabled = false;
+          btn.textContent = "Run Audit";
+          renderResults(inv);
+        }
+      }
+
+      streamStep();
+    }
+
+    function renderResults(inv) {
+      const resultsCard = document.getElementById('results-card');
+      resultsCard.style.display = 'block';
+
+      const statusBadge = document.getElementById('overall-status-badge');
+      if (inv.variance > 0) {
+        statusBadge.innerHTML = `<span class="variance-badge badge-error">⚠️ Variance Flagged (+$${inv.variance.toFixed(2)})</span>`;
+      } else {
+        statusBadge.innerHTML = `<span class="variance-badge badge-success">✅ Clean Audit (100% Match)</span>`;
+      }
+
+      document.getElementById('res-billed-amt').textContent = `$${inv.billedTotal.toFixed(2)}`;
+      document.getElementById('res-true-amt').textContent = `$${inv.expectedTotal.toFixed(2)}`;
+      document.getElementById('res-variance-amt').textContent = inv.variance > 0 ? `+$${inv.variance.toFixed(2)}` : "$0.00";
+      document.getElementById('res-variance-amt').style.color = inv.variance > 0 ? "#EF4444" : "#10B981";
+
+      let tableHtml = `
+        <table class="invoice-table" style="margin-top:0;">
+          <thead>
+            <tr>
+              <th>Line Item</th>
+              <th style="text-align:right;">Billed</th>
+              <th style="text-align:right;">Verified True</th>
+              <th style="text-align:center;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      inv.items.forEach(item => {
+        tableHtml += `
+          <tr>
+            <td>${item.desc}</td>
+            <td style="text-align:right;">$${item.billed.toFixed(2)}</td>
+            <td style="text-align:right; color:#10B981;">$${(item.qty * item.price).toFixed(2)}</td>
+            <td style="text-align:center;"><span class="variance-badge badge-success">OK</span></td>
+          </tr>
+        `;
+      });
+
+      if (inv.variance > 0) {
+        tableHtml += `
+          <tr style="background:rgba(239, 68, 68, 0.08);">
+            <td style="color:#F87171;"><strong>Discrepancy Exception</strong>: ${inv.varianceDesc}</td>
+            <td style="text-align:right; color:#F87171;">$${inv.billedTotal.toFixed(2)}</td>
+            <td style="text-align:right; color:#10B981;">$${inv.expectedTotal.toFixed(2)}</td>
+            <td style="text-align:center;"><span class="variance-badge badge-error">FLAGGED</span></td>
+          </tr>
+        `;
+      }
+
+      tableHtml += `</tbody></table>`;
+      document.getElementById('results-table-container').innerHTML = tableHtml;
+    }
+
+    function exportAuditReport() {
+      const inv = INVOICES[currentInvId];
+      let csv = `Invoice ID,Vendor,Date,Billed Total,True Reconciled Total,Variance,Audit Status\n`;
+      csv += `"${inv.id}","${inv.vendor}","${inv.date}",${inv.billedTotal},${inv.expectedTotal},${inv.variance},"${inv.variance > 0 ? 'FLAGGED_VARIANCE' : 'VERIFIED_CLEAN'}"\n\n`;
+      csv += `Item Description,Quantity,Unit Price,Billed Line Amount,Verified Line Amount,Status\n`;
+      inv.items.forEach(i => {
+        csv += `"${i.desc}",${i.qty},${i.price},${i.billed},${i.qty * i.price},"PASS"\n`;
+      });
+      if (inv.variance > 0) {
+        csv += `"DISCREPANCY: ${inv.varianceDesc}",1,${inv.variance},${inv.variance},0,"VARIANCE_DETECTED"\n`;
+      }
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Hijin_Audit_${inv.id}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadInvoice(1);
+    });
+  </script>
+</body>
+</html>
