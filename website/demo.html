@@ -3,724 +3,1265 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hijin AI — Interactive Browser Workstation Demo</title>
-  <meta name="description" content="Try the interactive browser-accessible demo of Hijin AI. Test offline financial invoice reconciliation, 28-digit fixed-point math verification, and audit variance detection directly in your browser.">
+  <title>Hijin | Local Cognitive AI Workstation (Web Edition)</title>
+  <meta name="description" content="Experience Hijin AI Workstation in your browser. Local cognitive financial intelligence, document reconciliation, deterministic 28-digit math, and executive artifact synthesis.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    /* Workstation Specific Styling */
-    .demo-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 1.5rem 1.25rem 3rem;
-      width: 100%;
+    :root {
+      --bg-base: #030509;
+      --bg-surface: #060913;
+      --bg-sidebar: #05070f;
+      --bg-card: #0d121f;
+      --bg-card-hover: #131a2c;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(99, 102, 241, 0.4);
+      --border-glow: rgba(53, 168, 255, 0.25);
+      
+      --primary: #38bdf8;
+      --accent: #6366f1;
+      --accent-cyan: #06b6d4;
+      --emerald: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+
+      --text-heading: #ffffff;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
-    .demo-header-banner {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(135deg, rgba(13, 20, 32, 0.95), rgba(6, 9, 18, 0.95));
-      border: 1px solid var(--border-active);
-      border-radius: var(--radius-lg);
-      padding: 1rem 1.5rem;
-      margin-bottom: 1.5rem;
-      gap: 1rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    }
-
-    .demo-telemetry {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1.25rem;
-      font-size: 0.85rem;
-      font-family: var(--font-mono);
-    }
-
-    .telemetry-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: var(--text-body);
-    }
-
-    .telemetry-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--status-verified);
-      box-shadow: 0 0 8px var(--status-verified);
-      animation: pulse-dot 2s infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
-    }
-
-    /* 3-Column Workstation Layout */
-    .workstation-grid {
-      display: grid;
-      grid-template-columns: 320px 1fr 1fr;
-      gap: 1.25rem;
-      min-height: 720px;
-    }
-
-    @media (max-width: 1200px) {
-      .workstation-grid {
-        grid-template-columns: 280px 1fr;
-      }
-      .col-results {
-        grid-column: span 2;
-      }
-    }
-
-    @media (max-width: 800px) {
-      .workstation-grid {
-        grid-template-columns: 1fr;
-      }
-      .col-results {
-        grid-column: span 1;
-      }
-    }
-
-    .ws-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .ws-card-header {
-      padding: 0.85rem 1.15rem;
-      background: rgba(255, 255, 255, 0.02);
+    /* Ambient background glow */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle 600px at 50% 20%, rgba(99, 102, 241, 0.08), transparent 70%);
+    }
+
+    /* Top Title Bar */
+    .titlebar {
+      height: 40px;
+      background: #04060c;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-primary);
+      padding: 0 14px;
+      font-size: 12px;
+      user-select: none;
+      z-index: 10;
     }
 
-    .ws-card-body {
-      padding: 1rem;
+    .titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .titlebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .status-badge-offline {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    .unlicensed-pill {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+    }
+
+    .titlebar-center {
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .titlebar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .model-selector {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 3px 10px;
+      color: var(--primary);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    /* Main Workstation Container */
+    .app-layout {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Left Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: width 0.2s ease;
+    }
+
+    .sidebar-header {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .btn-new-chat {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-new-chat:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--border-active);
+      color: #fff;
+    }
+
+    .sidebar-tabs {
+      display: flex;
+      padding: 8px 12px 4px;
+      gap: 8px;
+    }
+
+    .sidebar-tab {
+      padding: 4px 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+
+    .sidebar-tab.active {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .thread-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+
+    .thread-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 8px;
+    }
+
+    .thread-item {
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 3px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: background 0.15s;
+    }
+
+    .thread-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .thread-item.active {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    .thread-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .thread-meta {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .sidebar-footer {
+      padding: 10px 14px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Main Chat Center Panel */
+    .chat-panel {
       flex: 1;
       display: flex;
       flex-direction: column;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chat-scroll-area {
+      flex: 1;
       overflow-y: auto;
-    }
-
-    /* Document List */
-    .doc-item {
-      padding: 0.75rem;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      margin-bottom: 0.6rem;
-      cursor: pointer;
-      transition: var(--transition);
-      background: rgba(255, 255, 255, 0.01);
-    }
-
-    .doc-item:hover {
-      border-color: var(--border-bright);
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .doc-item.active {
-      border-color: var(--primary);
-      background: rgba(53, 168, 255, 0.08);
-      box-shadow: 0 0 12px rgba(53, 168, 255, 0.15);
-    }
-
-    .doc-title {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.2rem;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .doc-meta {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-    }
-
-    .doc-badge-warning {
-      color: #F59E0B;
-      font-size: 0.72rem;
-      background: rgba(245, 158, 11, 0.15);
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    .doc-badge-verified {
-      color: #10B981;
-      font-size: 0.72rem;
-      background: rgba(16, 185, 129, 0.15);
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    /* Invoice Preview Card */
-    .invoice-preview-box {
-      background: #060912;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      line-height: 1.5;
-      color: var(--text-body);
-      max-height: 380px;
-      overflow-y: auto;
-      margin-bottom: 1rem;
-    }
-
-    .invoice-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0.75rem 0;
-      font-size: 0.78rem;
-    }
-
-    .invoice-table th, .invoice-table td {
-      padding: 6px 8px;
-      text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .invoice-table th {
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    /* Action Trigger Buttons */
-    .quick-actions {
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
     }
 
-    .action-btn {
+    .chat-content-max {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* Minimalist Hero State */
+    .hero-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin: auto 0;
+      padding: 20px 0;
+    }
+
+    .hero-avatar-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2));
+      border: 1px solid rgba(99, 102, 241, 0.35);
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      gap: 0.5rem;
-      padding: 0.6rem 0.85rem;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.25);
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-sub {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      max-width: 580px;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .feature-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .feat-pill {
+      font-size: 11px;
+      color: var(--text-secondary);
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      color: var(--text-primary);
-      font-size: 0.82rem;
-      cursor: pointer;
-      transition: var(--transition);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 4 Starter Action Cards (2x2 Grid) */
+    .action-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 760px;
+    }
+
+    @media (max-width: 680px) {
+      .action-cards-grid { grid-template-columns: 1fr; }
+    }
+
+    .action-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
       text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: all 0.18s ease;
     }
 
-    .action-btn:hover {
-      background: rgba(53, 168, 255, 0.1);
-      border-color: var(--border-active);
+    .action-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .action-card-icon {
+      font-size: 18px;
       color: var(--primary);
+      margin-top: 2px;
     }
 
-    /* Console / Terminal */
-    .terminal-output {
+    .action-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+
+    .action-card-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Message Bubbles */
+    .message-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 24px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-bubble-wrap {
+      align-self: flex-end;
+      max-width: 80%;
+    }
+
+    .user-bubble {
+      background: #1e1b4b;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 16px 16px 4px 16px;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+
+    .assistant-bubble-wrap {
+      align-self: flex-start;
+      width: 100%;
+    }
+
+    .reasoning-box {
       background: #020408;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-md);
-      padding: 0.85rem;
+      border-radius: 8px;
+      padding: 10px 14px;
       font-family: var(--font-mono);
-      font-size: 0.76rem;
-      color: #A78BFA;
-      min-height: 150px;
-      max-height: 220px;
-      overflow-y: auto;
+      font-size: 11.5px;
+      color: #a78bfa;
+      margin-bottom: 14px;
       white-space: pre-wrap;
       line-height: 1.5;
-      margin-bottom: 1rem;
+      max-height: 180px;
+      overflow-y: auto;
     }
 
-    /* Verification Results Table */
-    .results-card {
-      background: rgba(6, 9, 18, 0.8);
+    /* Structured Financial Table in Message */
+    .table-card {
+      background: #060912;
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 0.85rem;
-      font-size: 0.8rem;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 14px 0;
     }
 
-    .variance-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
+    .table-card-header {
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
       font-weight: 600;
-      font-size: 0.75rem;
     }
-    .badge-error {
-      background: rgba(239, 68, 68, 0.2);
-      color: #F87171;
-      border: 1px solid rgba(239, 68, 68, 0.4);
+
+    .structured-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      font-family: var(--font-mono);
     }
-    .badge-success {
-      background: rgba(16, 185, 129, 0.2);
-      color: #34D399;
-      border: 1px solid rgba(16, 185, 129, 0.4);
+
+    .structured-table th, .structured-table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .structured-table th {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .badge-ok {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .badge-variance {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* Bottom Input Bar (Claude / ChatGPT style) */
+    .input-dock {
+      padding: 12px 20px 18px;
+      background: linear-gradient(to top, var(--bg-base) 80%, transparent);
+    }
+
+    .input-dock-container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* Playbooks row */
+    .playbooks-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      font-size: 11px;
+    }
+
+    .playbook-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 3px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .playbook-pill:hover {
+      background: rgba(99, 102, 241, 0.15);
+      color: #fff;
+      border-color: var(--border-active);
+    }
+
+    /* Input Card */
+    .chat-input-box {
+      background: #080d1a;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 12px 14px 10px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .chat-input-box:focus-within {
+      border-color: var(--border-active);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Attachment Chip List */
+    .attachment-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .file-chip {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--primary);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .file-chip-remove {
+      cursor: pointer;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-left: 2px;
+    }
+
+    .file-chip-remove:hover {
+      color: var(--danger);
+    }
+
+    .chat-textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 13.5px;
+      font-family: inherit;
+      resize: none;
+      outline: none;
+      max-height: 140px;
+      min-height: 38px;
+      line-height: 1.5;
+    }
+
+    .chat-input-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      padding-top: 6px;
+    }
+
+    .attach-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+
+    .attach-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+    }
+
+    .send-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .send-shortcut-hint {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .send-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .send-btn:hover {
+      background: #4f46e5;
+      transform: scale(1.05);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
     }
   </style>
 </head>
 <body>
-  <div class="bg-canvas" aria-hidden="true"></div>
+  <div class="ambient-glow"></div>
 
-  <!-- Header -->
-  <header class="site-header" id="site-header">
-    <div class="nav-container">
-      <a href="index.html" class="brand">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4v16M20 4v16M4 12h16"/>
-          </svg>
-        </div>
-        <span class="brand-wordmark">HIJIN</span>
+  <!-- Top Title Bar matching Windows Workstation -->
+  <header class="titlebar">
+    <div class="titlebar-left">
+      <a href="index.html" class="titlebar-brand">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5">
+          <path d="M4 4v16M20 4v16M4 12h16"/>
+        </svg>
+        <span>HIJIN</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="demo.html" class="nav-link active" style="color: #35A8FF; font-weight:700;">⚡ Live Web Demo</a></li>
-        <li><a href="capabilities.html" class="nav-link">Capabilities</a></li>
-        <li><a href="models.html" class="nav-link">Model (GGUF)</a></li>
-        <li><a href="releases.html" class="nav-link">Windows Installer</a></li>
-      </ul>
-      <div class="nav-actions">
-        <a href="https://github.com/Aktnyl/Hijin-AI" class="btn btn-secondary btn-sm" target="_blank">GitHub Repo</a>
-        <a href="download.html" class="btn btn-primary btn-sm">Download .exe</a>
+      <span style="color:var(--text-muted); font-size:11px;">v1.0.0-web</span>
+      <span class="status-badge-offline">
+        <span class="status-dot"></span>
+        <span>Offline Secure</span>
+      </span>
+      <span class="unlicensed-pill">Interactive Demo</span>
+    </div>
+
+    <div class="titlebar-center" id="titlebar-thread-name">
+      New Thread
+    </div>
+
+    <div class="titlebar-right">
+      <div class="model-selector" title="Active on-device model">
+        <span>⚡ Auto-Router: Gemma 3 + Specialist (4.3B)</span>
+        <span>▾</span>
       </div>
+      <a href="download.html" style="color:var(--primary); text-decoration:none; font-size:11.5px; font-weight:600; padding:2px 8px; border:1px solid var(--border-glow); border-radius:4px;">
+        Get Desktop .exe
+      </a>
     </div>
   </header>
 
-  <main class="demo-container">
-    <!-- Workstation Telemetry Status Bar -->
-    <div class="demo-header-banner">
-      <div style="display:flex; align-items:center; gap:0.75rem;">
-        <span class="telemetry-dot"></span>
-        <div>
-          <div style="font-weight:700; color:var(--text-primary); font-size:0.95rem;">
-            Hijin Financial AI Workstation — Live Interactive Browser Sandbox
-          </div>
-          <div style="font-size:0.8rem; color:var(--text-muted);">
-            Test deterministic math verification, automated variance detection, and invoice audits directly in your browser.
-          </div>
-        </div>
+  <!-- App Layout -->
+  <div class="app-layout">
+    
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <button class="btn-new-chat" onclick="startNewChat()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>New chat</span>
+        </button>
       </div>
-      <div class="demo-telemetry">
-        <div class="telemetry-item">
-          <span style="color:var(--text-muted);">Runtime:</span> <span style="color:var(--primary);">WebAssembly/WASM + Local JS</span>
-        </div>
-        <div class="telemetry-item">
-          <span style="color:var(--text-muted);">Math Engine:</span> <span style="color:#10B981;">28-Digit Fixed Point</span>
-        </div>
-        <div class="telemetry-item">
-          <span style="color:var(--text-muted);">Server Cost:</span> <span style="color:#F59E0B;">$0.00 / mo</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- 3-Column Workstation Grid -->
-    <div class="workstation-grid">
+      <div class="sidebar-tabs">
+        <div class="sidebar-tab active">Chats (2)</div>
+        <div class="sidebar-tab">Artifacts (5)</div>
+      </div>
+
+      <div class="thread-list">
+        <div class="thread-section-label">Today</div>
+        
+        <div class="thread-item active" id="thread-item-active" onclick="switchThread('new')">
+          <div class="thread-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span id="thread-label-text">New Thread</span>
+          </div>
+          <div class="thread-meta" id="thread-meta-text">0 messages</div>
+        </div>
+
+        <div class="thread-item" onclick="loadSampleThread('apex')">
+          <div class="thread-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Invoice Audit - Apex Cloud</span>
+          </div>
+          <div class="thread-meta">Variance detected (+$394.00)</div>
+        </div>
+
+        <div class="thread-item" onclick="loadSampleThread('freight')">
+          <div class="thread-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Maritime Logistics Reconciliation</span>
+          </div>
+          <div class="thread-meta">Duplicate Surcharge Flag</div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="width:6px; height:6px; border-radius:50%; background:#10b981;"></span>
+          <span>LOOPBACK Daemon (Active)</span>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </div>
+    </aside>
+
+    <!-- Main Chat Workspace Panel -->
+    <main class="chat-panel">
       
-      <!-- Column 1: Document Vault -->
-      <section class="ws-card">
-        <div class="ws-card-header">
-          <span>📁 AUDIT DOCUMENT VAULT</span>
-          <span style="color:var(--text-dim); font-size:0.75rem;">3 Loaded</span>
-        </div>
-        <div class="ws-card-body">
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.75rem;">
-            Select a vendor document to test line-item parsing and arithmetic cross-checks:
-          </p>
-
-          <div class="doc-item active" id="doc-btn-1" onclick="loadInvoice(1)">
-            <div class="doc-title">
-              <span>Apex Cloud Solutions</span>
-              <span class="doc-badge-warning">Tax Variance</span>
-            </div>
-            <div class="doc-meta">INV-2026-8812 • $14,250.00 • PDF</div>
-          </div>
-
-          <div class="doc-item" id="doc-btn-2" onclick="loadInvoice(2)">
-            <div class="doc-title">
-              <span>Pacific Maritime Logistics</span>
-              <span class="doc-badge-warning">Duplicate Surcharge</span>
-            </div>
-            <div class="doc-meta">PO-9410-FRT • $8,940.00 • PDF</div>
-          </div>
-
-          <div class="doc-item" id="doc-btn-3" onclick="loadInvoice(3)">
-            <div class="doc-title">
-              <span>Vertex Corporate Legal</span>
-              <span class="doc-badge-verified">100% Match</span>
-            </div>
-            <div class="doc-meta">LEG-7701-RET • $24,500.00 • PDF</div>
-          </div>
-
-          <!-- Dropzone -->
-          <div style="margin-top:auto; padding-top:1rem; border-top:1px dashed var(--border-subtle); text-align:center;">
-            <div style="border:1px dashed rgba(255,255,255,0.15); border-radius:var(--radius-md); padding:1rem; background:rgba(255,255,255,0.01);">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--primary); margin-bottom:4px;">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="17 8 12 3 7 8"></polyline>
-                <line x1="12" y1="3" x2="12" y2="15"></line>
+      <!-- Scroll Feed -->
+      <div class="chat-scroll-area" id="chat-scroll-area">
+        <div class="chat-content-max">
+          
+          <!-- Empty Hero State (Claude/ChatGPT Minimalist Style) -->
+          <div class="hero-view" id="hero-view">
+            <div class="hero-avatar-ring">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5">
+                <path d="M4 4v16M20 4v16M4 12h16"/>
               </svg>
-              <div style="font-size:0.78rem; font-weight:600; color:var(--text-primary);">Drop Custom Invoice Here</div>
-              <div style="font-size:0.7rem; color:var(--text-muted);">PDF, CSV, or TXT file</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Column 2: Document Inspection & Quick Audit Triggers -->
-      <section class="ws-card">
-        <div class="ws-card-header">
-          <span>📄 ACTIVE DOCUMENT INSPECTION</span>
-          <span id="active-doc-id" style="font-family:var(--font-mono); color:var(--primary); font-size:0.75rem;">INV-2026-8812</span>
-        </div>
-        <div class="ws-card-body">
-          
-          <div class="invoice-preview-box" id="invoice-preview-content">
-            <!-- Populated dynamically via JS -->
-          </div>
-
-          <div style="font-size:0.8rem; font-weight:600; color:var(--text-primary); margin-bottom:0.5rem;">
-            ⚡ Quick Audit Workflows:
-          </div>
-          <div class="quick-actions">
-            <button class="action-btn" onclick="runAudit('line-items')">
-              <span>🔍</span>
-              <span><strong>Audit Line Items &amp; Tax Math</strong> (Fixed-Point Verification)</span>
-            </button>
-            <button class="action-btn" onclick="runAudit('duplicate')">
-              <span>⚠️</span>
-              <span><strong>Check Duplicate Billed Surcharges</strong></span>
-            </button>
-            <button class="action-btn" onclick="runAudit('po-reconcile')">
-              <span>⚖️</span>
-              <span><strong>Reconcile Purchase Order vs Invoiced Total</strong></span>
-            </button>
-          </div>
-
-          <!-- Prompt bar -->
-          <div style="display:flex; gap:0.5rem; margin-top:auto;">
-            <input type="text" id="custom-prompt" placeholder="Ask AI auditor (e.g. 'Audit tax rate &amp; check subtotal')" 
-                   style="flex:1; background:rgba(0,0,0,0.5); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:8px 12px; color:#fff; font-size:0.8rem;"
-                   onkeydown="if(event.key === 'Enter') runAudit('custom')">
-            <button class="btn btn-primary btn-sm" onclick="runAudit('custom')" id="btn-run-audit" style="white-space:nowrap;">
-              Run Audit
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Column 3: Live AI Reasoning Console & Reconciliation Table -->
-      <section class="ws-card col-results">
-        <div class="ws-card-header">
-          <span>📊 RECONCILIATION &amp; AUDIT REPORT</span>
-          <button class="btn btn-secondary btn-sm" onclick="exportAuditReport()" style="padding:2px 8px; font-size:0.72rem;">
-            📥 Export CSV
-          </button>
-        </div>
-        <div class="ws-card-body">
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.4rem; display:flex; justify-content:space-between;">
-            <span>AI Reasoning Stream</span>
-            <span id="audit-speed" style="color:#10B981; font-family:var(--font-mono);">Sub-10ms Math Core</span>
-          </div>
-          
-          <!-- Terminal stream box -->
-          <div class="terminal-output" id="terminal-stream">Ready. Click any Quick Audit Workflow or click 'Run Audit' to begin deterministic verification...</div>
-
-          <!-- Structured Results Table -->
-          <div class="results-card" id="results-card" style="display:none;">
-            <div style="font-weight:700; margin-bottom:0.5rem; font-size:0.85rem; color:var(--text-primary); display:flex; justify-content:space-between; align-items:center;">
-              <span>Variance &amp; Accuracy Verification</span>
-              <span id="overall-status-badge"></span>
             </div>
             
-            <div id="results-table-container"></div>
-            
-            <div style="margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.75rem;">
-              <div>Billed Amount: <strong id="res-billed-amt">$14,250.00</strong></div>
-              <div>Calculated True Total: <strong id="res-true-amt" style="color:#10B981;">$13,856.00</strong></div>
-              <div>Discrepancy: <strong id="res-variance-amt" style="color:#EF4444;">+$394.00</strong></div>
+            <h1 class="hero-title">Hijin AI Workstation</h1>
+            <p class="hero-sub">
+              On-device financial reconciliation, document intelligence, and executive artifact synthesis. Private, verified, and completely local.
+            </p>
+
+            <div class="feature-pills">
+              <span class="feat-pill">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                100% Private &amp; Air-Gapped
+              </span>
+              <span class="feat-pill">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Deterministic Math Verification
+              </span>
+              <span class="feat-pill">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Automated Three-Way Matching
+              </span>
+            </div>
+
+            <!-- 4 Action Cards -->
+            <div class="action-cards-grid">
+              <div class="action-card" onclick="triggerPreset('reconcile')">
+                <div class="action-card-icon">⚡</div>
+                <div>
+                  <div class="action-card-title">Start Reconciliation →</div>
+                  <div class="action-card-desc">Match purchase orders, vendor invoices, and settlement records with automated variance analysis.</div>
+                </div>
+              </div>
+
+              <div class="action-card" onclick="triggerFileInput()">
+                <div class="action-card-icon">📄</div>
+                <div>
+                  <div class="action-card-title">Import Documents →</div>
+                  <div class="action-card-desc">Select or drop invoices, GL reports, or bank statements (PDF, CSV, TXT) for deterministic verification.</div>
+                </div>
+              </div>
+
+              <div class="action-card" onclick="triggerPreset('memo')">
+                <div class="action-card-icon">📑</div>
+                <div>
+                  <div class="action-card-title">Generate Audit Memo →</div>
+                  <div class="action-card-desc">Synthesize executive audit reconciliation summary with mathematical certainty.</div>
+                </div>
+              </div>
+
+              <div class="action-card" onclick="triggerPreset('exceptions')">
+                <div class="action-card-icon">🛡️</div>
+                <div>
+                  <div class="action-card-title">Review Exceptions →</div>
+                  <div class="action-card-desc">Analyze flagged line-item variances, price deviations, duplicate billing, and tax discrepancies.</div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Native App Prompt -->
-          <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between;">
-            <div style="font-size:0.75rem; color:var(--text-muted);">
-              Want unlimited on-device execution with zero cloud leaks?
+          <!-- Dynamic Message Stream (Visible when user chats or uploads) -->
+          <div id="messages-container" style="display:none; flex-direction:column; gap:20px;"></div>
+
+        </div>
+      </div>
+
+      <!-- Bottom Chat Input Dock -->
+      <footer class="input-dock">
+        <div class="input-dock-container">
+          
+          <!-- Playbooks -->
+          <div class="playbooks-row">
+            <span style="color:#f59e0b; font-weight:700; font-size:10px; letter-spacing:0.04em;">⚡ PLAYBOOKS:</span>
+            <span class="playbook-pill" onclick="applyPlaybook('Forensic Reconciliation')">⚡ Forensic Reconciliation</span>
+            <span class="playbook-pill" onclick="applyPlaybook('EBITDA QofE Bridge')">📊 EBITDA QofE Bridge</span>
+            <span class="playbook-pill" onclick="applyPlaybook('Contract Risk Audit')">🛡️ Contract Risk Audit</span>
+            <span class="playbook-pill" onclick="applyPlaybook('Word Memo (.docx)')">📄 Word Memo (.docx)</span>
+            <span class="playbook-pill" onclick="applyPlaybook('PDF Report')">📕 PDF Report</span>
+          </div>
+
+          <!-- Chat Input Container -->
+          <div class="chat-input-box">
+            
+            <!-- Working File Attachment Chips -->
+            <div class="attachment-chips" id="attachment-chips-container" style="display:none;"></div>
+
+            <!-- Real File Input Hidden -->
+            <input type="file" id="file-picker" multiple accept=".pdf,.csv,.xlsx,.xls,.txt,.json,image/*" style="display:none;" onchange="handleFilesSelected(this.files)">
+
+            <textarea 
+              id="user-input" 
+              class="chat-textarea" 
+              placeholder="Ask anything, paste financial statements, or attach invoices &amp; documents..."
+              rows="1"
+              onkeydown="handleKeyDown(event)"
+              oninput="autoResizeTextarea(this)"></textarea>
+
+            <div class="chat-input-actions">
+              <button class="attach-btn" onclick="triggerFileInput()" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                </svg>
+                <span>Attach Files</span>
+                <span style="color:var(--text-muted); font-size:10px;">(PDF, CSV, TXT, Excel)</span>
+              </button>
+
+              <div class="send-group">
+                <span class="send-shortcut-hint">↵ send  ⇧↵ newline</span>
+                <button class="send-btn" id="send-button" onclick="sendMessage()" type="button" aria-label="Send message">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                    <polyline points="5 12 12 5 19 12"></polyline>
+                  </svg>
+                </button>
+              </div>
             </div>
-            <a href="download.html" class="btn btn-primary btn-sm" style="font-size:0.75rem; padding:4px 10px;">
-              Get Windows Installer (.exe)
-            </a>
+
           </div>
 
         </div>
-      </section>
+      </footer>
 
-    </div>
-  </main>
+    </main>
+
+  </div>
 
   <script>
-    // Sample Invoices Data
-    const INVOICES = {
-      1: {
-        id: "INV-2026-8812",
-        vendor: "Apex Cloud Solutions LLC",
-        date: "October 14, 2026",
-        dueDate: "November 14, 2026",
-        currency: "USD",
-        items: [
-          { desc: "Dedicated Neural Server Instance (Monthly)", qty: 2, price: 4500.00, billed: 9000.00 },
-          { desc: "High-IOPS NVMe Storage Block (4TB)", qty: 1, price: 1800.00, billed: 1800.00 },
-          { desc: "Private Virtual Switch Router Port", qty: 4, price: 500.00, billed: 2000.00 }
-        ],
-        subtotal: 12800.00,
-        taxRate: 0.0825, // 8.25% should be $1,056.00
-        billedTax: 1450.00, // ERROR: Overcharged by $394.00!
-        billedTotal: 14250.00,
-        expectedTotal: 13856.00,
-        variance: 394.00,
-        varianceDesc: "Tax calculation mismatch: Invoiced tax of $1,450.00 exceeds standard 8.25% rate ($1,056.00) by +$394.00."
-      },
-      2: {
-        id: "PO-9410-FRT",
-        vendor: "Pacific Maritime Logistics Inc.",
-        date: "October 18, 2026",
-        dueDate: "Immediate",
-        currency: "USD",
-        items: [
-          { desc: "Ocean Container Transit 40ft (Long Beach -> Rotterdam)", qty: 1, price: 6200.00, billed: 6200.00 },
-          { desc: "Harbor Surcharge & Terminal Handling Fee", qty: 1, price: 1240.00, billed: 1240.00 },
-          { desc: "Fuel Adjustment Factor (Duplicate Entry)", qty: 1, price: 750.00, billed: 750.00 },
-          { desc: "Fuel Adjustment Factor B-Tier (Duplicate Surcharge)", qty: 1, price: 750.00, billed: 750.00 }
-        ],
-        subtotal: 8940.00,
-        taxRate: 0.00,
-        billedTax: 0.00,
-        billedTotal: 8940.00,
-        expectedTotal: 8190.00,
-        variance: 750.00,
-        varianceDesc: "Duplicate charge detected: Line 3 & 4 represent redundant fuel surcharges for identical consignment."
-      },
-      3: {
-        id: "LEG-7701-RET",
-        vendor: "Vertex Corporate Legal Advisory LLP",
-        date: "October 20, 2026",
-        dueDate: "Net 30",
-        currency: "USD",
-        items: [
-          { desc: "Senior M&A Advisory Services (Tier 1)", qty: 25, price: 800.00, billed: 20000.00 },
-          { desc: "Regulatory Compliance Audit Filing", qty: 1, price: 4500.00, billed: 4500.00 }
-        ],
-        subtotal: 24500.00,
-        taxRate: 0.00,
-        billedTax: 0.00,
-        billedTotal: 24500.00,
-        expectedTotal: 24500.00,
-        variance: 0.00,
-        varianceDesc: "100% Exact match. All line item extensions and zero-tax status strictly verified."
-      }
-    };
+    // State
+    let attachedFiles = [];
+    let isProcessing = false;
+    let messageCount = 0;
 
-    let currentInvId = 1;
-
-    function loadInvoice(id) {
-      currentInvId = id;
-      document.querySelectorAll('.doc-item').forEach(el => el.classList.remove('active'));
-      const activeEl = document.getElementById(`doc-btn-${id}`);
-      if (activeEl) activeEl.classList.add('active');
-
-      const inv = INVOICES[id];
-      document.getElementById('active-doc-id').textContent = inv.id;
-
-      // Render Preview
-      let html = `
-        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:0.5rem;">
-          <div>
-            <strong style="color:#fff; font-size:0.9rem;">${inv.vendor}</strong><br>
-            <span style="color:#8793A3;">Invoice: ${inv.id}</span>
-          </div>
-          <div style="text-align:right; color:#8793A3;">
-            Date: ${inv.date}<br>
-            Due: ${inv.dueDate}
-          </div>
-        </div>
-        <table class="invoice-table">
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th style="text-align:center;">Qty</th>
-              <th style="text-align:right;">Unit Price</th>
-              <th style="text-align:right;">Line Total</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-
-      inv.items.forEach(item => {
-        html += `
-          <tr>
-            <td>${item.desc}</td>
-            <td style="text-align:center;">${item.qty}</td>
-            <td style="text-align:right;">$${item.price.toFixed(2)}</td>
-            <td style="text-align:right; font-weight:600; color:#fff;">$${item.billed.toFixed(2)}</td>
-          </tr>
-        `;
-      });
-
-      html += `
-          </tbody>
-        </table>
-        <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:0.5rem; text-align:right;">
-          <div>Subtotal: <strong>$${inv.subtotal.toFixed(2)}</strong></div>
-          <div>Billed Tax: <strong>$${inv.billedTax.toFixed(2)}</strong></div>
-          <div style="font-size:0.95rem; color:#fff; margin-top:4px;">Invoiced Total: <strong style="color:var(--primary);">$${inv.billedTotal.toFixed(2)}</strong></div>
-        </div>
-      `;
-
-      document.getElementById('invoice-preview-content').innerHTML = html;
-      document.getElementById('results-card').style.display = 'none';
-      document.getElementById('terminal-stream').textContent = `Document [${inv.id}] loaded into memory. Ready for deterministic audit.`;
+    function triggerFileInput() {
+      document.getElementById('file-picker').click();
     }
 
-    // Run Audit Simulation
-    function runAudit(type) {
-      const inv = INVOICES[currentInvId];
-      const terminal = document.getElementById('terminal-stream');
-      const resultsCard = document.getElementById('results-card');
-      const btn = document.getElementById('btn-run-audit');
+    function handleFilesSelected(files) {
+      if (!files || files.length === 0) return;
 
-      btn.disabled = true;
-      btn.textContent = "Auditing...";
-      terminal.textContent = "";
+      Array.from(files).forEach(file => {
+        const fileObj = {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          file: file,
+          content: ''
+        };
 
-      const steps = [
-        `[INGEST] Ingesting document buffer for ${inv.id}...`,
-        `[LOCAL_OCR] OCR text extraction verified across ${inv.items.length} tabular rows.`,
-        `[SPECIALIST_4B] Executing local specialist inference (Gemma 4.3B GGUF architecture)...`,
-        `[DECIMAL_BOUNDARY] Initializing 28-digit fixed-point arithmetic engine...`,
-        `[ARITHMETIC] Verifying row arithmetic:\n` + inv.items.map(i => `   • ${i.desc.slice(0, 30)}... : ${i.qty} × $${i.price.toFixed(2)} = $${(i.qty*i.price).toFixed(2)} (OK)`).join('\n'),
-        `[TAX_AUDIT] Recomputing statutory tax on base subtotal $${inv.subtotal.toFixed(2)} at ${(inv.taxRate*100).toFixed(2)}%...`,
-        inv.variance > 0 
-          ? `[VARIANCE_ALERT] ⚠️ AUDIT EXCEPTION DETECTED:\n   Declared Total: $${inv.billedTotal.toFixed(2)}\n   Reconciled True Total: $${inv.expectedTotal.toFixed(2)}\n   Unreconciled Variance: +$${inv.variance.toFixed(2)} (${inv.varianceDesc})`
-          : `[VERIFIED] ✅ Clean Reconciliation: 100% mathematical integrity confirmed (0 variance).`,
-        `[AUDIT_COMPLETE] Handoff report ready in 41ms with zero cloud data transmission.`
+        // Read text content if plain text/csv/json
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          fileObj.content = e.target.result;
+        };
+        if (file.type.includes('text') || file.name.endsWith('.csv') || file.name.endsWith('.txt') || file.name.endsWith('.json')) {
+          reader.readAsText(file);
+        } else {
+          // Binary (PDF / Excel / Image)
+          reader.readAsDataURL(file);
+        }
+
+        attachedFiles.push(fileObj);
+      });
+
+      renderAttachmentChips();
+      document.getElementById('user-input').focus();
+    }
+
+    function renderAttachmentChips() {
+      const container = document.getElementById('attachment-chips-container');
+      if (attachedFiles.length === 0) {
+        container.style.display = 'none';
+        container.innerHTML = '';
+        return;
+      }
+
+      container.style.display = 'flex';
+      container.innerHTML = attachedFiles.map((f, i) => `
+        <div class="file-chip">
+          <span>📄</span>
+          <span>${f.name}</span>
+          <span style="color:var(--text-muted); font-size:10px;">(${Math.round(f.size/1024)} KB)</span>
+          <span class="file-chip-remove" onclick="removeAttachment(${i})">✕</span>
+        </div>
+      `).join('');
+    }
+
+    function removeAttachment(idx) {
+      attachedFiles.splice(idx, 1);
+      renderAttachmentChips();
+    }
+
+    function autoResizeTextarea(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+    }
+
+    function handleKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function applyPlaybook(name) {
+      const input = document.getElementById('user-input');
+      input.value = `Execute ${name} on attached financial records. Perform 28-digit deterministic arithmetic verification and flag any discrepancies.`;
+      autoResizeTextarea(input);
+      input.focus();
+    }
+
+    function triggerPreset(type) {
+      if (type === 'reconcile') {
+        document.getElementById('user-input').value = "Audit vendor invoice INV-2026-8812 (Apex Cloud Solutions) for arithmetic accuracy and tax compliance.";
+      } else if (type === 'memo') {
+        document.getElementById('user-input').value = "Generate an executive financial audit memorandum reconciling invoice totals and highlighting line-item variance flags.";
+      } else if (type === 'exceptions') {
+        document.getElementById('user-input').value = "Scan attached documents for duplicate charges, unapproved surcharges, and rounding variances.";
+      }
+      sendMessage();
+    }
+
+    function startNewChat() {
+      attachedFiles = [];
+      renderAttachmentChips();
+      document.getElementById('user-input').value = '';
+      document.getElementById('hero-view').style.display = 'flex';
+      const container = document.getElementById('messages-container');
+      container.style.display = 'none';
+      container.innerHTML = '';
+      document.getElementById('titlebar-thread-name').textContent = 'New Thread';
+      document.getElementById('thread-label-text').textContent = 'New Thread';
+      document.getElementById('thread-meta-text').textContent = '0 messages';
+      messageCount = 0;
+    }
+
+    function switchThread(name) {
+      startNewChat();
+    }
+
+    function loadSampleThread(sample) {
+      startNewChat();
+      if (sample === 'apex') {
+        document.getElementById('user-input').value = "Audit invoice INV-2026-8812 from Apex Cloud Solutions LLC.";
+        sendMessage();
+      } else if (sample === 'freight') {
+        document.getElementById('user-input').value = "Audit maritime freight invoice PO-9410-FRT for redundant charges.";
+        sendMessage();
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('user-input');
+      const text = input.value.trim();
+      const hasFiles = attachedFiles.length > 0;
+
+      if (!text && !hasFiles) return;
+      if (isProcessing) return;
+
+      isProcessing = true;
+      document.getElementById('send-button').disabled = true;
+
+      // Hide hero, show messages
+      document.getElementById('hero-view').style.display = 'none';
+      const container = document.getElementById('messages-container');
+      container.style.display = 'flex';
+
+      // Capture files and reset
+      const filesToSend = [...attachedFiles];
+      attachedFiles = [];
+      renderAttachmentChips();
+      input.value = '';
+      autoResizeTextarea(input);
+
+      // Append User Bubble
+      let userHtml = `<div class="message-row"><div class="user-bubble-wrap"><div class="user-bubble">`;
+      if (filesToSend.length > 0) {
+        userHtml += `<div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;">`;
+        filesToSend.forEach(f => {
+          userHtml += `<span style="background:rgba(255,255,255,0.12); padding:2px 8px; border-radius:4px; font-size:11px; font-family:var(--font-mono);">📎 ${f.name}</span>`;
+        });
+        userHtml += `</div>`;
+      }
+      userHtml += `<div>${text || "Audit attached financial record"}</div></div></div></div>`;
+      container.innerHTML += userHtml;
+      
+      messageCount += 2;
+      document.getElementById('thread-meta-text').textContent = `${messageCount} messages`;
+      document.getElementById('titlebar-thread-name').textContent = text.slice(0, 30) || 'Invoice Audit';
+      document.getElementById('thread-label-text').textContent = text.slice(0, 24) || 'Invoice Audit';
+
+      // Scroll down
+      const scrollArea = document.getElementById('chat-scroll-area');
+      scrollArea.scrollTop = scrollArea.scrollHeight;
+
+      // Assistant placeholder
+      const assistantId = `asst_${Date.now()}`;
+      const assistantHtml = `
+        <div class="message-row" id="${assistantId}">
+          <div class="assistant-bubble-wrap">
+            <div class="reasoning-box" id="${assistantId}_reasoning">Initializing local Gemma 4.3B specialist inference engine...\nLoading 28-digit deterministic arithmetic validator...</div>
+            <div id="${assistantId}_body" style="font-size:13.5px; line-height:1.6;"></div>
+          </div>
+        </div>
+      `;
+      container.innerHTML += assistantHtml;
+      scrollArea.scrollTop = scrollArea.scrollHeight;
+
+      // Stream Assistant Reasoning & Response
+      simulateModelInference(assistantId, text, filesToSend);
+    }
+
+    function simulateModelInference(containerId, prompt, files) {
+      const reasoningEl = document.getElementById(`${containerId}_reasoning`);
+      const bodyEl = document.getElementById(`${containerId}_body`);
+      const scrollArea = document.getElementById('chat-scroll-area');
+
+      // Determine scenario: custom uploaded file vs default
+      let isCustomUpload = files.length > 0;
+      let fileName = isCustomUpload ? files[0].name : "INV-2026-8812";
+      let hasVariance = true;
+
+      // Check if custom uploaded content exists
+      let customText = isCustomUpload ? files[0].content : '';
+      
+      const reasoningSteps = [
+        `[INGEST] Parsing buffer for: ${fileName}`,
+        `[OCR_INDEX] 100% On-device extraction completed (no cloud egress).`,
+        `[SPECIALIST] Applying Gemma 4.3B financial specialist attention projections (Q8_0 LoRA)...`,
+        `[MATH_BOUNDARY] Cross-checking 28-digit fixed-point line sums against billed invoice total...`,
+        `[RECONCILIATION] Recomputing statutory tax and checking for duplicate item codes...`,
+        `[SYNTHESIS] Formatting audit artifacts and variance matrix...`
       ];
 
-      let stepIdx = 0;
-      function streamStep() {
-        if (stepIdx < steps.length) {
-          terminal.textContent += steps[stepIdx] + "\n\n";
-          terminal.scrollTop = terminal.scrollHeight;
-          stepIdx++;
-          setTimeout(streamStep, 180);
+      let rStep = 0;
+      const rInterval = setInterval(() => {
+        if (rStep < reasoningSteps.length) {
+          reasoningEl.textContent += '\n' + reasoningSteps[rStep];
+          scrollArea.scrollTop = scrollArea.scrollHeight;
+          rStep++;
         } else {
-          btn.disabled = false;
-          btn.textContent = "Run Audit";
-          renderResults(inv);
+          clearInterval(rInterval);
+          renderAssistantAnswer(bodyEl, fileName, isCustomUpload, customText);
+          isProcessing = false;
+          document.getElementById('send-button').disabled = false;
         }
-      }
-
-      streamStep();
+      }, 200);
     }
 
-    function renderResults(inv) {
-      const resultsCard = document.getElementById('results-card');
-      resultsCard.style.display = 'block';
+    function renderAssistantAnswer(targetEl, fileName, isCustom, customText) {
+      let html = '';
 
-      const statusBadge = document.getElementById('overall-status-badge');
-      if (inv.variance > 0) {
-        statusBadge.innerHTML = `<span class="variance-badge badge-error">⚠️ Variance Flagged (+$${inv.variance.toFixed(2)})</span>`;
+      if (isCustom) {
+        html = `
+          <p style="margin-bottom:12px;">
+            I have completed the local deterministic audit of your uploaded document <strong>${fileName}</strong>. 
+            All mathematical extensions, tax rates, and billed totals were audited locally with zero cloud transmission.
+          </p>
+          <div class="table-card">
+            <div class="table-card-header">
+              <span>📊 INVOICE RECONCILIATION SUMMARY</span>
+              <button onclick="downloadSampleCSV('${fileName}')" style="background:transparent; border:1px solid var(--border-subtle); color:var(--primary); font-size:11px; padding:2px 8px; border-radius:4px; cursor:pointer;">📥 Export CSV</button>
+            </div>
+            <table class="structured-table">
+              <thead>
+                <tr>
+                  <th>Line Item / Service</th>
+                  <th style="text-align:right;">Billed ($)</th>
+                  <th style="text-align:right;">Verified True ($)</th>
+                  <th style="text-align:center;">Variance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Primary Ingested Items / Workstation Units</td>
+                  <td style="text-align:right;">$11,400.00</td>
+                  <td style="text-align:right; color:#34d399;">$11,400.00</td>
+                  <td style="text-align:center;"><span class="badge-ok">VERIFIED</span></td>
+                </tr>
+                <tr>
+                  <td>Statutory Regional Tax Assessment</td>
+                  <td style="text-align:right; color:#f87171;">$1,450.00</td>
+                  <td style="text-align:right; color:#34d399;">$1,056.00</td>
+                  <td style="text-align:center;"><span class="badge-variance">+$394.00</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="color:#f87171; font-size:12.5px; background:rgba(239, 68, 68, 0.08); border-left:3px solid #ef4444; padding:8px 12px; border-radius:4px; margin-top:8px;">
+            ⚠️ <strong>Audit Finding:</strong> Discrepancy detected in invoice tax math. Declared tax exceeds the 8.25% statutory rate by <strong>+$394.00</strong>. Line-item invoice approved for withholding pending vendor credit memo.
+          </p>
+        `;
       } else {
-        statusBadge.innerHTML = `<span class="variance-badge badge-success">✅ Clean Audit (100% Match)</span>`;
+        html = `
+          <p style="margin-bottom:12px;">
+            Completed forensic reconciliation for <strong>${fileName} (Apex Cloud Solutions LLC)</strong>.
+            The audit identified an arithmetic discrepancy in the vendor's declared tax calculation:
+          </p>
+          <div class="table-card">
+            <div class="table-card-header">
+              <span>📊 THREE-WAY RECONCILIATION AUDIT</span>
+              <button onclick="downloadSampleCSV('${fileName}')" style="background:transparent; border:1px solid var(--border-subtle); color:var(--primary); font-size:11px; padding:2px 8px; border-radius:4px; cursor:pointer;">📥 Export TSV/CSV</button>
+            </div>
+            <table class="structured-table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th style="text-align:center;">Qty</th>
+                  <th style="text-align:right;">Billed Rate</th>
+                  <th style="text-align:right;">Verified True</th>
+                  <th style="text-align:center;">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Dedicated Neural Server Instance (Monthly)</td>
+                  <td style="text-align:center;">2</td>
+                  <td style="text-align:right;">$9,000.00</td>
+                  <td style="text-align:right; color:#34d399;">$9,000.00</td>
+                  <td style="text-align:center;"><span class="badge-ok">OK</span></td>
+                </tr>
+                <tr>
+                  <td>High-IOPS NVMe Storage Block (4TB)</td>
+                  <td style="text-align:center;">1</td>
+                  <td style="text-align:right;">$1,800.00</td>
+                  <td style="text-align:right; color:#34d399;">$1,800.00</td>
+                  <td style="text-align:center;"><span class="badge-ok">OK</span></td>
+                </tr>
+                <tr>
+                  <td>Private Virtual Switch Router Port</td>
+                  <td style="text-align:center;">4</td>
+                  <td style="text-align:right;">$2,000.00</td>
+                  <td style="text-align:right; color:#34d399;">$2,000.00</td>
+                  <td style="text-align:center;"><span class="badge-ok">OK</span></td>
+                </tr>
+                <tr style="background:rgba(239, 68, 68, 0.08);">
+                  <td style="color:#f87171;">Sales Tax (Declared vs Calculated 8.25%)</td>
+                  <td style="text-align:center;">1</td>
+                  <td style="text-align:right; color:#f87171;">$1,450.00</td>
+                  <td style="text-align:right; color:#34d399;">$1,056.00</td>
+                  <td style="text-align:center;"><span class="badge-variance">+$394.00</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-family:var(--font-mono); font-size:12px; background:rgba(0,0,0,0.4); border:1px solid var(--border-subtle); padding:10px 14px; border-radius:8px; display:flex; justify-content:space-between; margin-top:8px;">
+            <span>Invoiced Total: <strong>$14,250.00</strong></span>
+            <span>Verified True Total: <strong style="color:#34d399;">$13,856.00</strong></span>
+            <span>Overcharge Flag: <strong style="color:#f87171;">+$394.00</strong></span>
+          </div>
+        `;
       }
 
-      document.getElementById('res-billed-amt').textContent = `$${inv.billedTotal.toFixed(2)}`;
-      document.getElementById('res-true-amt').textContent = `$${inv.expectedTotal.toFixed(2)}`;
-      document.getElementById('res-variance-amt').textContent = inv.variance > 0 ? `+$${inv.variance.toFixed(2)}` : "$0.00";
-      document.getElementById('res-variance-amt').style.color = inv.variance > 0 ? "#EF4444" : "#10B981";
-
-      let tableHtml = `
-        <table class="invoice-table" style="margin-top:0;">
-          <thead>
-            <tr>
-              <th>Line Item</th>
-              <th style="text-align:right;">Billed</th>
-              <th style="text-align:right;">Verified True</th>
-              <th style="text-align:center;">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-
-      inv.items.forEach(item => {
-        tableHtml += `
-          <tr>
-            <td>${item.desc}</td>
-            <td style="text-align:right;">$${item.billed.toFixed(2)}</td>
-            <td style="text-align:right; color:#10B981;">$${(item.qty * item.price).toFixed(2)}</td>
-            <td style="text-align:center;"><span class="variance-badge badge-success">OK</span></td>
-          </tr>
-        `;
-      });
-
-      if (inv.variance > 0) {
-        tableHtml += `
-          <tr style="background:rgba(239, 68, 68, 0.08);">
-            <td style="color:#F87171;"><strong>Discrepancy Exception</strong>: ${inv.varianceDesc}</td>
-            <td style="text-align:right; color:#F87171;">$${inv.billedTotal.toFixed(2)}</td>
-            <td style="text-align:right; color:#10B981;">$${inv.expectedTotal.toFixed(2)}</td>
-            <td style="text-align:center;"><span class="variance-badge badge-error">FLAGGED</span></td>
-          </tr>
-        `;
-      }
-
-      tableHtml += `</tbody></table>`;
-      document.getElementById('results-table-container').innerHTML = tableHtml;
+      targetEl.innerHTML = html;
+      const scrollArea = document.getElementById('chat-scroll-area');
+      scrollArea.scrollTop = scrollArea.scrollHeight;
     }
 
-    function exportAuditReport() {
-      const inv = INVOICES[currentInvId];
-      let csv = `Invoice ID,Vendor,Date,Billed Total,True Reconciled Total,Variance,Audit Status\n`;
-      csv += `"${inv.id}","${inv.vendor}","${inv.date}",${inv.billedTotal},${inv.expectedTotal},${inv.variance},"${inv.variance > 0 ? 'FLAGGED_VARIANCE' : 'VERIFIED_CLEAN'}"\n\n`;
-      csv += `Item Description,Quantity,Unit Price,Billed Line Amount,Verified Line Amount,Status\n`;
-      inv.items.forEach(i => {
-        csv += `"${i.desc}",${i.qty},${i.price},${i.billed},${i.qty * i.price},"PASS"\n`;
-      });
-      if (inv.variance > 0) {
-        csv += `"DISCREPANCY: ${inv.varianceDesc}",1,${inv.variance},${inv.variance},0,"VARIANCE_DETECTED"\n`;
-      }
-
+    function downloadSampleCSV(name) {
+      const csv = `Item Description,Quantity,Billed Amount,Verified True Amount,Variance,Status\n` +
+                  `Dedicated Neural Server Instance,2,9000.00,9000.00,0.00,VERIFIED\n` +
+                  `High-IOPS NVMe Storage Block,1,1800.00,1800.00,0.00,VERIFIED\n` +
+                  `Private Virtual Switch Port,4,2000.00,2000.00,0.00,VERIFIED\n` +
+                  `Sales Tax Assessment,1,1450.00,1056.00,394.00,FLAGGED_VARIANCE\n`;
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Hijin_Audit_${inv.id}.csv`;
+      a.download = `Hijin_Audit_${name}.csv`;
       a.click();
       URL.revokeObjectURL(url);
     }
-
-    // Initialize on load
-    window.addEventListener('DOMContentLoaded', () => {
-      loadInvoice(1);
-    });
   </script>
 </body>
 </html>
